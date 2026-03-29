@@ -61,7 +61,7 @@ DYLAN_COUNT=$(grep -r "{{DYLAN_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml
 echo "  Files with {{DYLAN_USER_ID}}: $DYLAN_COUNT"
 
 find "$TEMP_DIR/force-app" -name "*.xml" -exec \
-  sed -i "s/{{DYLAN_USER_ID}}/$DYLAN_USER_ID/g" {} +
+  sed -i '' "s/{{DYLAN_USER_ID}}/$DYLAN_USER_ID/g" {} +
 
 # Verify no placeholders remain
 REMAINING=$(grep -r "{{.*_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml" -l 2>/dev/null | wc -l)
