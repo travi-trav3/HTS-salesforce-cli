@@ -60,9 +60,8 @@ echo "Substituting placeholders..."
 DYLAN_COUNT=$(grep -r "{{DYLAN_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml" -l | wc -l)
 echo "  Files with {{DYLAN_USER_ID}}: $DYLAN_COUNT"
 
-grep -r -l "{{DYLAN_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml" | while read -r file; do
-  sed -i '' "s/{{DYLAN_USER_ID}}/$DYLAN_USER_ID/g" "$file"
-done
+find "$TEMP_DIR/force-app" -name "*.xml" -exec \
+  perl -pi -e "s/\\{\\{DYLAN_USER_ID\\}\\}/$DYLAN_USER_ID/g" {} +
 
 # Verify no placeholders remain
 REMAINING=$(grep -r "{{.*_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml" -l 2>/dev/null | wc -l)
