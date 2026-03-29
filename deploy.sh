@@ -83,12 +83,35 @@ echo ""
 echo "=== Deploying to $ORG_ALIAS ==="
 echo ""
 
-# Deploy objects (custom fields) first
-echo "Step 4a: Deploying custom fields..."
+# Deploy Contact and Account fields first (these deploy cleanly)
+echo "Step 4a: Deploying Contact and Account custom fields..."
 sf project deploy start \
-  --source-dir "$TEMP_DIR/force-app/main/default/objects" \
+  --source-dir "$TEMP_DIR/force-app/main/default/objects/Contact" \
+  --source-dir "$TEMP_DIR/force-app/main/default/objects/Account" \
   --target-org "$ORG_ALIAS" \
   --wait 10
+
+echo ""
+
+# Deploy Task field separately — may fail due to restricted picklist on Task object
+echo "Step 4a-2: Deploying Task custom field..."
+if ! sf project deploy start \
+  --source-dir "$TEMP_DIR/force-app/main/default/objects/Task" \
+  --target-org "$ORG_ALIAS" \
+  --wait 10 2>&1; then
+  echo ""
+  echo "WARNING: Task.Sequence_Task__c failed to deploy via metadata API."
+  echo "This is a known Salesforce issue with the Task object's restricted Type picklist."
+  echo ""
+  echo ">>> CREATE IT MANUALLY:"
+  echo "  1. Go to Setup → Object Manager → Task → Fields & Relationships"
+  echo "  2. Click New → Checkbox"
+  echo "  3. Field Label: Sequence Task"
+  echo "  4. API Name: Sequence_Task (it will add __c)"
+  echo "  5. Default Value: Unchecked"
+  echo "  6. Save (grant visibility to all profiles)"
+  echo ""
+fi
 
 echo ""
 
