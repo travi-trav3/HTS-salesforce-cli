@@ -57,17 +57,20 @@ echo ""
 # ----------------------------------------------------------
 echo "Substituting placeholders..."
 
-DYLAN_COUNT=$(grep -r "{{DYLAN_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml" -l | wc -l)
-echo "  Files with {{DYLAN_USER_ID}}: $DYLAN_COUNT"
-
-find "$TEMP_DIR/force-app" -name "*.xml" -exec \
-  perl -pi -e "s/\\{\\{DYLAN_USER_ID\\}\\}/$DYLAN_USER_ID/g" {} +
+FLOW_DIR="$TEMP_DIR/force-app/main/default/flows"
+for file in "$FLOW_DIR"/*.xml; do
+  if grep -q '{{DYLAN_USER_ID}}' "$file" 2>/dev/null; then
+    echo "  Replacing in: $(basename "$file")"
+    tmpfile="$file.tmp"
+    sed 's/{{DYLAN_USER_ID}}/'"$DYLAN_USER_ID"'/g' "$file" > "$tmpfile"
+    mv "$tmpfile" "$file"
+  fi
+done
 
 # Verify no placeholders remain
-REMAINING=$(grep -r "{{.*_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml" -l 2>/dev/null | wc -l)
+REMAINING=$(grep -r -l '{{.*_USER_ID}}' "$TEMP_DIR/force-app" --include="*.xml" 2>/dev/null | wc -l | tr -d ' ')
 if [ "$REMAINING" -gt 0 ]; then
-  echo "ERROR: Unresolved placeholders found:"
-  grep -r "{{.*_USER_ID}}" "$TEMP_DIR/force-app" --include="*.xml"
+  echo "ERROR: Unresolved placeholders found"
   exit 1
 fi
 
