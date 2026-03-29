@@ -68,7 +68,7 @@ for file in "$FLOW_DIR"/*.xml; do
 done
 
 # Verify no placeholders remain
-REMAINING=$(grep -r -l '{{.*_USER_ID}}' "$TEMP_DIR/force-app" --include="*.xml" 2>/dev/null | wc -l | tr -d ' ')
+REMAINING=$(grep -r -l '{{.*_USER_ID}}' "$TEMP_DIR/force-app" --include="*.xml" 2>/dev/null | wc -l | tr -d ' ' || true)
 if [ "$REMAINING" -gt 0 ]; then
   echo "ERROR: Unresolved placeholders found"
   exit 1
