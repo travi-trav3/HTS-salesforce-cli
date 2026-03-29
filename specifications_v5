@@ -1,0 +1,735 @@
+# HTS B2B Sales Development — Salesforce Flow Specification v5
+
+## Document Purpose
+Complete technical spec for implementing the 13-touch sales development cadence in Salesforce for Here to Serve Workforce Solutions. Incorporates all risk corrections from v3 and v4 audits, plus Just-In-Time copy generation architecture for content freshness.
+
+### Key Architecture Decisions
+- **The existing Opportunity pipeline is untouched.** Qualify → Meet & Present → Propose → Negotiate → Closed Won / Closed Lost stays exactly as-is.
+- **The outreach system lives entirely on the Contact object** with its own Outreach Status field.
+- **Handoff point:** When Dylan qualifies an engaged contact, he creates an Opportunity at the Qualify stage on the Account. The contact's outreach status stays at Meeting Scheduled and the automation is done with that contact.
+- **Gumloop handles intelligence** (signal detection, research, enrichment, copy generation).
+- **Salesforce Flow handles execution** (cadence scheduling, task creation, stage progression, pause logic).
+- **Dylan is the human in the loop** for LinkedIn sends, phone calls, qualification, and judgment calls.
+- **Salesforce plan:** Sales Cloud — Enterprise Edition (3 seats). Daily email limit: 5,000/day.
+- **Org-Wide Email Addresses** configured for Dylan and Nikki (pending verification on Monday call).
+- **Just-In-Time (JIT) copy generation** — copy is generated in 3 waves to ensure freshness. No copy is more than ~7 days old when the contact receives it.
+
+---
+
+## Part 1: Custom Fields
+
+### 1A: Contact Object — Populated by Gumloop (Research & Enrichment)
+
+| # | Field Name (API) | Label | Type | Max Length | Description |
+|---|---|---|---|---|---|
+| 1 | `Signal_Source__c` | Signal Source | Long Text | 1000 | How the company was identified. Include Perplexity citation URL. |
+| 2 | `Company_Research__c` | Company Research | Long Text | 2000 | AI-generated company research. Refreshed before each copy generation wave. |
+| 3 | `Contact_Research__c` | Contact Research | Long Text | 2000 | AI-generated contact research. Refreshed before each copy generation wave. |
+| 4 | `Contact_Specialty__c` | Contact Specialty | Picklist | — | PV, BESS, Wind, Utility, CNI, Unknown |
+| 5 | `LinkedIn_Profile_URL__c` | LinkedIn Profile URL | URL | — | Direct link to contact's LinkedIn profile. |
+| 6 | `Enrichment_Source__c` | Enrichment Source | Text | 255 | Apollo, LinkedIn, or other source. |
+| 7 | `Apollo_Contact_ID__c` | Apollo Contact ID | Text | 255 | Apollo's unique identifier for future sync. |
+| 8 | `Email_Verified__c` | Email Verification Status | Picklist | — | Verified, Unverified, Risky, Invalid. Populated by Apollo. |
+| 9 | `Intent_Signals__c` | Buying Intent Signals | Long Text | 1000 | Raw intent data from Apollo. |
+| 10 | `Intent_Score__c` | Intent Score | Number | — | Apollo score or derived 1-100 score. |
+
+### 1B: Contact Object — Draft Copy Fields (Populated by Gumloop JIT Waves)
+
+| # | Field Name (API) | Label | Type | Max Length | Wave | Touch |
+|---|---|---|---|---|---|---|
+| 11 | `LinkedIn_Connection_Note__c` | LinkedIn Connection Note | Text | 200 | Wave 1 | Touch 1 (optional) |
+| 12 | `LinkedIn_Message_Draft_1__c` | LinkedIn Message Draft 1 | Long Text | 1000 | Wave 1 | Touch 4 |
+| 13 | `Email_Draft_Intro__c` | Intro Email Draft | Long Text | 2000 | Wave 1 | Touch 2 (Dylan) |
+| 14 | `Email_Draft_Value1__c` | Value Email Draft 1 | Long Text | 2000 | Wave 1 | Touch 3 (Nikki) |
+| 15 | `Email_Draft_Sub4__c` | Substitute Email Draft T4 | Long Text | 2000 | Wave 1 | Touch 4 fallback (Dylan) |
+| 16 | `Email_Draft_FollowUp__c` | Follow-Up Email Draft | Long Text | 2000 | Wave 2 | Touch 6 (Dylan) |
+| 17 | `Email_Draft_Value2__c` | Value Email Draft 2 | Long Text | 2000 | Wave 2 | Touch 7 (Nikki) |
+| 18 | `LinkedIn_Message_Draft_2__c` | LinkedIn Message Draft 2 | Long Text | 1000 | Wave 2 | Touch 8 |
+| 19 | `Email_Draft_Sub8__c` | Substitute Email Draft T8 | Long Text | 2000 | Wave 2 | Touch 8 fallback (Dylan) |
+| 20 | `Email_Draft_DirectAsk__c` | Direct Ask Email Draft | Long Text | 2000 | Wave 3 | Touch 10 (Dylan) |
+| 21 | `LinkedIn_Message_Draft_3__c` | LinkedIn Message Draft 3 | Long Text | 1000 | Wave 3 | Touch 12 |
+| 22 | `Email_Draft_Sub12__c` | Substitute Email Draft T12 | Long Text | 2000 | Wave 3 | Touch 12 fallback (Dylan) |
+| 23 | `Email_Draft_Pause__c` | Pause Email Draft | Long Text | 2000 | Wave 3 | Touch 13 (Dylan) |
+
+### 1C: Account Object
+
+| # | Field Name (API) | Label | Type | Description |
+|---|---|---|---|---|
+| 24 | `Onboarded_Account__c` | Onboarded Account | Checkbox | Whether this company is onboarded with HTS. Company-level attribute. |
+
+### 1D: Contact Object — Formula Field
+
+| # | Field Name (API) | Label | Type | Formula | Description |
+|---|---|---|---|---|---|
+| 25 | `Is_Onboarded__c` | Is Onboarded | Formula (Checkbox) | `Account.Onboarded_Account__c` | Pulls from Account. Read-only on Contact. |
+
+### 1E: Contact Object — Managed by Salesforce Flow
+
+| # | Field Name (API) | Label | Type | Description |
+|---|---|---|---|---|
+| 26 | `Outreach_Status__c` | Outreach Status | Picklist | Cold, Attempting Contact, Engaged, Meeting Scheduled, Deferred |
+| 27 | `Sequence_Stage__c` | Sequence Stage | Picklist | Stage 1 — Initial Outreach, Stage 2 — Value & Credibility, Stage 3 — Direct Ask, Completed |
+| 28 | `Sequence_Status__c` | Sequence Status | Picklist | Active, Paused — Engaged, Paused — Manual, Completed, Deferred |
+| 29 | `Current_Touch__c` | Current Touch Number | Number | 1–13. Last touch that was assigned/scheduled. |
+| 30 | `Sequence_Start_Date__c` | Sequence Start Date | Date | Date contact entered the sequence. |
+| 31 | `Next_Touch_Date__c` | Next Touch Date | Date | Calculated date for next touchpoint. |
+| 32 | `Last_Touch_Date__c` | Last Touch Date | Date | Date most recent touch was executed. |
+| 33 | `Meaningful_Reply__c` | Meaningful Reply Received | Checkbox | Triggers sequence pause. |
+| 34 | `Reply_Date__c` | Reply Date | Date | Date meaningful reply was received. |
+| 35 | `Reply_Channel__c` | Reply Channel | Picklist | Email, LinkedIn, Phone, Other |
+| 36 | `Reply_Type__c` | Reply Type | Picklist | Positive, Not Interested / Bad Timing, Hard Opt-Out, Auto-Reply / OOO |
+| 37 | `Email_Opens_Count__c` | Email Opens Count | Number | Manual update by Dylan in v1. Used for warming logic. |
+| 38 | `Exclude_From_Sequence__c` | Exclude From Sequence | Checkbox | Permanently excludes from all sequences. |
+| 39 | `LinkedIn_Connected__c` | LinkedIn Connection Status | Picklist | Not Sent, Pending, Connected |
+| 40 | `Copy_Generated_Through_Stage__c` | Copy Generated Through Stage | Picklist | Stage 1, Stage 2, Stage 3. Tracks which JIT copy wave has been completed. |
+
+### 1F: Task Object — Custom Field
+
+| # | Field Name (API) | Label | Type | Description |
+|---|---|---|---|---|
+| 41 | `Sequence_Task__c` | Sequence Task | Checkbox | Set to true on all tasks created by the cadence automation. Used for targeted task cancellation in Flow 3. Default: false. |
+
+**Total custom fields: 41** (10 research/enrichment on Contact, 13 draft copy on Contact, 1 on Account, 1 formula on Contact, 14 flow-managed on Contact, 1 copy tracking on Contact, 1 on Task)
+
+---
+
+## Part 2: Outreach Status Definitions
+
+| Status | Definition | Trigger |
+|---|---|---|
+| **Cold** | Contact created. Touch 1 task assigned. Connection request not yet sent. | Flow 1 fires on contact creation. |
+| **Attempting Contact** | Actively working through the sequence. | Touch 2 executes (first auto-send email). |
+| **Engaged** | Meaningful positive reply received. | `Meaningful_Reply__c` = true AND `Reply_Type__c` = Positive. |
+| **Meeting Scheduled** | Discovery call or meeting booked. | Dylan manually updates. Creates Opportunity at Qualify stage. |
+| **Deferred** | Sequence complete with no engagement, or "not interested" reply. Terminal state — no re-entry. | Touch 13 completes, or `Reply_Type__c` = Not Interested / Bad Timing. |
+
+### Permanent Exclusion
+`Exclude_From_Sequence__c` = true → excluded from ALL current and future sequences. Triggered by Hard Opt-Out, manual exclusion, or legacy tagging. Separate from Deferred.
+
+---
+
+## Part 3: Just-In-Time (JIT) Copy Generation Architecture
+
+### Why JIT
+Pre-generating all copy at contact creation means by Touch 10 (Day 49), company research is nearly two months stale. Contacts change roles, companies announce projects, LinkedIn activity shifts. For copy to feel personal and timely, it must be based on current information.
+
+### Three Waves
+
+| Wave | Generated By | Covers Touches | Draft Fields Populated | Research Refreshed |
+|---|---|---|---|---|
+| **Wave 1** | Contact creation (Day 0) | 1, 2, 3, 4 | Connection note, Intro email, Value-add #1, LI Message #1, Sub email T4 | Yes — initial research |
+| **Wave 2** | Day 12 (3 days before Touch 5) | 5, 6, 7, 8, 9 | Follow-up email, Value-add #2, LI Message #2, Sub email T8 | Yes — fresh research |
+| **Wave 3** | Day 42 (7 days before Touch 10) | 10, 11, 12, 13 | Direct ask email, LI Message #3, Sub email T12, Pause email | Yes — fresh research |
+
+### How It Works
+
+**Gumloop JIT Pipeline (Scheduled — runs daily):**
+1. Query Salesforce for contacts where:
+   - `Sequence_Status__c` = "Active"
+   - `Copy_Generated_Through_Stage__c` needs the next wave:
+     - Wave 2 needed: `Copy_Generated_Through_Stage__c` = "Stage 1" AND `Current_Touch__c` >= 3 (approaching Stage 2)
+     - Wave 3 needed: `Copy_Generated_Through_Stage__c` = "Stage 2" AND `Current_Touch__c` >= 8 (approaching Stage 3)
+2. For each contact needing a copy refresh:
+   - Re-run company research (Perplexity — fresh signals, news, developments)
+   - Re-run contact research (LinkedIn — recent posts, activity, role changes)
+   - Update `Company_Research__c` and `Contact_Research__c` with fresh data
+   - Generate the copy for the upcoming wave using the fresh research
+   - Populate the corresponding draft fields in Salesforce
+   - Update `Copy_Generated_Through_Stage__c` to the new stage
+3. **Error handling:** If the pipeline fails for a contact (API error, Apollo outage):
+   - Log the error with contact ID and failure reason
+   - Do NOT update `Copy_Generated_Through_Stage__c` — the pipeline will retry on next run
+   - Alert **travis@appliedintelligenceai.co**: "[Contact Name] copy generation failed — manual intervention may be needed"
+
+### Buffer Timing
+- Wave 2 targets Day 12 — 3 days before the first Stage 2 touch (Touch 5, Day 15)
+- Wave 3 targets Day 42 — 7 days before the first Stage 3 touch (Touch 10, Day 49)
+- This buffer ensures copy is ready before the scheduler needs it
+
+### What Happens at Contact Creation (Wave 1)
+Gumloop creates the contact with:
+- All research/enrichment fields (1A) populated
+- Wave 1 draft copy fields (connection note, intro email, value-add #1, LI message #1, sub email T4) populated
+- `Copy_Generated_Through_Stage__c` = "Stage 1"
+- Wave 2 and Wave 3 draft fields are **intentionally blank** — they'll be populated by the JIT pipeline
+
+---
+
+## Part 4: 13-Touch Cadence Specification
+
+### Content Direction (applies to ALL touches)
+- Casual, conversational, human tone. No corporate speak.
+- 3-4 sentences max for early emails and LinkedIn messages.
+- Goal: get a meaningful reply. Not book a meeting, not pitch.
+- All copy is AI-generated but personalized — job title, LinkedIn activity, company news, Apollo signals.
+- Every task includes drafted copy. No task requires writing from scratch.
+- Nikki's emails addressed to contact by first name with light personalization.
+
+### Day Map
+
+| Touch | Day | Stage | Channel | Sent From | Content | Draft Field | Copy Wave | Automated? |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Day 1 | Stage 1 | LinkedIn | Dylan | Connection request — no note by default | `LinkedIn_Connection_Note__c` (optional) | Wave 1 | Human |
+| 2 | Day 3 | Stage 1 | Email | Dylan | Intro email — casual, 3-4 sentences | `Email_Draft_Intro__c` | Wave 1 | Auto-send |
+| 3 | Day 7 | Stage 1 | Email | Nikki | Value-add #1 — insight, case study | `Email_Draft_Value1__c` | Wave 1 | Auto-send |
+| 4 | Day 10 | Stage 1 | LI or Email | Dylan | LI message if connected, sub email if not | `LinkedIn_Message_Draft_1__c` / `Email_Draft_Sub4__c` | Wave 1 | Human (LI) / Auto (email) |
+| 5 | Day 15 | Stage 2 | Phone | Dylan | Call attempt #1 | — (talking points from fresh research) | Wave 2 | Human |
+| 6 | Day 21 | Stage 2 | Email | Dylan | Follow-up email | `Email_Draft_FollowUp__c` | Wave 2 | Auto-send |
+| 7 | Day 28 | Stage 2 | Email | Nikki | Value-add #2 — different angle | `Email_Draft_Value2__c` | Wave 2 | Auto-send |
+| 8 | Day 32 | Stage 2 | LI or Email | Dylan | LI message if connected, sub email if not | `LinkedIn_Message_Draft_2__c` / `Email_Draft_Sub8__c` | Wave 2 | Human (LI) / Auto (email) |
+| 9 | Day 38 | Stage 2 | Phone | Dylan | Call attempt #2 — conditional on warming | — (talking points from fresh research) | Wave 2 | Human (conditional) |
+| 10 | Day 49 | Stage 3 | Email | Dylan | Direct relevance — "worth a conversation?" | `Email_Draft_DirectAsk__c` | Wave 3 | Auto-send |
+| 11 | Day 56 | Stage 3 | Phone | Dylan | Call attempt #3 — final | — (talking points from fresh research) | Wave 3 | Human |
+| 12 | Day 63 | Stage 3 | LI or Email | Dylan | LI follow-up if connected, sub email if not | `LinkedIn_Message_Draft_3__c` / `Email_Draft_Sub12__c` | Wave 3 | Human (LI) / Auto (email) |
+| 13 | Day 77 | Stage 3 | Email | Dylan | Pause email — "giving it a rest" | `Email_Draft_Pause__c` | Wave 3 | Auto-send → Deferred |
+
+### Touch-to-Action Mapping Table (for CLI/Flow implementation)
+
+| Current_Touch value | Touch to execute next | Day | Next_Touch_Date after execution |
+|---|---|---|---|
+| 1 | Touch 2 | Day 3 | Start + 7 |
+| 2 | Touch 3 | Day 7 | Start + 10 |
+| 3 | Touch 4 | Day 10 | Start + 15 |
+| 4 | Touch 5 | Day 15 | Start + 21 |
+| 5 | Touch 6 | Day 21 | Start + 28 |
+| 6 | Touch 7 | Day 28 | Start + 32 |
+| 7 | Touch 8 | Day 32 | Start + 38 |
+| 8 | Touch 9 | Day 38 | Start + 49 |
+| 9 | Touch 10 | Day 49 | Start + 56 |
+| 10 | Touch 11 | Day 56 | Start + 63 |
+| 11 | Touch 12 | Day 63 | Start + 77 |
+| 12 | Touch 13 | Day 77 | Terminal |
+
+### Email Routing
+- **Dylan sends:** Touches 2, 4 (sub), 6, 8 (sub), 10, 12 (sub), 13 → Dylan's Org-Wide Email Address
+- **Nikki sends:** Touches 3, 7 → Nikki's Org-Wide Email Address
+
+### Content Variation: Onboarded vs. Non-Onboarded
+Gumloop checks `Is_Onboarded__c` (formula from Account):
+- **Not Onboarded:** Casual intro, demonstrate relevance, reference signals. Relationship-first.
+- **Onboarded:** Acknowledge existing relationship, connect with more people on their team. Relational only.
+
+### Weekend Handling
+Auto-send email touches: if `Next_Touch_Date__c` falls on Saturday or Sunday, push to Monday. Task-based touches (LinkedIn, phone) created on the calculated date — Dylan controls when to action them.
+
+---
+
+## Part 5: Salesforce Flow Logic
+
+### Pre-Deployment Requirements
+1. ✅ Org-Wide Email Addresses for Dylan and Nikki (pending verification Monday)
+2. All custom fields deployed (Part 1)
+3. Legacy contact tagging complete (`Exclude_From_Sequence__c` = true on all existing contacts)
+4. **Dylan's Salesforce User ID** — needed for task assignment
+5. **Nikki's Salesforce User ID** — needed if tasks route to her
+6. Verify `Cancelled` is a valid Task Status value (needed for Flow 3 task cancellation). If not, add it to the Task Status picklist.
+
+---
+
+### Flow 1: Sequence Initialization (Record-Triggered on Contact Creation)
+
+**Trigger:** New Contact created where `Signal_Source__c` is not blank AND `Exclude_From_Sequence__c` = false.
+
+**Account Association Check:** Verify the Contact has an `AccountId` populated. If blank, do NOT initialize the sequence — create a task for Travis: "Contact created without Account association — fix before sequence starts." The `Is_Onboarded__c` formula field and company-level logic depend on this relationship.
+
+**Actions:**
+1. Set `Outreach_Status__c` = "Cold"
+2. Set `Sequence_Stage__c` = "Stage 1 — Initial Outreach"
+3. Set `Sequence_Status__c` = "Active"
+4. Set `Current_Touch__c` = **1**
+5. Set `Sequence_Start_Date__c` = TODAY
+6. Set `Next_Touch_Date__c` = `Sequence_Start_Date__c` + **3**
+7. Set `Last_Touch_Date__c` = TODAY
+8. Set `LinkedIn_Connected__c` = "Not Sent"
+9. Create Task:
+   - Subject: "Touch 1: Send LinkedIn Connection Request — [Contact Name]"
+   - Due Date: TODAY
+   - Assigned To: **[Dylan's User ID]**
+   - `Sequence_Task__c` = **true**
+   - Priority: Normal
+   - Description:
+     ```
+     Send LinkedIn connection request to [Contact Name], [Title] at [Company].
+
+     ➡️ Default: Send WITHOUT a note (higher acceptance rate).
+
+     Optional note suggestion (200 char max):
+     [LinkedIn_Connection_Note__c]
+
+     LinkedIn Profile: [LinkedIn_Profile_URL__c]
+
+     Company Context:
+     [Company_Research__c]
+
+     Contact Context:
+     [Contact_Research__c]
+
+     Specialty: [Contact_Specialty__c]
+     Onboarded: [Is_Onboarded__c]
+
+     Intent Signals:
+     [Intent_Signals__c] (Score: [Intent_Score__c]/100)
+
+     ⚠️ After sending:
+     1. Update LinkedIn Connection Status to "Pending"
+     2. Mark this task as Complete
+     ```
+
+**Logic:** `Current_Touch__c` = 1 means Touch 1 is assigned. `Next_Touch_Date__c` = Start + 3, so the scheduler won't fire until Day 3. No double-firing.
+
+---
+
+### Flow 2: Cadence Scheduler (Scheduled Flow — Runs Daily)
+
+**Trigger:** Scheduled daily at **7:00 AM CT.**
+
+**Query:** All Contacts where:
+- `Sequence_Status__c` = "Active"
+- `Next_Touch_Date__c` <= TODAY
+- `Exclude_From_Sequence__c` = false
+
+**Bulkification:** All SOQL and DML operations must handle multiple records. At scale (200+ contacts), monitor governor limits.
+
+**Three gates checked before every auto-send email touch:**
+
+**Gate 1 — Weekend Check:**
+If TODAY is Saturday (7) or Sunday (1) via `WEEKDAY(TODAY())`, do not execute auto-send email touches. Contact stays in queue for Monday. Task-based touches (LI, phone) fire regardless.
+
+**Gate 2 — Email Verification:**
+- Verified → send normally
+- Unverified or Risky → create task for Dylan: "Review and manually send — email not verified." Include draft copy. Set `Sequence_Task__c` = true.
+- Invalid → skip all email touches for this contact. One-time task: "Email invalid — find alternate or rely on LI/phone." Set `Sequence_Task__c` = true.
+
+**Gate 3 — Draft Copy Field Check:**
+Before sending or creating a task, check if the corresponding draft field is NOT blank. If blank:
+- Do NOT auto-send
+- Create task for Dylan: "Copy not yet generated for Touch [X] — [Contact Name]. Follow up manually or wait for next copy generation run." Set `Sequence_Task__c` = true.
+- Do NOT advance `Current_Touch__c` — the scheduler will retry on the next run once copy is populated
+- **This is the safety net for JIT pipeline delays or failures**
+
+**All tasks created by Flow 2 must set `Sequence_Task__c` = true.**
+
+---
+
+**Touch execution logic — scheduler reads `Current_Touch__c` and executes the next touch:**
+
+#### Current_Touch = 1 → Execute Touch 2 (Day 3) — Intro Email from Dylan
+- Gates: Weekend, Email Verification, Draft Copy (`Email_Draft_Intro__c`)
+- Action: Send from `Email_Draft_Intro__c` via Dylan's Org-Wide Email
+- Update: `Outreach_Status__c` = "Attempting Contact", `Current_Touch__c` = 2, `Next_Touch_Date__c` = Start + 7, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 2 → Execute Touch 3 (Day 7) — Value-Add #1 from Nikki
+- Gates: Weekend, Email Verification, Draft Copy (`Email_Draft_Value1__c`)
+- Action: Send from `Email_Draft_Value1__c` via Nikki's Org-Wide Email. Addressed to first name.
+- Update: `Current_Touch__c` = 3, `Next_Touch_Date__c` = Start + 10, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 3 → Execute Touch 4 (Day 10) — LI Message OR Sub Email
+- Decision: Check `LinkedIn_Connected__c`
+  - Connected: Create task with `LinkedIn_Message_Draft_1__c`. Include previous touch summary. `Sequence_Task__c` = true.
+  - Not Connected: Gates (Weekend, Email Verification, Draft Copy `Email_Draft_Sub4__c`). Send sub email via Dylan's Org-Wide Email.
+- Update: `Sequence_Stage__c` = "Stage 2 — Value & Credibility", `Current_Touch__c` = 4, `Next_Touch_Date__c` = Start + 15, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 4 → Execute Touch 5 (Day 15) — Call Attempt #1
+- Action: Create task with full context from refreshed research (Wave 2). `Sequence_Task__c` = true.
+- Description includes: phone, specialty, intent signals, company/contact research, previous touch summary, warming signals, talking points.
+- Update: `Current_Touch__c` = 5, `Next_Touch_Date__c` = Start + 21, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 5 → Execute Touch 6 (Day 21) — Follow-Up Email from Dylan
+- Gates: Weekend, Email Verification, Draft Copy (`Email_Draft_FollowUp__c`)
+- Action: Send from `Email_Draft_FollowUp__c` via Dylan's Org-Wide Email
+- Update: `Current_Touch__c` = 6, `Next_Touch_Date__c` = Start + 28, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 6 → Execute Touch 7 (Day 28) — Value-Add #2 from Nikki
+- Gates: Weekend, Email Verification, Draft Copy (`Email_Draft_Value2__c`)
+- Action: Send from `Email_Draft_Value2__c` via Nikki's Org-Wide Email. Addressed to first name.
+- Update: `Current_Touch__c` = 7, `Next_Touch_Date__c` = Start + 32, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 7 → Execute Touch 8 (Day 32) — LI Message OR Sub Email
+- Decision: Check `LinkedIn_Connected__c`
+  - Connected: Create task with `LinkedIn_Message_Draft_2__c`. `Sequence_Task__c` = true.
+  - Not Connected: Gates. Send from `Email_Draft_Sub8__c` via Dylan's Org-Wide Email.
+- Update: `Current_Touch__c` = 8, `Next_Touch_Date__c` = Start + 38, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 8 → Execute Touch 9 (Day 38) — Call Attempt #2 (Conditional)
+- Decision: IF `Email_Opens_Count__c` >= 2 OR `LinkedIn_Connected__c` = "Connected":
+  - Create task with full context, warming summary, intent data. `Sequence_Task__c` = true.
+  - ELSE: Skip. No task.
+- Update: `Sequence_Stage__c` = "Stage 3 — Direct Ask", `Current_Touch__c` = 9, `Next_Touch_Date__c` = Start + 49, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 9 → Execute Touch 10 (Day 49) — Direct Ask Email from Dylan
+- Gates: Weekend, Email Verification, Draft Copy (`Email_Draft_DirectAsk__c`)
+- Action: Send from `Email_Draft_DirectAsk__c` via Dylan's Org-Wide Email
+- Update: `Current_Touch__c` = 10, `Next_Touch_Date__c` = Start + 56, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 10 → Execute Touch 11 (Day 56) — Call Attempt #3
+- Action: Create task with full outreach history, all engagement data, intent signals. "Final scheduled call." `Sequence_Task__c` = true.
+- Update: `Current_Touch__c` = 11, `Next_Touch_Date__c` = Start + 63, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 11 → Execute Touch 12 (Day 63) — LI Follow-Up OR Sub Email
+- Decision: Check `LinkedIn_Connected__c`
+  - Connected: Create task with `LinkedIn_Message_Draft_3__c`. `Sequence_Task__c` = true.
+  - Not Connected: Gates. Send from `Email_Draft_Sub12__c` via Dylan's Org-Wide Email.
+- Update: `Current_Touch__c` = 12, `Next_Touch_Date__c` = Start + 77, `Last_Touch_Date__c` = TODAY
+
+#### Current_Touch = 12 → Execute Touch 13 (Day 77) — Pause Email
+- Gates: Weekend, Email Verification, Draft Copy (`Email_Draft_Pause__c`)
+- Action: Send from `Email_Draft_Pause__c` via Dylan's Org-Wide Email
+- Update: `Outreach_Status__c` = "Deferred", `Sequence_Status__c` = "Deferred", `Sequence_Stage__c` = "Completed", `Current_Touch__c` = 13, `Last_Touch_Date__c` = TODAY
+- Terminal state. No re-entry.
+
+---
+
+### Flow 3: Meaningful Reply Handler (Record-Triggered on Contact Update)
+
+**Trigger:** `Meaningful_Reply__c` changes to TRUE.
+
+**Task Cancellation Logic:**
+Query all Tasks where:
+- `WhoId` = this Contact's ID
+- `Sequence_Task__c` = **true**
+- `Status` != 'Completed'
+
+Set all matching Tasks: `Status` = 'Cancelled'
+
+*Pre-deployment: verify 'Cancelled' is a valid Task Status value. If not, add it to the picklist.*
+
+#### If Reply_Type = "Positive"
+1. `Sequence_Status__c` = "Paused — Engaged"
+2. `Outreach_Status__c` = "Engaged"
+3. `Reply_Date__c` = TODAY
+4. Cancel pending sequence tasks
+5. Create Task:
+   - Subject: "ENGAGED: [Contact Name] replied — Qualify and route"
+   - Assigned To: [Dylan's User ID]
+   - Priority: High
+   - `Sequence_Task__c` = false (this is a qualification task, not a sequence task)
+   - Description:
+     ```
+     [Contact Name] at [Company] replied via [Reply_Channel__c].
+
+     Assess: Immediate need? Decision-maker? Right timing?
+
+     If qualified:
+     1. Book meeting with Ian/Nikki
+     2. Update Outreach Status to "Meeting Scheduled"
+     3. Create Opportunity on Account at "Qualify" stage
+
+     If not ready: Keep as Engaged, follow up manually.
+
+     ⚠️ Search for other contacts at [Company] with Active sequences.
+     Consider pausing them to avoid conflicting outreach.
+     ```
+
+#### If Reply_Type = "Not Interested / Bad Timing"
+1. `Sequence_Status__c` = "Deferred", `Outreach_Status__c` = "Deferred", `Reply_Date__c` = TODAY
+2. Cancel pending sequence tasks. Terminal state.
+
+#### If Reply_Type = "Hard Opt-Out"
+1. `Exclude_From_Sequence__c` = TRUE
+2. `Sequence_Status__c` = "Completed", `Outreach_Status__c` = "Deferred", `Reply_Date__c` = TODAY
+3. Cancel pending sequence tasks. Permanently excluded.
+
+#### If Reply_Type = "Auto-Reply / OOO"
+- Safeguard: uncheck `Meaningful_Reply__c`, take no action. Sequence continues.
+
+---
+
+### Flow 4: Warming Logic (Internal)
+
+**Trigger:** `Email_Opens_Count__c` changes OR `LinkedIn_Connected__c` changes to "Connected".
+
+**Conditions:** `Meaningful_Reply__c` = FALSE, `Sequence_Status__c` = "Active", (`Email_Opens_Count__c` >= 2 OR `LinkedIn_Connected__c` = "Connected")
+
+**Actions:** No visible status change. Data used by Flow 2 for Touch 9 conditional call and warming signal summaries in task descriptions.
+
+---
+
+### Flow 5: Email Open Counter — DEFERRED TO V2
+
+For v1, Dylan manually updates `Email_Opens_Count__c` when he notices opens on the Activity Timeline. This avoids the complexity of building a reliable EmailMessage trigger or scheduled counter during the initial deployment.
+
+Future v2 implementation: scheduled Flow running every 2 hours querying EmailMessage records with Status = "Read" and incrementing the counter with dedup prevention.
+
+---
+
+### Flow 6: Watchdog Monitor (Scheduled Flow — Runs Daily at 9 AM CT)
+
+**Purpose:** Catches scheduler failures and JIT pipeline issues. Alerts Travis when something needs attention.
+
+**Trigger:** Scheduled daily at **9:00 AM CT** (2 hours after the main scheduler).
+
+**Query 1 — Missed Touches:** Contacts where:
+- `Sequence_Status__c` = "Active"
+- `Next_Touch_Date__c` < TODAY (should have been processed by the 7 AM scheduler but wasn't)
+- Contact is not in the current day's scheduler results
+
+**Action:** Send email alert to **travis@appliedintelligenceai.co**: "Watchdog: [X] contacts have overdue touches that weren't processed. IDs: [list]. Investigate scheduler execution."
+
+**Query 2 — Missing Copy:** Contacts where:
+- `Sequence_Status__c` = "Active"
+- The next required draft field (based on `Current_Touch__c`) is blank
+- `Next_Touch_Date__c` is within the next 3 days
+
+**Action:** Send email alert to **travis@appliedintelligenceai.co**: "Watchdog: [X] contacts are approaching touches with missing copy. JIT pipeline may have failed. IDs: [list]."
+
+---
+
+## Part 6: Duplicate Prevention
+
+### Layer 1: Legacy Contact Tagging (Run BEFORE deploying Flows)
+Gumloop agent: query all existing Contacts → set `Exclude_From_Sequence__c` = TRUE.
+
+### Layer 2: Real-Time Dedup (Built into Gumloop pipeline)
+Before creating any new contact:
+1. Query Salesforce by email → skip if match
+2. Query Salesforce by LinkedIn URL → skip if match
+3. No match → create contact
+
+### Layer 3: Account Association (Built into Gumloop pipeline)
+Before creating a Contact:
+1. Query Salesforce: does an Account exist for this company?
+2. If yes → create Contact under that Account. Check `Onboarded_Account__c` on the Account.
+3. If no → create the Account first, then create the Contact under it. Set `Onboarded_Account__c` = false.
+4. **Never create a Contact without an AccountId** — the `Is_Onboarded__c` formula and company-level logic depend on it.
+
+### Gumloop Error Handling on Salesforce Writes
+If Contact creation fails (validation error, API timeout, field mismatch):
+1. Log the error with contact details and failure reason
+2. Do NOT lose the research/enrichment data — cache it for retry
+3. Alert **travis@appliedintelligenceai.co**: "Contact creation failed for [Name] at [Company]. Error: [reason]."
+4. Do NOT silently drop contacts
+
+---
+
+## Part 7: Task Template Standards
+
+### Naming Convention
+`Touch [#]: [Action] — [Contact Name]`
+
+### All Tasks Set `Sequence_Task__c` = true
+Exception: qualification/engagement tasks created by Flow 3 set `Sequence_Task__c` = false.
+
+### Task Description Template
+```
+[Action instruction]
+
+Contact: [Name] | [Title] at [Company]
+Specialty: [Contact_Specialty__c]
+Onboarded: [Is_Onboarded__c]
+Email Verified: [Email_Verified__c]
+LinkedIn: [LinkedIn_Profile_URL__c]
+Phone: [Phone]
+
+Intent Signals:
+[Intent_Signals__c] (Score: [Intent_Score__c]/100)
+
+Draft Copy:
+[Content from the corresponding draft field]
+
+Previous Touches:
+[Summary with dates]
+
+Warming Signals:
+Email opens: [Email_Opens_Count__c] | LinkedIn: [LinkedIn_Connected__c]
+
+⚠️ After completing:
+1. Mark this task as Complete
+2. [Additional status updates if needed]
+```
+
+### Task Assignment
+All tasks → **[Dylan's User ID]** (hardcoded ID, not name string)
+
+---
+
+## Part 8: Gumloop → Salesforce Handoff
+
+### What Gumloop Creates at Contact Creation (Wave 1)
+1. Account (create or find existing, set `Onboarded_Account__c`)
+2. Contact with all research/enrichment fields (1A) populated
+3. Wave 1 draft copy: connection note, intro email, value-add #1, LI message #1, sub email T4
+4. `Copy_Generated_Through_Stage__c` = "Stage 1"
+5. Wave 2 and 3 draft fields intentionally blank
+
+### What Gumloop JIT Pipeline Generates (Waves 2 & 3)
+Daily scheduled pipeline:
+1. Query contacts needing next wave of copy
+2. Refresh company and contact research
+3. Generate stage-specific copy
+4. Update draft fields and `Copy_Generated_Through_Stage__c`
+5. Error handling: log failures, alert Travis, retry on next run
+
+### Email Verification Mapping
+- Apollo "valid" → Verified
+- Apollo "accept_all" / "unknown" → Unverified
+- Apollo "disposable" / "spamtrap" → Risky
+- Apollo "invalid" / "bounce" → Invalid
+
+### Buying Intent Signal Topics (refine during testing)
+Solar installation/O&M/staffing, Wind turbine technicians/O&M, BESS installation/contractors/energy storage, Renewable energy workforce/staffing, Telecom construction/infrastructure, Workforce solutions/skilled trades/field technicians
+
+### Content: Onboarded vs. Non-Onboarded
+Check `Account.Onboarded_Account__c`:
+- Not onboarded: casual intro, relevance, signals. Relationship-first.
+- Onboarded: acknowledge relationship, connect with more people on team. Relational only.
+
+### Picklist Value Reference (exact strings — match everywhere)
+```
+Outreach_Status__c: Cold | Attempting Contact | Engaged | Meeting Scheduled | Deferred
+Sequence_Stage__c: Stage 1 — Initial Outreach | Stage 2 — Value & Credibility | Stage 3 — Direct Ask | Completed
+Sequence_Status__c: Active | Paused — Engaged | Paused — Manual | Completed | Deferred
+Reply_Type__c: Positive | Not Interested / Bad Timing | Hard Opt-Out | Auto-Reply / OOO
+Contact_Specialty__c: PV | BESS | Wind | Utility | CNI | Unknown
+Email_Verified__c: Verified | Unverified | Risky | Invalid
+LinkedIn_Connected__c: Not Sent | Pending | Connected
+Copy_Generated_Through_Stage__c: Stage 1 | Stage 2 | Stage 3
+```
+
+**These exact strings must be used in CLI deployment, Flow conditions, and Gumloop field updates. No variations (no trailing spaces, no formatting differences).**
+
+---
+
+## Part 9: Reporting Views
+
+| Report | Filter | Purpose |
+|---|---|---|
+| Active Sequence — All | `Sequence_Status__c` = Active | Full view of active outreach |
+| Today's Tasks | Tasks due today, assigned to Dylan | Daily action list |
+| LinkedIn Requests to Send | `LinkedIn_Connected__c` = "Not Sent", Active | Batch connection requests |
+| Warming Contacts | Opens >= 2 OR LI Connected, Active | Passive interest — call priority |
+| Engaged — Qualify | `Outreach_Status__c` = Engaged | Replied — qualify ASAP |
+| Meeting Scheduled | `Outreach_Status__c` = Meeting Scheduled | Should have Opportunity |
+| Deferred | `Outreach_Status__c` = Deferred | Future re-engagement candidates |
+| Excluded | `Exclude_From_Sequence__c` = true | Permanently excluded |
+| Stale (7+ days) | `Last_Touch_Date__c` < TODAY - 7, Active | Investigate |
+| Data Quality | Missing phone/email/specialty | Enrichment gaps |
+| High Intent | `Intent_Score__c` >= 50, Active | Buying signals — prioritize |
+| Email Not Verified | `Email_Verified__c` != Verified, Active | Auto-send blocked |
+| Pipeline by Status | Group by `Outreach_Status__c` | Weekly health |
+| Outreach by Company | Group by Account, Active | Same-company decisions |
+| Missing Copy | Next touch draft field is blank, Active | JIT pipeline gap |
+
+---
+
+## Part 10: Dylan Training
+
+### Daily Workflow
+1. Log into Salesforce each morning
+2. Open "Today's Tasks" — daily action list
+3. Priority order: High (engaged) first
+4. Every task has draft copy — review, tweak, send
+5. **Mark every task Complete** — automation depends on this
+
+### LinkedIn
+1. Send request → update to "Pending"
+2. Accepted → update to "Connected"
+3. Default: send WITHOUT a note
+4. Batch tip: "LinkedIn Requests to Send" view → send all → flip to Pending
+
+### Handling Replies
+1. Positive: check Meaningful Reply, set Reply Type = "Positive", set Reply Channel
+2. Not interested: check Meaningful Reply, set Reply Type = "Not Interested / Bad Timing"
+3. Remove me: check Meaningful Reply, set Reply Type = "Hard Opt-Out"
+4. Auto-reply/OOO: do NOT check Meaningful Reply
+
+### Qualifying
+1. Assess: immediate need? Decision-maker? Right timing?
+2. Qualified → Book meeting → Outreach Status = "Meeting Scheduled" → Create Opportunity at "Qualify"
+3. Not ready → Keep as Engaged, follow up manually
+
+### Same-Company
+1. Book a meeting → search other contacts at same company with Active status
+2. Consider pausing: `Sequence_Status__c` = "Paused — Manual"
+3. Resume later: set back to "Active"
+
+### Email Opens (v1 manual)
+Notice opens on Activity Timeline → update `Email_Opens_Count__c` on the contact
+
+### Don'ts
+- Don't skip marking tasks Complete
+- Don't check Meaningful Reply for auto-replies
+- Don't create contacts with a Signal Source manually (triggers automation)
+
+---
+
+## Part 11: Implementation Checklist (Ordered)
+
+### Phase 1: Pre-Deployment
+- [ ] Capture Dylan's Salesforce User ID
+- [ ] Capture Nikki's Salesforce User ID
+- [ ] ✅ Org-Wide Emails configured (pending verification Monday)
+- [ ] Verify 'Cancelled' is a valid Task Status — add if not
+- [ ] Run legacy contact tagging: `Exclude_From_Sequence__c` = true on ALL existing contacts
+- [ ] Verify Email Tracking enabled
+
+### Phase 2: Field Deployment (CLI)
+- [ ] Deploy 23 Gumloop fields on Contact (research + draft copy)
+- [ ] Deploy `Onboarded_Account__c` on Account
+- [ ] Deploy `Is_Onboarded__c` formula on Contact
+- [ ] Deploy 15 Flow-managed fields on Contact (including `Copy_Generated_Through_Stage__c`)
+- [ ] Deploy `Sequence_Task__c` checkbox on Task
+- [ ] Deploy all picklist values (use exact strings from Part 8 reference)
+- [ ] Deploy custom Contact Lightning Record Page (FlexiPage) with sections:
+  - **Standard Contact Info** — name, title, phone, email, account (existing fields)
+  - **Outreach Sequence** — outreach status, sequence stage, sequence status, current touch, next touch date, last touch date, LinkedIn connection status, copy generated through stage
+  - **Research & Signals** — company research, contact research, specialty, intent signals, intent score, signal source, email verified, enrichment source
+  - **Draft Copy** (collapsed by default) — all 13 draft copy fields. Dylan expands when reviewing task copy.
+  - **Sequence History** — sequence start date, meaningful reply, reply date, reply channel, reply type, email opens count, exclude from sequence
+
+### Phase 3: Flow Deployment & Testing
+- [ ] Deploy Flow 1 → test: create dummy contact with Signal Source → verify Current_Touch = 1, Next_Touch = Start + 3, task created with Sequence_Task = true
+- [ ] Deploy Flow 2 → test: manually set contact to Current_Touch = 1, Next_Touch = TODAY → verify Touch 2 fires, email sends from Dylan's address
+- [ ] Test Flow 2 weekend logic: set Next_Touch to Saturday → verify push to Monday
+- [ ] Test Flow 2 blank draft field gate: clear Email_Draft_Intro → verify fallback task created instead of send
+- [ ] Test Flow 2 Email Verification gate: set Invalid → verify email skipped
+- [ ] Test Flow 2 LinkedIn branching: set Connected → verify LI task; set Pending → verify sub email
+- [ ] Deploy Flow 3 → test: check Meaningful Reply + Positive → verify pause, task cancel (query Sequence_Task = true), engagement task
+- [ ] Test Flow 3: Hard Opt-Out → verify Exclude flag
+- [ ] Deploy Flow 4 → test: increment opens to 2 → verify no status change (internal only)
+- [ ] Deploy Flow 6 (Watchdog) → test: leave a contact with overdue Next_Touch → verify alert fires at 9 AM
+
+### Phase 4: Reporting
+- [ ] Create all 15 list views from Part 9
+
+### Phase 5: Gumloop Pipeline
+- [ ] Signal detection (Perplexity)
+- [ ] LinkedIn scraping
+- [ ] Contact research
+- [ ] Apollo enrichment (phone, email, company)
+- [ ] Apollo email verification → `Email_Verified__c`
+- [ ] Apollo buying intent → `Intent_Signals__c`, `Intent_Score__c`
+- [ ] Account creation/lookup (dedup + Onboarded check)
+- [ ] Contact creation with dedup check (email, then LI URL)
+- [ ] Wave 1 copy generation (Dylan + Nikki voice, onboarded branching)
+- [ ] Error handling on Salesforce writes (log, cache, alert)
+- [ ] Weekly pipeline report agent (already built)
+
+### Phase 6: Gumloop JIT Pipeline
+- [ ] Build scheduled JIT pipeline (daily run)
+- [ ] Wave 2 query: `Copy_Generated_Through_Stage__c` = "Stage 1" AND `Current_Touch__c` >= 3
+- [ ] Wave 3 query: `Copy_Generated_Through_Stage__c` = "Stage 2" AND `Current_Touch__c` >= 8
+- [ ] Research refresh (company + contact)
+- [ ] Copy generation for upcoming stage
+- [ ] Update draft fields + `Copy_Generated_Through_Stage__c`
+- [ ] Error handling (log, don't update stage, alert, retry next run)
+
+### Phase 7: End-to-End Testing
+- [ ] Gumloop creates real contact → Flow 1 fires → verify all fields + Wave 1 copy populated
+- [ ] Advance dates → Flow 2 fires Touch 2 → verify email from Dylan's address with correct copy
+- [ ] Verify Nikki's Touch 3 email addressed to first name
+- [ ] Test full LinkedIn branching path
+- [ ] Test Email Verification gate end-to-end
+- [ ] Test meaningful reply → task cancellation (Sequence_Task = true only)
+- [ ] Verify JIT pipeline: manually advance contact to Current_Touch = 3 → run JIT → verify Wave 2 fields populated
+- [ ] Verify blank draft field gate: clear a Wave 2 field → scheduler creates fallback task
+- [ ] Verify watchdog alert fires for overdue contacts
+
+### Phase 8: Monday Call
+- [ ] Dylan and Nikki verify Org-Wide Emails
+- [ ] Walk Dylan through daily workflow
+- [ ] Walk Dylan through LinkedIn status updates
+- [ ] Walk Dylan through reply handling (all 4 types)
+- [ ] Walk Dylan through same-company pause
+- [ ] Walk Dylan through task completion requirement
+- [ ] Walk Dylan through manual email open counting
+- [ ] Show Buddy reporting views and weekly report
