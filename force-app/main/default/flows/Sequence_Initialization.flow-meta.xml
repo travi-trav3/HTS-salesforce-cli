@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <label>Sequence Initialization</label>
+    <description>Flow 1: Initializes the outreach sequence when a new Contact is created with a Signal Source and not excluded.</description>
+    <status>Active</status>
+    <processType>AutoLaunchedFlow</processType>
+    <triggerType>RecordAfterSave</triggerType>
+    <recordTriggerType>Create</recordTriggerType>
+
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <object>Contact</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Signal_Source__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Exclude_From_Sequence__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <connector>
+            <targetReference>Check_Account_Association</targetReference>
+        </connector>
+    </start>
+
+    <!-- Decision: Check if Contact has an Account -->
+    <decisions>
+        <name>Check_Account_Association</name>
+        <label>Check Account Association</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Create_Missing_Account_Task</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Account</defaultConnectorLabel>
+        <rules>
+            <name>Has_Account</name>
+            <label>Has Account</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Initialize_Sequence_Fields</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+
+    <!-- Assignment: Build initial field values -->
+    <assignments>
+        <name>Initialize_Sequence_Fields</name>
+        <label>Initialize Sequence Fields</label>
+        <locationX>176</locationX>
+        <locationY>266</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Outreach_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cold</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Sequence_Stage__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Stage 1 — Initial Outreach</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Sequence_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Current_Touch__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Sequence_Start_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Next_Touch_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Next_Touch_Date_Formula</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Last_Touch_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.LinkedIn_Connected__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Not Sent</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Contact_Fields</targetReference>
+        </connector>
+    </assignments>
+
+    <!-- Formula: Next Touch Date = TODAY + 3 -->
+    <formulas>
+        <name>Next_Touch_Date_Formula</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate} + 3</expression>
+    </formulas>
+
+    <!-- Formula: Contact Full Name for task subject -->
+    <formulas>
+        <name>Contact_Full_Name</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.FirstName} &amp; " " &amp; {!$Record.LastName}</expression>
+    </formulas>
+
+    <!-- Formula: Task Description -->
+    <formulas>
+        <name>Touch1_Task_Description</name>
+        <dataType>String</dataType>
+        <expression>"Send LinkedIn connection request to " &amp; {!$Record.FirstName} &amp; " " &amp; {!$Record.LastName} &amp; ", " &amp; IF(ISBLANK({!$Record.Title}), "", {!$Record.Title} &amp; " at ") &amp; IF(ISBLANK({!$Record.Account.Name}), "", {!$Record.Account.Name}) &amp; "." &amp; BR() &amp; BR() &amp;
+"➡️ Default: Send WITHOUT a note (higher acceptance rate)." &amp; BR() &amp; BR() &amp;
+"Optional note suggestion (200 char max):" &amp; BR() &amp;
+IF(ISBLANK({!$Record.LinkedIn_Connection_Note__c}), "(No note generated)", {!$Record.LinkedIn_Connection_Note__c}) &amp; BR() &amp; BR() &amp;
+"LinkedIn Profile: " &amp; IF(ISBLANK({!$Record.LinkedIn_Profile_URL__c}), "(Not available)", {!$Record.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp;
+"Company Context:" &amp; BR() &amp;
+IF(ISBLANK({!$Record.Company_Research__c}), "(No research available)", {!$Record.Company_Research__c}) &amp; BR() &amp; BR() &amp;
+"Contact Context:" &amp; BR() &amp;
+IF(ISBLANK({!$Record.Contact_Research__c}), "(No research available)", {!$Record.Contact_Research__c}) &amp; BR() &amp; BR() &amp;
+"Specialty: " &amp; IF(ISBLANK({!$Record.Contact_Specialty__c}), "Unknown", {!$Record.Contact_Specialty__c}) &amp; BR() &amp;
+"Onboarded: " &amp; IF({!$Record.Is_Onboarded__c}, "Yes", "No") &amp; BR() &amp; BR() &amp;
+"Intent Signals:" &amp; BR() &amp;
+IF(ISBLANK({!$Record.Intent_Signals__c}), "(None)", {!$Record.Intent_Signals__c} &amp; " (Score: " &amp; TEXT({!$Record.Intent_Score__c}) &amp; "/100)") &amp; BR() &amp; BR() &amp;
+"⚠️ After sending:" &amp; BR() &amp;
+"1. Update LinkedIn Connection Status to 'Pending'" &amp; BR() &amp;
+"2. Mark this task as Complete"</expression>
+    </formulas>
+
+    <!-- Formula: Task Subject -->
+    <formulas>
+        <name>Touch1_Task_Subject</name>
+        <dataType>String</dataType>
+        <expression>"Touch 1: Send LinkedIn Connection Request — " &amp; {!$Record.FirstName} &amp; " " &amp; {!$Record.LastName}</expression>
+    </formulas>
+
+    <!-- Record Update: Update the Contact record -->
+    <recordUpdates>
+        <name>Update_Contact_Fields</name>
+        <label>Update Contact Fields</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <inputReference>$Record</inputReference>
+        <connector>
+            <targetReference>Create_Touch1_Task</targetReference>
+        </connector>
+    </recordUpdates>
+
+    <!-- Record Create: Touch 1 Task -->
+    <recordCreates>
+        <name>Create_Touch1_Task</name>
+        <label>Create Touch 1 Task</label>
+        <locationX>176</locationX>
+        <locationY>530</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Touch1_Task_Subject</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Touch1_Task_Description</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+
+    <!-- No-Account Path: Create task for Travis -->
+    <recordCreates>
+        <name>Create_Missing_Account_Task</name>
+        <label>Create Missing Account Task</label>
+        <locationX>440</locationX>
+        <locationY>134</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Contact created without Account association — fix before sequence starts</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>This contact was created with a Signal Source but has no Account association. The Is_Onboarded formula and company-level logic depend on this relationship. Please associate the contact with an Account, then the sequence will need to be manually initialized.</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+</Flow>

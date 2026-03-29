@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <label>Meaningful Reply Handler</label>
+    <description>Flow 3: Handles meaningful replies — cancels pending sequence tasks and routes based on Reply Type (Positive, Not Interested, Hard Opt-Out, Auto-Reply/OOO).</description>
+    <status>Active</status>
+    <processType>AutoLaunchedFlow</processType>
+    <triggerType>RecordAfterSave</triggerType>
+    <recordTriggerType>Update</recordTriggerType>
+
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <object>Contact</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Meaningful_Reply__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Meaningful_Reply__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <connector>
+            <targetReference>Get_Open_Sequence_Tasks</targetReference>
+        </connector>
+    </start>
+
+    <!-- Formula: Contact Full Name -->
+    <formulas>
+        <name>Contact_Full_Name</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.FirstName} &amp; " " &amp; {!$Record.LastName}</expression>
+    </formulas>
+
+    <!-- Formula: Qualification Task Subject -->
+    <formulas>
+        <name>Qualification_Task_Subject</name>
+        <dataType>String</dataType>
+        <expression>"ENGAGED: " &amp; {!$Record.FirstName} &amp; " " &amp; {!$Record.LastName} &amp; " replied — Qualify and route"</expression>
+    </formulas>
+
+    <!-- Formula: Qualification Task Description -->
+    <formulas>
+        <name>Qualification_Task_Description</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.FirstName} &amp; " " &amp; {!$Record.LastName} &amp; " at " &amp; IF(ISBLANK({!$Record.Account.Name}), "(Unknown Company)", {!$Record.Account.Name}) &amp; " replied via " &amp; IF(ISBLANK({!$Record.Reply_Channel__c}), "(Unknown)", {!$Record.Reply_Channel__c}) &amp; "." &amp; BR() &amp; BR() &amp;
+"Assess: Immediate need? Decision-maker? Right timing?" &amp; BR() &amp; BR() &amp;
+"If qualified:" &amp; BR() &amp;
+"1. Book meeting with Ian/Nikki" &amp; BR() &amp;
+"2. Update Outreach Status to 'Meeting Scheduled'" &amp; BR() &amp;
+"3. Create Opportunity on Account at 'Qualify' stage" &amp; BR() &amp; BR() &amp;
+"If not ready: Keep as Engaged, follow up manually." &amp; BR() &amp; BR() &amp;
+"⚠️ Search for other contacts at " &amp; IF(ISBLANK({!$Record.Account.Name}), "(Unknown Company)", {!$Record.Account.Name}) &amp; " with Active sequences." &amp; BR() &amp;
+"Consider pausing them to avoid conflicting outreach."</expression>
+    </formulas>
+
+    <!-- Get Records: Open Sequence Tasks for this Contact -->
+    <recordLookups>
+        <name>Get_Open_Sequence_Tasks</name>
+        <label>Get Open Sequence Tasks</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <object>Task</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WhoId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Sequence_Task__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Cancel_Sequence_Tasks</targetReference>
+        </connector>
+    </recordLookups>
+
+    <!-- Record Update: Cancel all open sequence tasks -->
+    <recordUpdates>
+        <name>Cancel_Sequence_Tasks</name>
+        <label>Cancel Sequence Tasks</label>
+        <locationX>176</locationX>
+        <locationY>266</locationY>
+        <inputReference>Get_Open_Sequence_Tasks</inputReference>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Cancelled</stringValue>
+            </value>
+        </inputAssignments>
+        <connector>
+            <targetReference>Reply_Type_Decision</targetReference>
+        </connector>
+    </recordUpdates>
+
+    <!-- Decision: Route based on Reply Type -->
+    <decisions>
+        <name>Reply_Type_Decision</name>
+        <label>Reply Type Decision</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>Handle_Auto_Reply</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Auto-Reply / OOO</defaultConnectorLabel>
+        <rules>
+            <name>Reply_Positive</name>
+            <label>Positive</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Reply_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Positive</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Contact_Positive</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>Reply_Not_Interested</name>
+            <label>Not Interested / Bad Timing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Reply_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Not Interested / Bad Timing</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Contact_Not_Interested</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>Reply_Hard_OptOut</name>
+            <label>Hard Opt-Out</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Reply_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Hard Opt-Out</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Contact_Hard_OptOut</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+
+    <!-- Positive Path: Update Contact -->
+    <recordUpdates>
+        <name>Update_Contact_Positive</name>
+        <label>Update Contact - Positive Reply</label>
+        <locationX>50</locationX>
+        <locationY>530</locationY>
+        <object>Contact</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Sequence_Status__c</field>
+            <value>
+                <stringValue>Paused — Engaged</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Outreach_Status__c</field>
+            <value>
+                <stringValue>Engaged</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Reply_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <connector>
+            <targetReference>Create_Qualification_Task</targetReference>
+        </connector>
+    </recordUpdates>
+
+    <!-- Positive Path: Create Qualification Task -->
+    <recordCreates>
+        <name>Create_Qualification_Task</name>
+        <label>Create Qualification Task</label>
+        <locationX>50</locationX>
+        <locationY>662</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Qualification_Task_Subject</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Qualification_Task_Description</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+
+    <!-- Not Interested Path: Update Contact -->
+    <recordUpdates>
+        <name>Update_Contact_Not_Interested</name>
+        <label>Update Contact - Not Interested</label>
+        <locationX>314</locationX>
+        <locationY>530</locationY>
+        <object>Contact</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Sequence_Status__c</field>
+            <value>
+                <stringValue>Deferred</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Outreach_Status__c</field>
+            <value>
+                <stringValue>Deferred</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Reply_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+    </recordUpdates>
+
+    <!-- Hard Opt-Out Path: Update Contact -->
+    <recordUpdates>
+        <name>Update_Contact_Hard_OptOut</name>
+        <label>Update Contact - Hard Opt-Out</label>
+        <locationX>578</locationX>
+        <locationY>530</locationY>
+        <object>Contact</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Exclude_From_Sequence__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Status__c</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Outreach_Status__c</field>
+            <value>
+                <stringValue>Deferred</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Reply_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+    </recordUpdates>
+
+    <!-- Auto-Reply / OOO Path: Uncheck Meaningful Reply, take no action -->
+    <recordUpdates>
+        <name>Handle_Auto_Reply</name>
+        <label>Handle Auto-Reply / OOO</label>
+        <locationX>842</locationX>
+        <locationY>530</locationY>
+        <object>Contact</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Meaningful_Reply__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+    </recordUpdates>
+</Flow>
