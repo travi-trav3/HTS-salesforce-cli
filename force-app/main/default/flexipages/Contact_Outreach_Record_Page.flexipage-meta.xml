@@ -32,13 +32,6 @@
                     <name>collapsible</name>
                     <value>false</value>
                 </componentInstanceProperties>
-                <visibilityRule>
-                    <booleanFilter>1</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Id}</leftValue>
-                        <operator>IsNotNull</operator>
-                    </criteria>
-                </visibilityRule>
                 <componentInstanceProperties>
                     <name>fieldItem_1_1</name>
                     <value>Contact.Name</value>
