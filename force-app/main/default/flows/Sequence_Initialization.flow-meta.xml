@@ -114,7 +114,7 @@ IF(ISBLANK({!$Record.LinkedIn_Connection_Note__c}), "(No note generated)", {!$Re
 IF(ISBLANK({!$Record.Company_Research__c}), "(No research available)", {!$Record.Company_Research__c}) &amp; BR() &amp; BR() &amp;
 "Contact Context:" &amp; BR() &amp;
 IF(ISBLANK({!$Record.Contact_Research__c}), "(No research available)", {!$Record.Contact_Research__c}) &amp; BR() &amp; BR() &amp;
-"Specialty: " &amp; IF(ISBLANK({!$Record.Contact_Specialty__c}), "Unknown", TEXT({!$Record.Contact_Specialty__c})) &amp; BR() &amp;
+"Specialty: " &amp; IF(ISBLANK(TEXT({!$Record.Contact_Specialty__c})), "Unknown", TEXT({!$Record.Contact_Specialty__c})) &amp; BR() &amp;
 "Onboarded: " &amp; IF({!$Record.Is_Onboarded__c}, "Yes", "No") &amp; BR() &amp; BR() &amp;
 "Intent Signals:" &amp; BR() &amp;
 IF(ISBLANK({!$Record.Intent_Signals__c}), "(None)", {!$Record.Intent_Signals__c} &amp; " (Score: " &amp; TEXT({!$Record.Intent_Score__c}) &amp; "/100)") &amp; BR() &amp; BR() &amp;
