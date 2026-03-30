@@ -70,7 +70,7 @@
     <formulas>
         <name>Qualification_Task_Description</name>
         <dataType>String</dataType>
-        <expression>{!$Record.FirstName} &amp; " " &amp; {!$Record.LastName} &amp; " at " &amp; IF(ISBLANK({!$Record.Account.Name}), "(Unknown Company)", {!$Record.Account.Name}) &amp; " replied via " &amp; IF(ISBLANK({!$Record.Reply_Channel__c}), "(Unknown)", {!$Record.Reply_Channel__c}) &amp; "." &amp; BR() &amp; BR() &amp;
+        <expression>{!$Record.FirstName} &amp; " " &amp; {!$Record.LastName} &amp; " at " &amp; IF(ISBLANK({!$Record.Account.Name}), "(Unknown Company)", {!$Record.Account.Name}) &amp; " replied via " &amp; IF(ISBLANK({!$Record.Reply_Channel__c}), "(Unknown)", TEXT({!$Record.Reply_Channel__c})) &amp; "." &amp; BR() &amp; BR() &amp;
 "Assess: Immediate need? Decision-maker? Right timing?" &amp; BR() &amp; BR() &amp;
 "If qualified:" &amp; BR() &amp;
 "1. Book meeting with Ian/Nikki" &amp; BR() &amp;
@@ -102,7 +102,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>

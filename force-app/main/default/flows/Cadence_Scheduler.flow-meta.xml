@@ -837,7 +837,7 @@
     <formulas>
         <name>Contact_Info</name>
         <dataType>String</dataType>
-        <expression>"Contact: " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName} &amp; IF(ISBLANK({!Loop_Contacts.Title}), "", " | " &amp; {!Loop_Contacts.Title}) &amp; IF(ISBLANK({!Loop_Contacts.Account.Name}), "", " at " &amp; {!Loop_Contacts.Account.Name}) &amp; BR() &amp; "Specialty: " &amp; IF(ISBLANK({!Loop_Contacts.Contact_Specialty__c}), "Unknown", {!Loop_Contacts.Contact_Specialty__c}) &amp; " | Onboarded: " &amp; IF({!Loop_Contacts.Is_Onboarded__c}, "Yes", "No") &amp; BR() &amp; "Email Verified: " &amp; IF(ISBLANK({!Loop_Contacts.Email_Verified__c}), "Unknown", {!Loop_Contacts.Email_Verified__c}) &amp; BR() &amp; "Intent: " &amp; IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "None", LEFT({!Loop_Contacts.Intent_Signals__c}, 200) &amp; " (Score: " &amp; TEXT({!Loop_Contacts.Intent_Score__c}) &amp; "/100)") &amp; BR() &amp; "Warming: Opens=" &amp; TEXT({!Loop_Contacts.Email_Opens_Count__c}) &amp; " | LinkedIn=" &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Connected__c}), "Unknown", {!Loop_Contacts.LinkedIn_Connected__c})</expression>
+        <expression>"Contact: " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName} &amp; IF(ISBLANK({!Loop_Contacts.Title}), "", " | " &amp; {!Loop_Contacts.Title}) &amp; IF(ISBLANK({!Loop_Contacts.Account.Name}), "", " at " &amp; {!Loop_Contacts.Account.Name}) &amp; BR() &amp; "Specialty: " &amp; IF(ISBLANK({!Loop_Contacts.Contact_Specialty__c}), "Unknown", TEXT({!Loop_Contacts.Contact_Specialty__c})) &amp; " | Onboarded: " &amp; IF({!Loop_Contacts.Is_Onboarded__c}, "Yes", "No") &amp; BR() &amp; "Email Verified: " &amp; IF(ISBLANK({!Loop_Contacts.Email_Verified__c}), "Unknown", {!Loop_Contacts.Email_Verified__c}) &amp; BR() &amp; "Intent: " &amp; IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "None", LEFT({!Loop_Contacts.Intent_Signals__c}, 200) &amp; " (Score: " &amp; TEXT({!Loop_Contacts.Intent_Score__c}) &amp; "/100)") &amp; BR() &amp; "Warming: Opens=" &amp; TEXT({!Loop_Contacts.Email_Opens_Count__c}) &amp; " | LinkedIn=" &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Connected__c}), "Unknown", TEXT({!Loop_Contacts.LinkedIn_Connected__c}))</expression>
     </formulas>
     <formulas>
         <name>Missing_Copy_Subject</name>
@@ -1082,7 +1082,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1140,7 +1140,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1198,7 +1198,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1256,7 +1256,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1314,7 +1314,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1372,7 +1372,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1430,7 +1430,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1488,7 +1488,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1546,7 +1546,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1604,7 +1604,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1662,7 +1662,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1720,7 +1720,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1778,7 +1778,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1836,7 +1836,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1894,7 +1894,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1952,7 +1952,7 @@
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+                <stringValue>005fI0000049deAQAQ</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
