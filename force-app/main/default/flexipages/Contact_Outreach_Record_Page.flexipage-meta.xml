@@ -3,7 +3,7 @@
     <masterLabel>Contact Outreach Record Page</masterLabel>
     <sobjectType>Contact</sobjectType>
     <template>
-        <name>flexipage:defaultPageTemplate</name>
+        <name>flexipage:RecordHomeTemplateDesktop</name>
     </template>
     <flexiPageRegions>
         <name>header</name>
