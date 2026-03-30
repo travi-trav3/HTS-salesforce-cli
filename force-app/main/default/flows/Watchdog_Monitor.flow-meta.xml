@@ -426,14 +426,9 @@
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
-        <scheduledPaths>
-            <name>Daily_9AM_CT</name>
-            <label>Daily 9 AM CT</label>
-            <connector>
-                <targetReference>Get_Missed_Touch_Contacts</targetReference>
-            </connector>
-            <timeSource>RecordTriggerEvent</timeSource>
-        </scheduledPaths>
+        <connector>
+            <targetReference>Get_Missed_Touch_Contacts</targetReference>
+        </connector>
         <schedule>
             <frequency>Daily</frequency>
             <startTime>09:00:00.000Z</startTime>

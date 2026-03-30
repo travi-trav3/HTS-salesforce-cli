@@ -176,7 +176,29 @@
         <label>Cancel Sequence Tasks</label>
         <locationX>176</locationX>
         <locationY>266</locationY>
-        <inputReference>Get_Open_Sequence_Tasks</inputReference>
+        <object>Task</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WhoId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Sequence_Task__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </filters>
         <inputAssignments>
             <field>Status</field>
             <value>
