@@ -1,67 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
-    <label>Sequence Initialization</label>
-    <description>Flow 1: Initializes the outreach sequence when a new Contact is created with a Signal Source and not excluded.</description>
-    <status>Active</status>
-    <processType>AutoLaunchedFlow</processType>
-    <triggerType>RecordAfterSave</triggerType>
-    <recordTriggerType>Create</recordTriggerType>
-
-    <start>
-        <locationX>50</locationX>
-        <locationY>0</locationY>
-        <object>Contact</object>
-        <recordTriggerType>Create</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Signal_Source__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Exclude_From_Sequence__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <connector>
-            <targetReference>Check_Account_Association</targetReference>
-        </connector>
-    </start>
-
-    <!-- Decision: Check if Contact has an Account -->
-    <decisions>
-        <name>Check_Account_Association</name>
-        <label>Check Account Association</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
-        <defaultConnector>
-            <targetReference>Create_Missing_Account_Task</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No Account</defaultConnectorLabel>
-        <rules>
-            <name>Has_Account</name>
-            <label>Has Account</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.AccountId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Initialize_Sequence_Fields</targetReference>
-            </connector>
-        </rules>
-    </decisions>
-
-    <!-- Assignment: Build initial field values -->
     <assignments>
         <name>Initialize_Sequence_Fields</name>
         <label>Initialize Sequence Fields</label>
@@ -127,22 +66,42 @@
             <targetReference>Update_Contact_Fields</targetReference>
         </connector>
     </assignments>
-
-    <!-- Formula: Next Touch Date = TODAY + 3 -->
+    <decisions>
+        <name>Check_Account_Association</name>
+        <label>Check Account Association</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Create_Missing_Account_Task</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Account</defaultConnectorLabel>
+        <rules>
+            <name>Has_Account</name>
+            <label>Has Account</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Initialize_Sequence_Fields</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <description>Flow 1: Initializes the outreach sequence when a new Contact is created with a Signal Source and not excluded.</description>
     <formulas>
         <name>Next_Touch_Date_Formula</name>
         <dataType>Date</dataType>
         <expression>{!$Flow.CurrentDate} + 3</expression>
     </formulas>
-
-    <!-- Formula: Contact Full Name for task subject -->
     <formulas>
         <name>Contact_Full_Name</name>
         <dataType>String</dataType>
         <expression>{!$Record.FirstName} &amp; " " &amp; {!$Record.LastName}</expression>
     </formulas>
-
-    <!-- Formula: Task Description -->
     <formulas>
         <name>Touch1_Task_Description</name>
         <dataType>String</dataType>
@@ -163,27 +122,13 @@ IF(ISBLANK({!$Record.Intent_Signals__c}), "(None)", {!$Record.Intent_Signals__c}
 "1. Update LinkedIn Connection Status to 'Pending'" &amp; BR() &amp;
 "2. Mark this task as Complete"</expression>
     </formulas>
-
-    <!-- Formula: Task Subject -->
     <formulas>
         <name>Touch1_Task_Subject</name>
         <dataType>String</dataType>
         <expression>"Touch 1: Send LinkedIn Connection Request — " &amp; {!$Record.FirstName} &amp; " " &amp; {!$Record.LastName}</expression>
     </formulas>
-
-    <!-- Record Update: Update the Contact record -->
-    <recordUpdates>
-        <name>Update_Contact_Fields</name>
-        <label>Update Contact Fields</label>
-        <locationX>176</locationX>
-        <locationY>398</locationY>
-        <inputReference>$Record</inputReference>
-        <connector>
-            <targetReference>Create_Touch1_Task</targetReference>
-        </connector>
-    </recordUpdates>
-
-    <!-- Record Create: Touch 1 Task -->
+    <label>Sequence Initialization</label>
+    <processType>AutoLaunchedFlow</processType>
     <recordCreates>
         <name>Create_Touch1_Task</name>
         <label>Create Touch 1 Task</label>
@@ -239,8 +184,6 @@ IF(ISBLANK({!$Record.Intent_Signals__c}), "(None)", {!$Record.Intent_Signals__c}
         </inputAssignments>
         <object>Task</object>
     </recordCreates>
-
-    <!-- No-Account Path: Create task for Travis -->
     <recordCreates>
         <name>Create_Missing_Account_Task</name>
         <label>Create Missing Account Task</label>
@@ -296,4 +239,40 @@ IF(ISBLANK({!$Record.Intent_Signals__c}), "(None)", {!$Record.Intent_Signals__c}
         </inputAssignments>
         <object>Task</object>
     </recordCreates>
+    <recordUpdates>
+        <name>Update_Contact_Fields</name>
+        <label>Update Contact Fields</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <inputReference>$Record</inputReference>
+        <connector>
+            <targetReference>Create_Touch1_Task</targetReference>
+        </connector>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <object>Contact</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Signal_Source__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Exclude_From_Sequence__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <connector>
+            <targetReference>Check_Account_Association</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
 </Flow>

@@ -1,51 +1,849 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
-    <label>Cadence Scheduler</label>
+    <decisions>
+        <name>Touch_Decision</name>
+        <label>Which Touch to Execute</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Contacts</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Unknown Touch</defaultConnectorLabel>
+        <rules>
+            <name>CT_1</name>
+            <label>Current Touch = 1</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Weekend_Gate_T2</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_2</name>
+            <label>Current Touch = 2</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Weekend_Gate_T3</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_3</name>
+            <label>Current Touch = 3</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>3.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LinkedIn_Check_T4</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_4</name>
+            <label>Current Touch = 4</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>4.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Task_T5</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_5</name>
+            <label>Current Touch = 5</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>5.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Weekend_Gate_T6</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_6</name>
+            <label>Current Touch = 6</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>6.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Weekend_Gate_T7</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_7</name>
+            <label>Current Touch = 7</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>7.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LinkedIn_Check_T8</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_8</name>
+            <label>Current Touch = 8</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>8.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Warming_Check_T9</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_9</name>
+            <label>Current Touch = 9</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>9.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Weekend_Gate_T10</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_10</name>
+            <label>Current Touch = 10</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>10.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Task_T11</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_11</name>
+            <label>Current Touch = 11</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>11.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LinkedIn_Check_T12</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>CT_12</name>
+            <label>Current Touch = 12</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>12.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Weekend_Gate_T13</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T2</name>
+        <label>Weekend Gate T2</label>
+        <locationX>100</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Copy_Check_T2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T2</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_Check_T2</name>
+        <label>Copy Check T2</label>
+        <locationX>100</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Task_T2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Copy_Missing_T2</name>
+            <label>Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_Intro__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T3</name>
+        <label>Weekend Gate T3</label>
+        <locationX>200</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Copy_Check_T3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T3</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_Check_T3</name>
+        <label>Copy Check T3</label>
+        <locationX>200</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Task_T3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Copy_Missing_T3</name>
+            <label>Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_Value1__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>LinkedIn_Check_T4</name>
+        <label>LinkedIn Check T4</label>
+        <locationX>300</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Weekend_Gate_T4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Connected</defaultConnectorLabel>
+        <rules>
+            <name>LI_Connected_T4</name>
+            <label>Connected</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Connected</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LI_Copy_Check_T4</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>LI_Copy_Check_T4</name>
+        <label>LI Copy Check T4</label>
+        <locationX>300</locationX>
+        <locationY>550</locationY>
+        <defaultConnector>
+            <targetReference>Create_LI_Task_T4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LI Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>LI_Copy_Missing_T4</name>
+            <label>LI Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.LinkedIn_Message_Draft_1__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T4</name>
+        <label>Weekend Gate T4</label>
+        <locationX>400</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Email_Copy_Check_T4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T4</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Email_Copy_Check_T4</name>
+        <label>Email Copy Check T4</label>
+        <locationX>400</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Email_Task_T4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Email Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Email_Copy_Missing_T4</name>
+            <label>Email Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_Sub4__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T6</name>
+        <label>Weekend Gate T6</label>
+        <locationX>600</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Copy_Check_T6</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T6</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_Check_T6</name>
+        <label>Copy Check T6</label>
+        <locationX>600</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Task_T6</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Copy_Missing_T6</name>
+            <label>Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_FollowUp__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T7</name>
+        <label>Weekend Gate T7</label>
+        <locationX>700</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Copy_Check_T7</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T7</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_Check_T7</name>
+        <label>Copy Check T7</label>
+        <locationX>700</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Task_T7</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Copy_Missing_T7</name>
+            <label>Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_Value2__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>LinkedIn_Check_T8</name>
+        <label>LinkedIn Check T8</label>
+        <locationX>800</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Weekend_Gate_T8</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Connected</defaultConnectorLabel>
+        <rules>
+            <name>LI_Connected_T8</name>
+            <label>Connected</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Connected</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LI_Copy_Check_T8</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>LI_Copy_Check_T8</name>
+        <label>LI Copy Check T8</label>
+        <locationX>800</locationX>
+        <locationY>550</locationY>
+        <defaultConnector>
+            <targetReference>Create_LI_Task_T8</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LI Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>LI_Copy_Missing_T8</name>
+            <label>LI Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.LinkedIn_Message_Draft_2__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T8</name>
+        <label>Weekend Gate T8</label>
+        <locationX>900</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Email_Copy_Check_T8</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T8</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Email_Copy_Check_T8</name>
+        <label>Email Copy Check T8</label>
+        <locationX>900</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Email_Task_T8</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Email Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Email_Copy_Missing_T8</name>
+            <label>Email Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_Sub8__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Warming_Check_T9</name>
+        <label>Warming Check T9</label>
+        <locationX>1000</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Update_Contact_T9</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Warm - Skip</defaultConnectorLabel>
+        <rules>
+            <name>Is_Warm_T9</name>
+            <label>Is Warm</label>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Opens_Count__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Connected</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Task_T9</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T10</name>
+        <label>Weekend Gate T10</label>
+        <locationX>1100</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Copy_Check_T10</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T10</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_Check_T10</name>
+        <label>Copy Check T10</label>
+        <locationX>1100</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Task_T10</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Copy_Missing_T10</name>
+            <label>Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_DirectAsk__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>LinkedIn_Check_T12</name>
+        <label>LinkedIn Check T12</label>
+        <locationX>1300</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Weekend_Gate_T12</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Connected</defaultConnectorLabel>
+        <rules>
+            <name>LI_Connected_T12</name>
+            <label>Connected</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Connected</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LI_Copy_Check_T12</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>LI_Copy_Check_T12</name>
+        <label>LI Copy Check T12</label>
+        <locationX>1300</locationX>
+        <locationY>550</locationY>
+        <defaultConnector>
+            <targetReference>Create_LI_Task_T12</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LI Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>LI_Copy_Missing_T12</name>
+            <label>LI Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.LinkedIn_Message_Draft_3__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T12</name>
+        <label>Weekend Gate T12</label>
+        <locationX>1400</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Email_Copy_Check_T12</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T12</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Email_Copy_Check_T12</name>
+        <label>Email Copy Check T12</label>
+        <locationX>1400</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Email_Task_T12</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Email Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Email_Copy_Missing_T12</name>
+            <label>Email Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_Sub12__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weekend_Gate_T13</name>
+        <label>Weekend Gate T13</label>
+        <locationX>1500</locationX>
+        <locationY>500</locationY>
+        <defaultConnector>
+            <targetReference>Copy_Check_T13</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
+        <rules>
+            <name>Is_Weekend_T13</name>
+            <label>Is Weekend</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_Weekend</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_Check_T13</name>
+        <label>Copy Check T13</label>
+        <locationX>1500</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Create_Task_T13</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
+        <rules>
+            <name>Copy_Missing_T13</name>
+            <label>Copy Missing</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Email_Draft_Pause__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Missing_Copy_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
     <description>Flow 2: Daily cadence scheduler (7 AM CT). Supervised mode — all touches create Tasks for Dylan to review and send manually. No auto-send emails.</description>
-    <status>Active</status>
-    <processType>AutoLaunchedFlow</processType>
-
-    <start>
-        <locationX>50</locationX>
-        <locationY>0</locationY>
-        <connector>
-            <targetReference>Get_Eligible_Contacts</targetReference>
-        </connector>
-        <schedule>
-            <frequency>Daily</frequency>
-            <startTime>13:00:00.000Z</startTime>
-        </schedule>
-        <triggerType>Scheduled</triggerType>
-    </start>
-
-    <!-- ==================== SHARED FORMULAS ==================== -->
-
     <formulas>
         <name>Is_Weekend</name>
         <dataType>Boolean</dataType>
         <expression>OR(WEEKDAY({!$Flow.CurrentDate}) = 7, WEEKDAY({!$Flow.CurrentDate}) = 1)</expression>
     </formulas>
-
     <formulas>
         <name>Contact_Name</name>
         <dataType>String</dataType>
         <expression>{!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
     </formulas>
-
     <formulas>
         <name>Contact_Info</name>
         <dataType>String</dataType>
         <expression>"Contact: " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName} &amp; IF(ISBLANK({!Loop_Contacts.Title}), "", " | " &amp; {!Loop_Contacts.Title}) &amp; IF(ISBLANK({!Loop_Contacts.Account.Name}), "", " at " &amp; {!Loop_Contacts.Account.Name}) &amp; BR() &amp; "Specialty: " &amp; IF(ISBLANK({!Loop_Contacts.Contact_Specialty__c}), "Unknown", {!Loop_Contacts.Contact_Specialty__c}) &amp; " | Onboarded: " &amp; IF({!Loop_Contacts.Is_Onboarded__c}, "Yes", "No") &amp; BR() &amp; "Email Verified: " &amp; IF(ISBLANK({!Loop_Contacts.Email_Verified__c}), "Unknown", {!Loop_Contacts.Email_Verified__c}) &amp; BR() &amp; "Intent: " &amp; IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "None", LEFT({!Loop_Contacts.Intent_Signals__c}, 200) &amp; " (Score: " &amp; TEXT({!Loop_Contacts.Intent_Score__c}) &amp; "/100)") &amp; BR() &amp; "Warming: Opens=" &amp; TEXT({!Loop_Contacts.Email_Opens_Count__c}) &amp; " | LinkedIn=" &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Connected__c}), "Unknown", {!Loop_Contacts.LinkedIn_Connected__c})</expression>
     </formulas>
-
     <formulas>
         <name>Missing_Copy_Subject</name>
         <dataType>String</dataType>
         <expression>"Touch " &amp; TEXT({!Loop_Contacts.Current_Touch__c} + 1) &amp; ": COPY MISSING — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
     </formulas>
-
-    <!-- Next Touch Date formulas (per touch) -->
     <formulas>
         <name>NTD_After_T2</name>
         <dataType>Date</dataType>
@@ -101,9 +899,1097 @@
         <dataType>Date</dataType>
         <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 77</expression>
     </formulas>
-
-    <!-- ==================== GET RECORDS ==================== -->
-
+    <formulas>
+        <name>Subject_T2</name>
+        <dataType>String</dataType>
+        <expression>"Touch 2: Review &amp; Send Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T2</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this intro email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Intro__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Intro__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: Touch 1 — LinkedIn connection request" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T3</name>
+        <dataType>String</dataType>
+        <expression>"Touch 3: Review &amp; Send Email (FROM NIKKI) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T3</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this value-add email FROM NIKKI's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Nikki Cummings" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value1__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value1__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro email (Dylan)" &amp; BR() &amp; BR() &amp; "⚠️ Send from Nikki's email. Mark task Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T4_LI</name>
+        <dataType>String</dataType>
+        <expression>"Touch 4: Review &amp; Send LinkedIn Message — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T4_Email</name>
+        <dataType>String</dataType>
+        <expression>"Touch 4: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T4_LI</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this LinkedIn message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_1__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_1__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value email (Nikki)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T4_Email</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub4__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub4__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value (Nikki)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T5</name>
+        <dataType>String</dataType>
+        <expression>"Touch 5: Call Attempt #1 — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T5</name>
+        <dataType>String</dataType>
+        <expression>"Call attempt #1." &amp; BR() &amp; BR() &amp; "Phone: " &amp; IF(ISBLANK({!Loop_Contacts.Phone}), "(No phone)", {!Loop_Contacts.Phone}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Company Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Company_Research__c}), "(None)", LEFT({!Loop_Contacts.Company_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Contact Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Contact_Research__c}), "(None)", LEFT({!Loop_Contacts.Contact_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Previous: T1-T4 outreach (LI request, intro email, value email, LI/email follow-up)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after call attempt."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T6</name>
+        <dataType>String</dataType>
+        <expression>"Touch 6: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T6</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_FollowUp__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_FollowUp__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T5 outreach" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T7</name>
+        <dataType>String</dataType>
+        <expression>"Touch 7: Review &amp; Send Email (FROM NIKKI) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T7</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this value-add email FROM NIKKI's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Nikki Cummings" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value2__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value2__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T6 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Send from Nikki's email. Mark task Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T8_LI</name>
+        <dataType>String</dataType>
+        <expression>"Touch 8: Review &amp; Send LinkedIn Message — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T8_Email</name>
+        <dataType>String</dataType>
+        <expression>"Touch 8: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T8_LI</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this LinkedIn message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_2__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_2__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T7 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T8_Email</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub8__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub8__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T7 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T9</name>
+        <dataType>String</dataType>
+        <expression>"Touch 9: Call Attempt #2 (Warming Signals) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T9</name>
+        <dataType>String</dataType>
+        <expression>"Call attempt #2 — Contact is showing warming signals." &amp; BR() &amp; BR() &amp; "Phone: " &amp; IF(ISBLANK({!Loop_Contacts.Phone}), "(No phone)", {!Loop_Contacts.Phone}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Company Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Company_Research__c}), "(None)", LEFT({!Loop_Contacts.Company_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Contact Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Contact_Research__c}), "(None)", LEFT({!Loop_Contacts.Contact_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Previous: T1-T8 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after call attempt."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T10</name>
+        <dataType>String</dataType>
+        <expression>"Touch 10: Review &amp; Send Direct Ask Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T10</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this direct ask email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_DirectAsk__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_DirectAsk__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T9 outreach (Stage 3 — Direct Ask)" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T11</name>
+        <dataType>String</dataType>
+        <expression>"Touch 11: Final Call Attempt — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T11</name>
+        <dataType>String</dataType>
+        <expression>"Final scheduled call attempt." &amp; BR() &amp; BR() &amp; "Phone: " &amp; IF(ISBLANK({!Loop_Contacts.Phone}), "(No phone)", {!Loop_Contacts.Phone}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Company Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Company_Research__c}), "(None)", LEFT({!Loop_Contacts.Company_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Full outreach history: T1-T10 (LI, emails, calls, direct ask)" &amp; BR() &amp; BR() &amp; "⚠️ This is the final scheduled call. Mark Complete after attempt."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T12_LI</name>
+        <dataType>String</dataType>
+        <expression>"Touch 12: Review &amp; Send LinkedIn Follow-Up — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T12_Email</name>
+        <dataType>String</dataType>
+        <expression>"Touch 12: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T12_LI</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this LinkedIn follow-up message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_3__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_3__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T11 outreach (Stage 3 — nearing end of sequence)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T12_Email</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub12__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub12__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T11 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T13</name>
+        <dataType>String</dataType>
+        <expression>"Touch 13: Review &amp; Send Pause Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T13</name>
+        <dataType>String</dataType>
+        <expression>"Review and send this pause email FROM DYLAN's email address." &amp; BR() &amp; "This is the FINAL touch in the sequence." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Pause__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Pause__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T12 complete outreach sequence" &amp; BR() &amp; BR() &amp; "After sending, this contact automatically moves to Deferred status. No further touches will be scheduled." &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
+    </formulas>
+    <label>Cadence Scheduler</label>
+    <loops>
+        <name>Loop_Contacts</name>
+        <label>Loop Contacts</label>
+        <locationX>176</locationX>
+        <locationY>266</locationY>
+        <collectionReference>Get_Eligible_Contacts</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Touch_Decision</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Missing_Copy_Task</name>
+        <label>Create Missing Copy Task</label>
+        <locationX>600</locationX>
+        <locationY>500</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Missing_Copy_Subject</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>Draft copy for the next touch has not been generated yet. Either follow up manually or wait for the next Gumloop JIT pipeline run to generate the copy. The scheduler will retry automatically on the next run. Do NOT advance this contact manually — the system will pick them up once copy is available.</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T2</name>
+        <label>Create Touch 2 Task</label>
+        <locationX>100</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T2</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T2</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T2</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T3</name>
+        <label>Create Touch 3 Task</label>
+        <locationX>200</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T3</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T3</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T3</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_LI_Task_T4</name>
+        <label>Create LI Task T4</label>
+        <locationX>300</locationX>
+        <locationY>600</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T4_LI</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T4_LI</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T4</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Email_Task_T4</name>
+        <label>Create Email Task T4</label>
+        <locationX>400</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T4_Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T4_Email</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T4</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T5</name>
+        <label>Create Touch 5 Task</label>
+        <locationX>500</locationX>
+        <locationY>500</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T5</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T5</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T5</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T6</name>
+        <label>Create Touch 6 Task</label>
+        <locationX>600</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T6</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T6</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T6</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T7</name>
+        <label>Create Touch 7 Task</label>
+        <locationX>700</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T7</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T7</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T7</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_LI_Task_T8</name>
+        <label>Create LI Task T8</label>
+        <locationX>800</locationX>
+        <locationY>600</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T8_LI</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T8_LI</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T8</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Email_Task_T8</name>
+        <label>Create Email Task T8</label>
+        <locationX>900</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T8_Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T8_Email</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T8</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T9</name>
+        <label>Create Touch 9 Task</label>
+        <locationX>1000</locationX>
+        <locationY>600</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T9</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T9</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T9</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T10</name>
+        <label>Create Touch 10 Task</label>
+        <locationX>1100</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T10</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T10</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T10</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T11</name>
+        <label>Create Touch 11 Task</label>
+        <locationX>1200</locationX>
+        <locationY>500</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T11</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T11</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T11</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_LI_Task_T12</name>
+        <label>Create LI Task T12</label>
+        <locationX>1300</locationX>
+        <locationY>600</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T12_LI</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T12_LI</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T12</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Email_Task_T12</name>
+        <label>Create Email Task T12</label>
+        <locationX>1400</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T12_Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T12_Email</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T12</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T13</name>
+        <label>Create Touch 13 Task</label>
+        <locationX>1500</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T13</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>{{DYLAN_USER_ID}}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T13</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T13</targetReference>
+        </connector>
+    </recordCreates>
     <recordLookups>
         <name>Get_Eligible_Contacts</name>
         <label>Get Eligible Contacts</label>
@@ -138,305 +2024,6 @@
             <targetReference>Loop_Contacts</targetReference>
         </connector>
     </recordLookups>
-
-    <!-- ==================== LOOP ==================== -->
-
-    <loops>
-        <name>Loop_Contacts</name>
-        <label>Loop Contacts</label>
-        <locationX>176</locationX>
-        <locationY>266</locationY>
-        <collectionReference>Get_Eligible_Contacts</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Touch_Decision</targetReference>
-        </nextValueConnector>
-    </loops>
-
-    <!-- ==================== MAIN TOUCH DECISION ==================== -->
-
-    <decisions>
-        <name>Touch_Decision</name>
-        <label>Which Touch to Execute</label>
-        <locationX>176</locationX>
-        <locationY>398</locationY>
-        <defaultConnector>
-            <targetReference>Loop_Contacts</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Unknown Touch</defaultConnectorLabel>
-        <rules>
-            <name>CT_1</name>
-            <label>Current Touch = 1</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>1.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Weekend_Gate_T2</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_2</name>
-            <label>Current Touch = 2</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>2.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Weekend_Gate_T3</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_3</name>
-            <label>Current Touch = 3</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>3.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>LinkedIn_Check_T4</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_4</name>
-            <label>Current Touch = 4</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>4.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Task_T5</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_5</name>
-            <label>Current Touch = 5</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>5.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Weekend_Gate_T6</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_6</name>
-            <label>Current Touch = 6</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>6.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Weekend_Gate_T7</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_7</name>
-            <label>Current Touch = 7</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>7.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>LinkedIn_Check_T8</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_8</name>
-            <label>Current Touch = 8</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>8.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Warming_Check_T9</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_9</name>
-            <label>Current Touch = 9</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>9.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Weekend_Gate_T10</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_10</name>
-            <label>Current Touch = 10</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>10.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Task_T11</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_11</name>
-            <label>Current Touch = 11</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>11.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>LinkedIn_Check_T12</targetReference></connector>
-        </rules>
-        <rules>
-            <name>CT_12</name>
-            <label>Current Touch = 12</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><numberValue>12.0</numberValue></rightValue>
-            </conditions>
-            <connector><targetReference>Weekend_Gate_T13</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <!-- ==================== SHARED: MISSING COPY TASK ==================== -->
-
-    <recordCreates>
-        <name>Create_Missing_Copy_Task</name>
-        <label>Create Missing Copy Task</label>
-        <locationX>600</locationX>
-        <locationY>500</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Missing_Copy_Subject</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><stringValue>Draft copy for the next touch has not been generated yet. Either follow up manually or wait for the next Gumloop JIT pipeline run to generate the copy. The scheduler will retry automatically on the next run. Do NOT advance this contact manually — the system will pick them up once copy is available.</stringValue></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector>
-            <targetReference>Loop_Contacts</targetReference>
-        </connector>
-    </recordCreates>
-
-    <!-- ==================== TOUCH 2: Email from Dylan (Day 3) ==================== -->
-
-    <formulas>
-        <name>Subject_T2</name>
-        <dataType>String</dataType>
-        <expression>"Touch 2: Review &amp; Send Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T2</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this intro email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Intro__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Intro__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: Touch 1 — LinkedIn connection request" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
-    </formulas>
-
-    <decisions>
-        <name>Weekend_Gate_T2</name>
-        <label>Weekend Gate T2</label>
-        <locationX>100</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Copy_Check_T2</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T2</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Copy_Check_T2</name>
-        <label>Copy Check T2</label>
-        <locationX>100</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Task_T2</targetReference></defaultConnector>
-        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Copy_Missing_T2</name>
-            <label>Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_Intro__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Task_T2</name>
-        <label>Create Touch 2 Task</label>
-        <locationX>100</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T2</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T2</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T2</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T2</name>
         <label>Update Contact T2</label>
@@ -447,121 +2034,38 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Outreach_Status__c</field>
-            <value><stringValue>Attempting Contact</stringValue></value>
+            <value>
+                <stringValue>Attempting Contact</stringValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>2.0</numberValue></value>
+            <value>
+                <numberValue>2.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T2</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T2</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 3: Email from Nikki (Day 7) ==================== -->
-
-    <formulas>
-        <name>Subject_T3</name>
-        <dataType>String</dataType>
-        <expression>"Touch 3: Review &amp; Send Email (FROM NIKKI) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T3</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this value-add email FROM NIKKI's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Nikki Cummings" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value1__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value1__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro email (Dylan)" &amp; BR() &amp; BR() &amp; "⚠️ Send from Nikki's email. Mark task Complete after sending."</expression>
-    </formulas>
-
-    <decisions>
-        <name>Weekend_Gate_T3</name>
-        <label>Weekend Gate T3</label>
-        <locationX>200</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Copy_Check_T3</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T3</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Copy_Check_T3</name>
-        <label>Copy Check T3</label>
-        <locationX>200</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Task_T3</targetReference></defaultConnector>
-        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Copy_Missing_T3</name>
-            <label>Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_Value1__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Task_T3</name>
-        <label>Create Touch 3 Task</label>
-        <locationX>200</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T3</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T3</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T3</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T3</name>
         <label>Update Contact T3</label>
@@ -572,211 +2076,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>3.0</numberValue></value>
+            <value>
+                <numberValue>3.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T3</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T3</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 4: Hybrid LI/Email from Dylan (Day 10) ==================== -->
-
-    <formulas>
-        <name>Subject_T4_LI</name>
-        <dataType>String</dataType>
-        <expression>"Touch 4: Review &amp; Send LinkedIn Message — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Subject_T4_Email</name>
-        <dataType>String</dataType>
-        <expression>"Touch 4: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T4_LI</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this LinkedIn message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_1__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_1__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value email (Nikki)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T4_Email</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub4__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub4__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value (Nikki)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
-    </formulas>
-
-    <decisions>
-        <name>LinkedIn_Check_T4</name>
-        <label>LinkedIn Check T4</label>
-        <locationX>300</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Weekend_Gate_T4</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Connected</defaultConnectorLabel>
-        <rules>
-            <name>LI_Connected_T4</name>
-            <label>Connected</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><stringValue>Connected</stringValue></rightValue>
-            </conditions>
-            <connector><targetReference>LI_Copy_Check_T4</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <!-- LinkedIn path: copy check -->
-    <decisions>
-        <name>LI_Copy_Check_T4</name>
-        <label>LI Copy Check T4</label>
-        <locationX>300</locationX>
-        <locationY>550</locationY>
-        <defaultConnector><targetReference>Create_LI_Task_T4</targetReference></defaultConnector>
-        <defaultConnectorLabel>LI Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>LI_Copy_Missing_T4</name>
-            <label>LI Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.LinkedIn_Message_Draft_1__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_LI_Task_T4</name>
-        <label>Create LI Task T4</label>
-        <locationX>300</locationX>
-        <locationY>600</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T4_LI</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T4_LI</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T4</targetReference></connector>
-    </recordCreates>
-
-    <!-- Email fallback path: weekend gate -->
-    <decisions>
-        <name>Weekend_Gate_T4</name>
-        <label>Weekend Gate T4</label>
-        <locationX>400</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Email_Copy_Check_T4</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T4</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Email_Copy_Check_T4</name>
-        <label>Email Copy Check T4</label>
-        <locationX>400</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Email_Task_T4</targetReference></defaultConnector>
-        <defaultConnectorLabel>Email Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Email_Copy_Missing_T4</name>
-            <label>Email Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_Sub4__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Email_Task_T4</name>
-        <label>Create Email Task T4</label>
-        <locationX>400</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T4_Email</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T4_Email</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T4</targetReference></connector>
-    </recordCreates>
-
-    <!-- Shared update for Touch 4 (both LI and Email paths converge here) -->
     <recordUpdates>
         <name>Update_Contact_T4</name>
         <label>Update Contact T4</label>
@@ -787,81 +2112,38 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Sequence_Stage__c</field>
-            <value><stringValue>Stage 2 — Value &amp; Credibility</stringValue></value>
+            <value>
+                <stringValue>Stage 2 — Value &amp; Credibility</stringValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>4.0</numberValue></value>
+            <value>
+                <numberValue>4.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T4</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T4</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 5: Phone Call #1 (Day 15) ==================== -->
-
-    <formulas>
-        <name>Subject_T5</name>
-        <dataType>String</dataType>
-        <expression>"Touch 5: Call Attempt #1 — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T5</name>
-        <dataType>String</dataType>
-        <expression>"Call attempt #1." &amp; BR() &amp; BR() &amp; "Phone: " &amp; IF(ISBLANK({!Loop_Contacts.Phone}), "(No phone)", {!Loop_Contacts.Phone}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Company Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Company_Research__c}), "(None)", LEFT({!Loop_Contacts.Company_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Contact Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Contact_Research__c}), "(None)", LEFT({!Loop_Contacts.Contact_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Previous: T1-T4 outreach (LI request, intro email, value email, LI/email follow-up)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after call attempt."</expression>
-    </formulas>
-
-    <recordCreates>
-        <name>Create_Task_T5</name>
-        <label>Create Touch 5 Task</label>
-        <locationX>500</locationX>
-        <locationY>500</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T5</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T5</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T5</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T5</name>
         <label>Update Contact T5</label>
@@ -872,117 +2154,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>5.0</numberValue></value>
+            <value>
+                <numberValue>5.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T5</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T5</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 6: Email from Dylan (Day 21) ==================== -->
-
-    <formulas>
-        <name>Subject_T6</name>
-        <dataType>String</dataType>
-        <expression>"Touch 6: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T6</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_FollowUp__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_FollowUp__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T5 outreach" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
-    </formulas>
-
-    <decisions>
-        <name>Weekend_Gate_T6</name>
-        <label>Weekend Gate T6</label>
-        <locationX>600</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Copy_Check_T6</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T6</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Copy_Check_T6</name>
-        <label>Copy Check T6</label>
-        <locationX>600</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Task_T6</targetReference></defaultConnector>
-        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Copy_Missing_T6</name>
-            <label>Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_FollowUp__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Task_T6</name>
-        <label>Create Touch 6 Task</label>
-        <locationX>600</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T6</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T6</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T6</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T6</name>
         <label>Update Contact T6</label>
@@ -993,117 +2190,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>6.0</numberValue></value>
+            <value>
+                <numberValue>6.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T6</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T6</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 7: Email from Nikki (Day 28) ==================== -->
-
-    <formulas>
-        <name>Subject_T7</name>
-        <dataType>String</dataType>
-        <expression>"Touch 7: Review &amp; Send Email (FROM NIKKI) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T7</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this value-add email FROM NIKKI's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Nikki Cummings" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value2__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value2__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T6 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Send from Nikki's email. Mark task Complete after sending."</expression>
-    </formulas>
-
-    <decisions>
-        <name>Weekend_Gate_T7</name>
-        <label>Weekend Gate T7</label>
-        <locationX>700</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Copy_Check_T7</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T7</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Copy_Check_T7</name>
-        <label>Copy Check T7</label>
-        <locationX>700</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Task_T7</targetReference></defaultConnector>
-        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Copy_Missing_T7</name>
-            <label>Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_Value2__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Task_T7</name>
-        <label>Create Touch 7 Task</label>
-        <locationX>700</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T7</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T7</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T7</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T7</name>
         <label>Update Contact T7</label>
@@ -1114,208 +2226,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>7.0</numberValue></value>
+            <value>
+                <numberValue>7.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T7</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T7</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 8: Hybrid LI/Email from Dylan (Day 32) ==================== -->
-
-    <formulas>
-        <name>Subject_T8_LI</name>
-        <dataType>String</dataType>
-        <expression>"Touch 8: Review &amp; Send LinkedIn Message — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Subject_T8_Email</name>
-        <dataType>String</dataType>
-        <expression>"Touch 8: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T8_LI</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this LinkedIn message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_2__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_2__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T7 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T8_Email</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub8__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub8__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T7 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
-    </formulas>
-
-    <decisions>
-        <name>LinkedIn_Check_T8</name>
-        <label>LinkedIn Check T8</label>
-        <locationX>800</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Weekend_Gate_T8</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Connected</defaultConnectorLabel>
-        <rules>
-            <name>LI_Connected_T8</name>
-            <label>Connected</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><stringValue>Connected</stringValue></rightValue>
-            </conditions>
-            <connector><targetReference>LI_Copy_Check_T8</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>LI_Copy_Check_T8</name>
-        <label>LI Copy Check T8</label>
-        <locationX>800</locationX>
-        <locationY>550</locationY>
-        <defaultConnector><targetReference>Create_LI_Task_T8</targetReference></defaultConnector>
-        <defaultConnectorLabel>LI Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>LI_Copy_Missing_T8</name>
-            <label>LI Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.LinkedIn_Message_Draft_2__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_LI_Task_T8</name>
-        <label>Create LI Task T8</label>
-        <locationX>800</locationX>
-        <locationY>600</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T8_LI</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T8_LI</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T8</targetReference></connector>
-    </recordCreates>
-
-    <decisions>
-        <name>Weekend_Gate_T8</name>
-        <label>Weekend Gate T8</label>
-        <locationX>900</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Email_Copy_Check_T8</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T8</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Email_Copy_Check_T8</name>
-        <label>Email Copy Check T8</label>
-        <locationX>900</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Email_Task_T8</targetReference></defaultConnector>
-        <defaultConnectorLabel>Email Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Email_Copy_Missing_T8</name>
-            <label>Email Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_Sub8__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Email_Task_T8</name>
-        <label>Create Email Task T8</label>
-        <locationX>900</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T8_Email</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T8_Email</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T8</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T8</name>
         <label>Update Contact T8</label>
@@ -1326,102 +2262,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>8.0</numberValue></value>
+            <value>
+                <numberValue>8.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T8</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T8</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 9: Conditional Phone Call #2 (Day 38) ==================== -->
-
-    <formulas>
-        <name>Subject_T9</name>
-        <dataType>String</dataType>
-        <expression>"Touch 9: Call Attempt #2 (Warming Signals) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T9</name>
-        <dataType>String</dataType>
-        <expression>"Call attempt #2 — Contact is showing warming signals." &amp; BR() &amp; BR() &amp; "Phone: " &amp; IF(ISBLANK({!Loop_Contacts.Phone}), "(No phone)", {!Loop_Contacts.Phone}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Company Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Company_Research__c}), "(None)", LEFT({!Loop_Contacts.Company_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Contact Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Contact_Research__c}), "(None)", LEFT({!Loop_Contacts.Contact_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Previous: T1-T8 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after call attempt."</expression>
-    </formulas>
-
-    <decisions>
-        <name>Warming_Check_T9</name>
-        <label>Warming Check T9</label>
-        <locationX>1000</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Update_Contact_T9</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Warm - Skip</defaultConnectorLabel>
-        <rules>
-            <name>Is_Warm_T9</name>
-            <label>Is Warm</label>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Opens_Count__c</leftValueReference>
-                <operator>GreaterThanOrEqualTo</operator>
-                <rightValue><numberValue>2.0</numberValue></rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><stringValue>Connected</stringValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Task_T9</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Task_T9</name>
-        <label>Create Touch 9 Task</label>
-        <locationX>1000</locationX>
-        <locationY>600</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T9</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T9</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T9</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T9</name>
         <label>Update Contact T9</label>
@@ -1432,121 +2298,38 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Sequence_Stage__c</field>
-            <value><stringValue>Stage 3 — Direct Ask</stringValue></value>
+            <value>
+                <stringValue>Stage 3 — Direct Ask</stringValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>9.0</numberValue></value>
+            <value>
+                <numberValue>9.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T9</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T9</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 10: Direct Ask Email from Dylan (Day 49) ==================== -->
-
-    <formulas>
-        <name>Subject_T10</name>
-        <dataType>String</dataType>
-        <expression>"Touch 10: Review &amp; Send Direct Ask Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T10</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this direct ask email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_DirectAsk__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_DirectAsk__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T9 outreach (Stage 3 — Direct Ask)" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
-    </formulas>
-
-    <decisions>
-        <name>Weekend_Gate_T10</name>
-        <label>Weekend Gate T10</label>
-        <locationX>1100</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Copy_Check_T10</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T10</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Copy_Check_T10</name>
-        <label>Copy Check T10</label>
-        <locationX>1100</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Task_T10</targetReference></defaultConnector>
-        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Copy_Missing_T10</name>
-            <label>Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_DirectAsk__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Task_T10</name>
-        <label>Create Touch 10 Task</label>
-        <locationX>1100</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T10</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T10</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T10</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T10</name>
         <label>Update Contact T10</label>
@@ -1557,77 +2340,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>10.0</numberValue></value>
+            <value>
+                <numberValue>10.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T10</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T10</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 11: Phone Call #3 Final (Day 56) ==================== -->
-
-    <formulas>
-        <name>Subject_T11</name>
-        <dataType>String</dataType>
-        <expression>"Touch 11: Final Call Attempt — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T11</name>
-        <dataType>String</dataType>
-        <expression>"Final scheduled call attempt." &amp; BR() &amp; BR() &amp; "Phone: " &amp; IF(ISBLANK({!Loop_Contacts.Phone}), "(No phone)", {!Loop_Contacts.Phone}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Company Research:" &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Company_Research__c}), "(None)", LEFT({!Loop_Contacts.Company_Research__c}, 500)) &amp; BR() &amp; BR() &amp; "Full outreach history: T1-T10 (LI, emails, calls, direct ask)" &amp; BR() &amp; BR() &amp; "⚠️ This is the final scheduled call. Mark Complete after attempt."</expression>
-    </formulas>
-
-    <recordCreates>
-        <name>Create_Task_T11</name>
-        <label>Create Touch 11 Task</label>
-        <locationX>1200</locationX>
-        <locationY>500</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T11</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T11</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T11</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T11</name>
         <label>Update Contact T11</label>
@@ -1638,208 +2376,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>11.0</numberValue></value>
+            <value>
+                <numberValue>11.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T11</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T11</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 12: Hybrid LI/Email from Dylan (Day 63) ==================== -->
-
-    <formulas>
-        <name>Subject_T12_LI</name>
-        <dataType>String</dataType>
-        <expression>"Touch 12: Review &amp; Send LinkedIn Follow-Up — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Subject_T12_Email</name>
-        <dataType>String</dataType>
-        <expression>"Touch 12: Review &amp; Send Follow-Up Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T12_LI</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this LinkedIn follow-up message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_3__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_3__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T11 outreach (Stage 3 — nearing end of sequence)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T12_Email</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub12__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub12__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T11 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
-    </formulas>
-
-    <decisions>
-        <name>LinkedIn_Check_T12</name>
-        <label>LinkedIn Check T12</label>
-        <locationX>1300</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Weekend_Gate_T12</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Connected</defaultConnectorLabel>
-        <rules>
-            <name>LI_Connected_T12</name>
-            <label>Connected</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.LinkedIn_Connected__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><stringValue>Connected</stringValue></rightValue>
-            </conditions>
-            <connector><targetReference>LI_Copy_Check_T12</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>LI_Copy_Check_T12</name>
-        <label>LI Copy Check T12</label>
-        <locationX>1300</locationX>
-        <locationY>550</locationY>
-        <defaultConnector><targetReference>Create_LI_Task_T12</targetReference></defaultConnector>
-        <defaultConnectorLabel>LI Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>LI_Copy_Missing_T12</name>
-            <label>LI Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.LinkedIn_Message_Draft_3__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_LI_Task_T12</name>
-        <label>Create LI Task T12</label>
-        <locationX>1300</locationX>
-        <locationY>600</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T12_LI</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T12_LI</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T12</targetReference></connector>
-    </recordCreates>
-
-    <decisions>
-        <name>Weekend_Gate_T12</name>
-        <label>Weekend Gate T12</label>
-        <locationX>1400</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Email_Copy_Check_T12</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T12</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Email_Copy_Check_T12</name>
-        <label>Email Copy Check T12</label>
-        <locationX>1400</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Email_Task_T12</targetReference></defaultConnector>
-        <defaultConnectorLabel>Email Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Email_Copy_Missing_T12</name>
-            <label>Email Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_Sub12__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Email_Task_T12</name>
-        <label>Create Email Task T12</label>
-        <locationX>1400</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T12_Email</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T12_Email</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T12</targetReference></connector>
-    </recordCreates>
-
     <recordUpdates>
         <name>Update_Contact_T12</name>
         <label>Update Contact T12</label>
@@ -1850,118 +2412,32 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>12.0</numberValue></value>
+            <value>
+                <numberValue>12.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Next_Touch_Date__c</field>
-            <value><elementReference>NTD_After_T12</elementReference></value>
+            <value>
+                <elementReference>NTD_After_T12</elementReference>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
-    <!-- ==================== TOUCH 13: Pause Email from Dylan — TERMINAL (Day 77) ==================== -->
-
-    <formulas>
-        <name>Subject_T13</name>
-        <dataType>String</dataType>
-        <expression>"Touch 13: Review &amp; Send Pause Email — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
-    </formulas>
-    <formulas>
-        <name>Desc_T13</name>
-        <dataType>String</dataType>
-        <expression>"Review and send this pause email FROM DYLAN's email address." &amp; BR() &amp; "This is the FINAL touch in the sequence." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Pause__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Pause__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T12 complete outreach sequence" &amp; BR() &amp; BR() &amp; "After sending, this contact automatically moves to Deferred status. No further touches will be scheduled." &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
-    </formulas>
-
-    <decisions>
-        <name>Weekend_Gate_T13</name>
-        <label>Weekend Gate T13</label>
-        <locationX>1500</locationX>
-        <locationY>500</locationY>
-        <defaultConnector><targetReference>Copy_Check_T13</targetReference></defaultConnector>
-        <defaultConnectorLabel>Not Weekend</defaultConnectorLabel>
-        <rules>
-            <name>Is_Weekend_T13</name>
-            <label>Is Weekend</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Is_Weekend</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Loop_Contacts</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <decisions>
-        <name>Copy_Check_T13</name>
-        <label>Copy Check T13</label>
-        <locationX>1500</locationX>
-        <locationY>600</locationY>
-        <defaultConnector><targetReference>Create_Task_T13</targetReference></defaultConnector>
-        <defaultConnectorLabel>Copy Present</defaultConnectorLabel>
-        <rules>
-            <name>Copy_Missing_T13</name>
-            <label>Copy Missing</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_Pause__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector><targetReference>Create_Missing_Copy_Task</targetReference></connector>
-        </rules>
-    </decisions>
-
-    <recordCreates>
-        <name>Create_Task_T13</name>
-        <label>Create Touch 13 Task</label>
-        <locationX>1500</locationX>
-        <locationY>700</locationY>
-        <inputAssignments>
-            <field>Subject</field>
-            <value><elementReference>Subject_T13</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value><stringValue>{{DYLAN_USER_ID}}</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value><stringValue>Normal</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value><stringValue>Not Started</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Sequence_Task__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value><elementReference>Desc_T13</elementReference></value>
-        </inputAssignments>
-        <object>Task</object>
-        <connector><targetReference>Update_Contact_T13</targetReference></connector>
-    </recordCreates>
-
-    <!-- Terminal state: Deferred -->
     <recordUpdates>
         <name>Update_Contact_T13</name>
         <label>Update Contact T13 — Terminal</label>
@@ -1972,29 +2448,55 @@
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
-            <value><elementReference>Loop_Contacts.Id</elementReference></value>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
         </filters>
         <inputAssignments>
             <field>Outreach_Status__c</field>
-            <value><stringValue>Deferred</stringValue></value>
+            <value>
+                <stringValue>Deferred</stringValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Sequence_Status__c</field>
-            <value><stringValue>Deferred</stringValue></value>
+            <value>
+                <stringValue>Deferred</stringValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Sequence_Stage__c</field>
-            <value><stringValue>Completed</stringValue></value>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Current_Touch__c</field>
-            <value><numberValue>13.0</numberValue></value>
+            <value>
+                <numberValue>13.0</numberValue>
+            </value>
         </inputAssignments>
         <inputAssignments>
             <field>Last_Touch_Date__c</field>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </inputAssignments>
-        <connector><targetReference>Loop_Contacts</targetReference></connector>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
     </recordUpdates>
-
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Eligible_Contacts</targetReference>
+        </connector>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startTime>13:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
 </Flow>

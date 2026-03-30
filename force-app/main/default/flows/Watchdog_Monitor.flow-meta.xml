@@ -1,133 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>62.0</apiVersion>
-    <label>Watchdog Monitor</label>
-    <description>Flow 6: Daily watchdog at 9 AM CT — catches scheduler failures (missed touches) and JIT pipeline issues (missing copy). Alerts travis@appliedintelligenceai.co.</description>
-    <status>Active</status>
-    <processType>AutoLaunchedFlow</processType>
-
-    <start>
+    <actionCalls>
+        <name>Send_Missed_Touch_Alert</name>
+        <label>Send Missed Touch Alert</label>
         <locationX>50</locationX>
-        <locationY>0</locationY>
-        <scheduledPaths>
-            <name>Daily_9AM_CT</name>
-            <label>Daily 9 AM CT</label>
-            <connector>
-                <targetReference>Get_Missed_Touch_Contacts</targetReference>
-            </connector>
-            <timeSource>RecordTriggerEvent</timeSource>
-        </scheduledPaths>
-        <schedule>
-            <frequency>Daily</frequency>
-            <startTime>09:00:00.000Z</startTime>
-        </schedule>
-        <triggerType>Scheduled</triggerType>
-    </start>
-
-    <!-- Variables for collecting alert data -->
-    <variables>
-        <name>MissedTouchContactIds</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <stringValue></stringValue>
-        </value>
-    </variables>
-    <variables>
-        <name>MissedTouchCount</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <scale>0</scale>
-        <value>
-            <numberValue>0.0</numberValue>
-        </value>
-    </variables>
-    <variables>
-        <name>MissingCopyContactIds</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <stringValue></stringValue>
-        </value>
-    </variables>
-    <variables>
-        <name>MissingCopyCount</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <scale>0</scale>
-        <value>
-            <numberValue>0.0</numberValue>
-        </value>
-    </variables>
-
-    <!-- Formula: 3 days from now for missing copy check -->
-    <formulas>
-        <name>Three_Days_From_Now</name>
-        <dataType>Date</dataType>
-        <expression>{!$Flow.CurrentDate} + 3</expression>
-    </formulas>
-
-    <!-- Query 1: Missed Touches — Active contacts with overdue Next_Touch_Date -->
-    <recordLookups>
-        <name>Get_Missed_Touch_Contacts</name>
-        <label>Get Missed Touch Contacts</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
-        <object>Contact</object>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Sequence_Status__c</field>
-            <operator>EqualTo</operator>
+        <locationY>614</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <inputParameters>
+            <name>emailAddresses</name>
             <value>
-                <stringValue>Active</stringValue>
+                <stringValue>travis@appliedintelligenceai.co</stringValue>
             </value>
-        </filters>
-        <filters>
-            <field>Next_Touch_Date__c</field>
-            <operator>LessThan</operator>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
             <value>
-                <elementReference>$Flow.CurrentDate</elementReference>
+                <stringValue>Watchdog Alert: Missed Touches Detected</stringValue>
             </value>
-        </filters>
-        <filters>
-            <field>Exclude_From_Sequence__c</field>
-            <operator>EqualTo</operator>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
             <value>
-                <booleanValue>false</booleanValue>
+                <elementReference>Missed_Touch_Email_Body</elementReference>
             </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        </inputParameters>
         <connector>
-            <targetReference>Loop_Missed_Touches</targetReference>
+            <targetReference>Get_Missing_Copy_Contacts</targetReference>
         </connector>
-    </recordLookups>
-
-    <!-- Loop: Build missed touch contact ID list -->
-    <loops>
-        <name>Loop_Missed_Touches</name>
-        <label>Loop Missed Touches</label>
-        <locationX>176</locationX>
-        <locationY>266</locationY>
-        <collectionReference>Get_Missed_Touch_Contacts</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Append_Missed_Touch_Id</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Check_Missed_Touches</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-
-    <!-- Assignment: Append contact ID to missed touch list -->
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Missing_Copy_Alert</name>
+        <label>Send Missing Copy Alert</label>
+        <locationX>50</locationX>
+        <locationY>1310</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>travis@appliedintelligenceai.co</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Watchdog Alert: Missing Copy Detected</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Missing_Copy_Email_Body</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
     <assignments>
         <name>Append_Missed_Touch_Id</name>
         <label>Append Missed Touch Id</label>
@@ -158,8 +86,36 @@
             <targetReference>Loop_Missed_Touches</targetReference>
         </connector>
     </assignments>
-
-    <!-- Decision: Are there missed touches? -->
+    <assignments>
+        <name>Append_Missing_Copy_Id</name>
+        <label>Append Missing Copy Id</label>
+        <locationX>352</locationX>
+        <locationY>1046</locationY>
+        <assignmentItems>
+            <assignToReference>MissingCopyContactIds</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>MissingCopyContactIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MissingCopyContactIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Missing_Copy.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MissingCopyCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Missing_Copy</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Missed_Touches</name>
         <label>Check Missed Touches</label>
@@ -185,100 +141,6 @@
             </connector>
         </rules>
     </decisions>
-
-    <!-- Action: Send Missed Touch Alert Email -->
-    <actionCalls>
-        <name>Send_Missed_Touch_Alert</name>
-        <label>Send Missed Touch Alert</label>
-        <locationX>50</locationX>
-        <locationY>614</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <inputParameters>
-            <name>emailAddresses</name>
-            <value>
-                <stringValue>travis@appliedintelligenceai.co</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>Watchdog Alert: Missed Touches Detected</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <elementReference>Missed_Touch_Email_Body</elementReference>
-            </value>
-        </inputParameters>
-        <connector>
-            <targetReference>Get_Missing_Copy_Contacts</targetReference>
-        </connector>
-    </actionCalls>
-
-    <!-- Formula: Missed Touch Email Body -->
-    <formulas>
-        <name>Missed_Touch_Email_Body</name>
-        <dataType>String</dataType>
-        <expression>"Watchdog: " &amp; TEXT({!MissedTouchCount}) &amp; " contacts have overdue touches that weren't processed by the 7 AM scheduler." &amp; BR() &amp; BR() &amp;
-"Contact IDs: " &amp; {!MissedTouchContactIds} &amp; BR() &amp; BR() &amp;
-"Investigate scheduler execution. These contacts had Next_Touch_Date before today but were not advanced."</expression>
-    </formulas>
-
-    <!-- Query 2: Missing Copy — Active contacts approaching touches with blank draft fields -->
-    <recordLookups>
-        <name>Get_Missing_Copy_Contacts</name>
-        <label>Get Missing Copy Contacts</label>
-        <locationX>176</locationX>
-        <locationY>746</locationY>
-        <object>Contact</object>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Sequence_Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Active</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Next_Touch_Date__c</field>
-            <operator>LessThanOrEqualTo</operator>
-            <value>
-                <elementReference>Three_Days_From_Now</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Exclude_From_Sequence__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <connector>
-            <targetReference>Loop_Missing_Copy</targetReference>
-        </connector>
-    </recordLookups>
-
-    <!-- Loop: Check each contact for missing copy -->
-    <loops>
-        <name>Loop_Missing_Copy</name>
-        <label>Loop Missing Copy</label>
-        <locationX>176</locationX>
-        <locationY>878</locationY>
-        <collectionReference>Get_Missing_Copy_Contacts</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Check_Draft_Field_For_Touch</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Check_Missing_Copy</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-
-    <!-- Decision: Check if the next draft field is blank based on Current_Touch -->
     <decisions>
         <name>Check_Draft_Field_For_Touch</name>
         <label>Check Draft Field For Touch</label>
@@ -421,40 +283,6 @@
             </connector>
         </rules>
     </decisions>
-
-    <!-- Assignment: Append missing copy contact ID -->
-    <assignments>
-        <name>Append_Missing_Copy_Id</name>
-        <label>Append Missing Copy Id</label>
-        <locationX>352</locationX>
-        <locationY>1046</locationY>
-        <assignmentItems>
-            <assignToReference>MissingCopyContactIds</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>MissingCopyContactIds</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MissingCopyContactIds</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Loop_Missing_Copy.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MissingCopyCount</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <numberValue>1.0</numberValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Loop_Missing_Copy</targetReference>
-        </connector>
-    </assignments>
-
-    <!-- Decision: Are there missing copy contacts? -->
     <decisions>
         <name>Check_Missing_Copy</name>
         <label>Check Missing Copy</label>
@@ -477,36 +305,19 @@
             </connector>
         </rules>
     </decisions>
-
-    <!-- Action: Send Missing Copy Alert Email -->
-    <actionCalls>
-        <name>Send_Missing_Copy_Alert</name>
-        <label>Send Missing Copy Alert</label>
-        <locationX>50</locationX>
-        <locationY>1310</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <inputParameters>
-            <name>emailAddresses</name>
-            <value>
-                <stringValue>travis@appliedintelligenceai.co</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <stringValue>Watchdog Alert: Missing Copy Detected</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <elementReference>Missing_Copy_Email_Body</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-
-    <!-- Formula: Missing Copy Email Body -->
+    <description>Flow 6: Daily watchdog at 9 AM CT — catches scheduler failures (missed touches) and JIT pipeline issues (missing copy). Alerts travis@appliedintelligenceai.co.</description>
+    <formulas>
+        <name>Three_Days_From_Now</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate} + 3</expression>
+    </formulas>
+    <formulas>
+        <name>Missed_Touch_Email_Body</name>
+        <dataType>String</dataType>
+        <expression>"Watchdog: " &amp; TEXT({!MissedTouchCount}) &amp; " contacts have overdue touches that weren't processed by the 7 AM scheduler." &amp; BR() &amp; BR() &amp;
+"Contact IDs: " &amp; {!MissedTouchContactIds} &amp; BR() &amp; BR() &amp;
+"Investigate scheduler execution. These contacts had Next_Touch_Date before today but were not advanced."</expression>
+    </formulas>
     <formulas>
         <name>Missing_Copy_Email_Body</name>
         <dataType>String</dataType>
@@ -514,4 +325,162 @@
 "Contact IDs: " &amp; {!MissingCopyContactIds} &amp; BR() &amp; BR() &amp;
 "These contacts have Next_Touch_Date within the next 3 days but the required draft copy field is blank. Investigate JIT pipeline execution."</expression>
     </formulas>
+    <label>Watchdog Monitor</label>
+    <loops>
+        <name>Loop_Missed_Touches</name>
+        <label>Loop Missed Touches</label>
+        <locationX>176</locationX>
+        <locationY>266</locationY>
+        <collectionReference>Get_Missed_Touch_Contacts</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Append_Missed_Touch_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Check_Missed_Touches</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Missing_Copy</name>
+        <label>Loop Missing Copy</label>
+        <locationX>176</locationX>
+        <locationY>878</locationY>
+        <collectionReference>Get_Missing_Copy_Contacts</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Draft_Field_For_Touch</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Check_Missing_Copy</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Missed_Touch_Contacts</name>
+        <label>Get Missed Touch Contacts</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <object>Contact</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Sequence_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Next_Touch_Date__c</field>
+            <operator>LessThan</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Exclude_From_Sequence__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Loop_Missed_Touches</targetReference>
+        </connector>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Missing_Copy_Contacts</name>
+        <label>Get Missing Copy Contacts</label>
+        <locationX>176</locationX>
+        <locationY>746</locationY>
+        <object>Contact</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Sequence_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Next_Touch_Date__c</field>
+            <operator>LessThanOrEqualTo</operator>
+            <value>
+                <elementReference>Three_Days_From_Now</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Exclude_From_Sequence__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Loop_Missing_Copy</targetReference>
+        </connector>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <scheduledPaths>
+            <name>Daily_9AM_CT</name>
+            <label>Daily 9 AM CT</label>
+            <connector>
+                <targetReference>Get_Missed_Touch_Contacts</targetReference>
+            </connector>
+            <timeSource>RecordTriggerEvent</timeSource>
+        </scheduledPaths>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startTime>09:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>MissedTouchContactIds</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue />
+        </value>
+    </variables>
+    <variables>
+        <name>MissedTouchCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>MissingCopyContactIds</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue />
+        </value>
+    </variables>
+    <variables>
+        <name>MissingCopyCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
 </Flow>

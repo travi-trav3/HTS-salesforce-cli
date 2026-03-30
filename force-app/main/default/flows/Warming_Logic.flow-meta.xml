@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
-    <label>Warming Logic</label>
+    <decisions>
+        <name>Check_Warming_Criteria</name>
+        <label>Check Warming Criteria</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <defaultConnectorLabel>Not Yet Warm</defaultConnectorLabel>
+        <rules>
+            <name>Contact_Is_Warming</name>
+            <label>Contact Is Warming</label>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Email_Opens_Count__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LinkedIn_Connected__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Connected</stringValue>
+                </rightValue>
+            </conditions>
+        </rules>
+    </decisions>
     <description>Flow 4: Internal warming logic — tracks email opens and LinkedIn connections. No visible status changes. Data consumed by Flow 2 for Touch 9 conditional call.</description>
-    <status>Active</status>
+    <label>Warming Logic</label>
     <processType>AutoLaunchedFlow</processType>
-    <triggerType>RecordAfterSave</triggerType>
-    <recordTriggerType>Update</recordTriggerType>
-
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
@@ -47,34 +69,5 @@
             <targetReference>Check_Warming_Criteria</targetReference>
         </connector>
     </start>
-
-    <!-- Decision: Check if warming criteria met (for logging/future use) -->
-    <decisions>
-        <name>Check_Warming_Criteria</name>
-        <label>Check Warming Criteria</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
-        <defaultConnectorLabel>Not Yet Warm</defaultConnectorLabel>
-        <rules>
-            <name>Contact_Is_Warming</name>
-            <label>Contact Is Warming</label>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Email_Opens_Count__c</leftValueReference>
-                <operator>GreaterThanOrEqualTo</operator>
-                <rightValue>
-                    <numberValue>2.0</numberValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.LinkedIn_Connected__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Connected</stringValue>
-                </rightValue>
-            </conditions>
-        </rules>
-    </decisions>
-    <!-- No actions — this flow exists as a structural placeholder.
-         Warming data is consumed by Flow 2 (Cadence Scheduler) Touch 9 conditional. -->
+    <status>Active</status>
 </Flow>
