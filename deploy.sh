@@ -117,10 +117,31 @@ echo ""
 
 # Deploy flexipages
 echo "Step 4b: Deploying Lightning Record Pages..."
-sf project deploy start \
+if ! sf project deploy start \
   --source-dir "$TEMP_DIR/force-app/main/default/flexipages" \
   --target-org "$ORG_ALIAS" \
-  --wait 10
+  --wait 10 2>&1; then
+  echo ""
+  echo "WARNING: FlexiPage failed to deploy via metadata API."
+  echo "Record pages are easiest to build in Lightning App Builder."
+  echo ""
+  echo ">>> BUILD IT MANUALLY (2 minutes):"
+  echo "  1. Go to Setup → Object Manager → Contact → Lightning Record Pages"
+  echo "  2. Click New → Record Page → 'Contact Outreach Record Page'"
+  echo "  3. Choose Header + Two Column layout"
+  echo "  4. Add 5 Field Sections (drag from left panel):"
+  echo "     Section 1: 'Standard Contact Info' — Name, Account, Title, Phone, Email, LinkedIn URL"
+  echo "     Section 2: 'Outreach Sequence' — Outreach Status, Sequence Stage, Sequence Status,"
+  echo "                Current Touch, Next Touch Date, Last Touch Date, LinkedIn Connected,"
+  echo "                Copy Generated Through Stage"
+  echo "     Section 3: 'Research & Signals' — Company Research, Contact Research, Contact Specialty,"
+  echo "                Intent Score, Intent Signals, Signal Source, Email Verified, Enrichment Source"
+  echo "     Section 4: 'Draft Copy' (set collapsed) — all Email_Draft and LinkedIn_Message_Draft fields"
+  echo "     Section 5: 'Sequence History' — Start Date, Meaningful Reply, Reply Date/Channel/Type,"
+  echo "                Email Opens Count, Exclude From Sequence"
+  echo "  5. Save → Activate → Assign as Org Default for Contact"
+  echo ""
+fi
 
 echo ""
 
