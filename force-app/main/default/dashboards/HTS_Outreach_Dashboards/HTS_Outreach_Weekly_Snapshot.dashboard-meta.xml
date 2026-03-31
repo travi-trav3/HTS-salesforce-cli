@@ -8,10 +8,11 @@
             <operator>equals</operator>
             <values>Active</values>
         </dashboardFilterOptions>
+        <column>Contact.Sequence_Status__c</column>
         <name>Sequence Status</name>
     </dashboardFilters>
     <dashboardType>SpecifiedUser</dashboardType>
-    <isGridLayout>true</isGridLayout>
+    <isGridLayout>false</isGridLayout>
     <leftSection>
         <columnSize>Medium</columnSize>
         <components>

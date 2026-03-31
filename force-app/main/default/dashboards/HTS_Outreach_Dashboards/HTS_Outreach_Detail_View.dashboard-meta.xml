@@ -4,7 +4,7 @@
     <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
     <backgroundStartColor>#FFFFFF</backgroundStartColor>
     <dashboardType>SpecifiedUser</dashboardType>
-    <isGridLayout>true</isGridLayout>
+    <isGridLayout>false</isGridLayout>
     <leftSection>
         <columnSize>Medium</columnSize>
         <components>
