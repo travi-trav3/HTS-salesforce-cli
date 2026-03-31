@@ -153,6 +153,32 @@ sf project deploy start \
   --wait 10
 
 echo ""
+
+# Deploy reports
+echo "Step 4d: Deploying Reports..."
+if [ -d "$TEMP_DIR/force-app/main/default/reports" ]; then
+  sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/reports" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10
+else
+  echo "  No reports directory found — skipping."
+fi
+
+echo ""
+
+# Deploy dashboards
+echo "Step 4e: Deploying Dashboards..."
+if [ -d "$TEMP_DIR/force-app/main/default/dashboards" ]; then
+  sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/dashboards" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10
+else
+  echo "  No dashboards directory found — skipping."
+fi
+
+echo ""
 echo "=== Deployment Complete ==="
 echo ""
 echo "Verification checklist:"
@@ -162,3 +188,4 @@ echo "  3. Check Object Manager → Task → Fields for Sequence_Task__c"
 echo "  4. Check Contact Record Page assignment"
 echo "  5. Create test Contact with Signal_Source → verify Flow 1 fires"
 echo "  6. Set Next_Touch_Date=TODAY on active contact → verify Flow 2 creates task"
+echo "  7. Check Dashboards tab for HTS Outreach dashboards"
