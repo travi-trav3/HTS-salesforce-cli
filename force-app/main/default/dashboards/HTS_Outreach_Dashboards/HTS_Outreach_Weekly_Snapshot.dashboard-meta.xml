@@ -15,7 +15,7 @@
     <leftSection>
         <columnSize>Medium</columnSize>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <chartAxisRange>Auto</chartAxisRange>
             <componentType>Funnel</componentType>
             <dashboardFilterColumns>
@@ -88,7 +88,7 @@
             <report>HTS_Outreach_Reports/Dylan_Task_Completion</report>
         </components>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <chartAxisRange>Auto</chartAxisRange>
             <componentType>Bar</componentType>
             <displayUnits>Auto</displayUnits>
