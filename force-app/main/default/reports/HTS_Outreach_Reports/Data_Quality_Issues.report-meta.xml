@@ -10,10 +10,10 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>PHONE</field>
+        <field>Contact.Phone</field>
     </columns>
     <columns>
-        <field>EMAIL</field>
+        <field>Contact.Email</field>
     </columns>
     <columns>
         <field>Contact.Contact_Specialty__c</field>
@@ -22,14 +22,14 @@
     <filter>
         <booleanFilter>1 OR 2 OR 3</booleanFilter>
         <criteriaItems>
-            <column>PHONE</column>
+            <column>Contact.Phone</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value></value>
         </criteriaItems>
         <criteriaItems>
-            <column>EMAIL</column>
+            <column>Contact.Email</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>

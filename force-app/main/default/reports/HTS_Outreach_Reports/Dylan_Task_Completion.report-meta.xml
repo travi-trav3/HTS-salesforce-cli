@@ -7,9 +7,6 @@
         <field>DUE_DATE</field>
     </columns>
     <columns>
-        <field>STATUS</field>
-    </columns>
-    <columns>
         <field>CONTACT</field>
     </columns>
     <description>Tasks assigned to Dylan this week — completed vs overdue</description>

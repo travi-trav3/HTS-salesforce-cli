@@ -34,6 +34,6 @@
     <showDetails>true</showDetails>
     <timeFrameFilter>
         <dateColumn>Contact.Reply_Date__c</dateColumn>
-        <interval>INTERVAL_LAST14</interval>
+        <interval>INTERVAL_LAST30</interval>
     </timeFrameFilter>
 </Report>
