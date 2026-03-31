@@ -163,10 +163,14 @@ echo ""
 # Deploy reports
 echo "Step 4d: Deploying Reports..."
 if [ -d "$TEMP_DIR/force-app/main/default/reports" ]; then
-  sf project deploy start \
+  if ! sf project deploy start \
     --source-dir "$TEMP_DIR/force-app/main/default/reports" \
     --target-org "$ORG_ALIAS" \
-    --wait 10
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Some reports failed to deploy. Check errors above."
+    echo ""
+  fi
 else
   echo "  No reports directory found — skipping."
 fi
@@ -176,10 +180,14 @@ echo ""
 # Deploy dashboards
 echo "Step 4e: Deploying Dashboards..."
 if [ -d "$TEMP_DIR/force-app/main/default/dashboards" ]; then
-  sf project deploy start \
+  if ! sf project deploy start \
     --source-dir "$TEMP_DIR/force-app/main/default/dashboards" \
     --target-org "$ORG_ALIAS" \
-    --wait 10
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Some dashboards failed to deploy. Check errors above."
+    echo ""
+  fi
 else
   echo "  No dashboards directory found — skipping."
 fi
