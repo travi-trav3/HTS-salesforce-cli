@@ -35,7 +35,7 @@
             <useReportChart>false</useReportChart>
         </components>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <componentType>Metric</componentType>
             <displayUnits>Auto</displayUnits>
             <header>Engaged Count</header>
@@ -49,7 +49,7 @@
     <middleSection>
         <columnSize>Medium</columnSize>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <componentType>Metric</componentType>
             <displayUnits>Auto</displayUnits>
             <header>Meetings Booked</header>
@@ -60,7 +60,7 @@
             <report>HTS_Outreach_Reports/Meetings_Booked</report>
         </components>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <componentType>Metric</componentType>
             <displayUnits>Auto</displayUnits>
             <header>Active Contacts</header>
@@ -74,7 +74,7 @@
     <rightSection>
         <columnSize>Medium</columnSize>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <componentType>Gauge</componentType>
             <displayUnits>Auto</displayUnits>
             <gaugeMax>50.0</gaugeMax>

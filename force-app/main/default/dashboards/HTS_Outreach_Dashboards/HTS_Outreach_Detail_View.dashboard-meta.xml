@@ -41,7 +41,7 @@
     <middleSection>
         <columnSize>Medium</columnSize>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <componentType>Metric</componentType>
             <displayUnits>Auto</displayUnits>
             <header>Deferred Count</header>
@@ -52,7 +52,7 @@
             <report>HTS_Outreach_Reports/Deferred_Contacts</report>
         </components>
         <components>
-            <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <componentType>Metric</componentType>
             <displayUnits>Auto</displayUnits>
             <header>Data Quality Issues</header>
