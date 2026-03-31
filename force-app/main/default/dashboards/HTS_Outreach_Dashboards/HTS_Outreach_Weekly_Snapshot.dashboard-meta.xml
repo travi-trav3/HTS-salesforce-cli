@@ -4,7 +4,6 @@
     <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
     <backgroundStartColor>#FFFFFF</backgroundStartColor>
     <dashboardFilters>
-        <column>Contact.Sequence_Status__c</column>
         <dashboardFilterOptions>
             <operator>equals</operator>
             <values>Active</values>
