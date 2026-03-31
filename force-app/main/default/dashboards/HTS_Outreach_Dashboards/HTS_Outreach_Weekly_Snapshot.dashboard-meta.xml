@@ -3,13 +3,6 @@
     <backgroundEndColor>#FFFFFF</backgroundEndColor>
     <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
     <backgroundStartColor>#FFFFFF</backgroundStartColor>
-    <dashboardFilters>
-        <dashboardFilterOptions>
-            <operator>equals</operator>
-            <values>Active</values>
-        </dashboardFilterOptions>
-        <name>Sequence Status</name>
-    </dashboardFilters>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>false</isGridLayout>
     <leftSection>
@@ -18,9 +11,6 @@
             <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <chartAxisRange>Auto</chartAxisRange>
             <componentType>Funnel</componentType>
-            <dashboardFilterColumns>
-                <column>Contact.Sequence_Status__c</column>
-            </dashboardFilterColumns>
             <displayUnits>Auto</displayUnits>
             <drillEnabled>true</drillEnabled>
             <drillToDetailEnabled>true</drillToDetailEnabled>
