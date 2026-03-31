@@ -10,7 +10,7 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Contact.Reply_Date__c</field>
+        <field>Contact.Outreach_Status__c</field>
     </columns>
     <description>Contacts that became Engaged this week vs last week for trend comparison</description>
     <filter>

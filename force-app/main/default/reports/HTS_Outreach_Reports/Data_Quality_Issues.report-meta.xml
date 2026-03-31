@@ -10,31 +10,16 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Contact.Phone</field>
-    </columns>
-    <columns>
-        <field>Contact.Email</field>
-    </columns>
-    <columns>
         <field>Contact.Contact_Specialty__c</field>
     </columns>
-    <description>Contacts missing phone, email, or specialty — enrichment gaps</description>
+    <columns>
+        <field>Contact.Email_Verified__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Enrichment_Source__c</field>
+    </columns>
+    <description>Contacts with specialty marked Unknown — enrichment gaps to address</description>
     <filter>
-        <booleanFilter>1 OR 2 OR 3</booleanFilter>
-        <criteriaItems>
-            <column>Contact.Phone</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value></value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Contact.Email</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value></value>
-        </criteriaItems>
         <criteriaItems>
             <column>Contact.Contact_Specialty__c</column>
             <columnToColumn>false</columnToColumn>
