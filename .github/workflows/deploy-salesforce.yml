@@ -1,0 +1,29 @@
+name: Deploy to Salesforce
+
+on:
+  push:
+    branches:
+      - claude/generate-salesforce-metadata-cQcGg
+    paths:
+      - 'force-app/**'
+      - 'deploy.sh'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Salesforce CLI
+        run: npm install -g @salesforce/cli
+
+      - name: Authenticate to Salesforce
+        run: |
+          echo "${{ secrets.SFDX_AUTH_URL }}" > auth_url.txt
+          sf org login sfdx-url --sfdx-url-file auth_url.txt --alias hts-prod --set-default
+          rm auth_url.txt
+
+      - name: Deploy metadata
+        run: |
+          chmod +x deploy.sh
+          ./deploy.sh

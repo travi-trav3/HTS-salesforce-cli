@@ -18,17 +18,22 @@ echo ""
 # ----------------------------------------------------------
 # Step 1: Query Dylan's User ID
 # ----------------------------------------------------------
-echo "Querying Dylan's User ID from $ORG_ALIAS..."
-DYLAN_QUERY=$(sf data query \
-  --query "SELECT Id FROM User WHERE Name LIKE '%Dylan%' AND IsActive=true LIMIT 1" \
-  --target-org "$ORG_ALIAS" \
-  --json 2>&1) || {
-  echo "ERROR: Failed to query Dylan's User ID from $ORG_ALIAS"
-  echo "$DYLAN_QUERY"
-  exit 1
-}
+if [ "${CI:-}" = "true" ]; then
+  # In GitHub Actions, skip the query and use the known ID
+  DYLAN_USER_ID="005fI0000049deAQAQ"
+  echo "CI mode: Using hardcoded Dylan User ID: $DYLAN_USER_ID"
+else
+  echo "Querying Dylan's User ID from $ORG_ALIAS..."
+  DYLAN_QUERY=$(sf data query \
+    --query "SELECT Id FROM User WHERE Name LIKE '%Dylan%' AND IsActive=true LIMIT 1" \
+    --target-org "$ORG_ALIAS" \
+    --json 2>&1) || {
+    echo "ERROR: Failed to query Dylan's User ID from $ORG_ALIAS"
+    echo "$DYLAN_QUERY"
+    exit 1
+  }
 
-DYLAN_USER_ID=$(echo "$DYLAN_QUERY" | python3 -c "
+  DYLAN_USER_ID=$(echo "$DYLAN_QUERY" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 records = data.get('result', {}).get('records', [])
@@ -36,12 +41,13 @@ if not records:
     sys.exit(1)
 print(records[0]['Id'])
 " 2>/dev/null) || {
-  echo "ERROR: No active user matching 'Dylan' found in $ORG_ALIAS"
-  echo "Query result: $DYLAN_QUERY"
-  exit 1
-}
+    echo "ERROR: No active user matching 'Dylan' found in $ORG_ALIAS"
+    echo "Query result: $DYLAN_QUERY"
+    exit 1
+  }
 
-echo "  Dylan's User ID: $DYLAN_USER_ID"
+  echo "  Dylan's User ID: $DYLAN_USER_ID"
+fi
 echo ""
 
 # ----------------------------------------------------------
