@@ -28,7 +28,12 @@
             <value>Active</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Outreach_Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Active Contacts</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>

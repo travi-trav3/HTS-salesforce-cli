@@ -25,7 +25,12 @@
             <value>Engaged</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Reply_Channel__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Engaged Contacts</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>

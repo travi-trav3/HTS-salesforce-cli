@@ -28,7 +28,12 @@
             <value>Unknown</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Enrichment_Source__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Data Quality Issues</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>

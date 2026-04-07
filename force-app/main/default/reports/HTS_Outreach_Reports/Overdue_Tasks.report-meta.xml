@@ -40,7 +40,12 @@
             <value>Completed</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>STATUS</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Overdue Tasks</name>
     <reportType>Activity</reportType>
     <scope>organization</scope>

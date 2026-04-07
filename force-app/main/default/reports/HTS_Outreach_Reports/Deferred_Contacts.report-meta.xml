@@ -22,7 +22,12 @@
             <value>Deferred</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Reply_Type__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Deferred Contacts</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>

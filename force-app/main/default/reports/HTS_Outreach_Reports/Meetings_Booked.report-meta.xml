@@ -22,7 +22,12 @@
             <value>Meeting Scheduled</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Outreach_Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Meetings Booked</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>

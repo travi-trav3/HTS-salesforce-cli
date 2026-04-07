@@ -36,7 +36,12 @@
             <value>LAST_N_DAYS:7</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Sequence_Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Stale Contacts</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>
