@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Research_Last_Updated__c</fullName>
+    <label>Research Last Updated</label>
+    <description>Date when Company_Research__c was last written or refreshed. Used by agents to determine whether to refresh research.</description>
+    <type>Date</type>
+</CustomField>

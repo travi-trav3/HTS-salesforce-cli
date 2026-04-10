@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Research__c</fullName>
+    <label>Company Research</label>
+    <description>AI-generated company research. Updated by Scout at creation and refreshed by Lookahead Writer when older than 30 days. Prepend-only — new entries added at top with date.</description>
+    <type>LongTextArea</type>
+    <length>10000</length>
+    <visibleLines>5</visibleLines>
+</CustomField>
