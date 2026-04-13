@@ -15,9 +15,6 @@
     <columns>
         <field>Contact.Email_Verified__c</field>
     </columns>
-    <columns>
-        <field>Contact.Enrichment_Source__c</field>
-    </columns>
     <description>Contacts with specialty marked Unknown — enrichment gaps to address</description>
     <filter>
         <criteriaItems>

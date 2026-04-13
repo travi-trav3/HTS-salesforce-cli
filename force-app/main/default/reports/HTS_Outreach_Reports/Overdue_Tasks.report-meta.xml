@@ -7,9 +7,6 @@
         <field>DUE_DATE</field>
     </columns>
     <columns>
-        <field>STATUS</field>
-    </columns>
-    <columns>
         <field>CONTACT</field>
     </columns>
     <columns>

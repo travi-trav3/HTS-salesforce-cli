@@ -10,9 +10,6 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Contact.Outreach_Status__c</field>
-    </columns>
-    <columns>
         <field>Contact.Current_Touch__c</field>
     </columns>
     <columns>
