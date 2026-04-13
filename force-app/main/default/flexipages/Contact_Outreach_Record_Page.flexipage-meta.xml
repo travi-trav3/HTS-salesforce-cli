@@ -60,6 +60,11 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>runtime_sales_activities:activityPanel</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>flexipage:fieldSection</componentName>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -272,11 +277,6 @@
                     <name>fieldItem_4_1</name>
                     <value>Contact.Exclude_From_Sequence__c</value>
                 </componentInstanceProperties>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
