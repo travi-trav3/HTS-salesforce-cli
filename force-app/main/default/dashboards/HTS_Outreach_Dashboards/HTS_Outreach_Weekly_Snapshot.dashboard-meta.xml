@@ -35,6 +35,17 @@
             <metricLabel>Engaged</metricLabel>
             <report>HTS_Outreach_Reports/Engaged_Contacts</report>
         </components>
+        <components>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
+            <componentType>Metric</componentType>
+            <displayUnits>Auto</displayUnits>
+            <header>Tasks Completed This Week</header>
+            <indicatorHighColor>#54C254</indicatorHighColor>
+            <indicatorLowColor>#C25454</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <metricLabel>Completed</metricLabel>
+            <report>HTS_Outreach_Reports/Tasks_Completed_This_Week</report>
+        </components>
     </leftSection>
     <middleSection>
         <columnSize>Medium</columnSize>
@@ -59,6 +70,23 @@
             <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
             <metricLabel>Active</metricLabel>
             <report>HTS_Outreach_Reports/Active_Contacts</report>
+        </components>
+        <components>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>Donut</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>true</drillEnabled>
+            <drillToDetailEnabled>true</drillToDetailEnabled>
+            <enableHover>true</enableHover>
+            <expandOthers>false</expandOthers>
+            <header>Contacts by Sequence Stage</header>
+            <legendPosition>Bottom</legendPosition>
+            <report>HTS_Outreach_Reports/Contacts_by_Sequence_Stage</report>
+            <showPercentage>true</showPercentage>
+            <showValues>true</showValues>
+            <sortBy>RowLabelAscending</sortBy>
+            <useReportChart>false</useReportChart>
         </components>
     </middleSection>
     <rightSection>
@@ -93,6 +121,17 @@
             <showValues>true</showValues>
             <sortBy>RowLabelDescending</sortBy>
             <useReportChart>false</useReportChart>
+        </components>
+        <components>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
+            <componentType>Metric</componentType>
+            <displayUnits>Auto</displayUnits>
+            <header>Overdue Tasks</header>
+            <indicatorHighColor>#C25454</indicatorHighColor>
+            <indicatorLowColor>#54C254</indicatorLowColor>
+            <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
+            <metricLabel>Overdue</metricLabel>
+            <report>HTS_Outreach_Reports/Overdue_Tasks</report>
         </components>
     </rightSection>
     <runningUser>005fI0000049deAQAQ</runningUser>
