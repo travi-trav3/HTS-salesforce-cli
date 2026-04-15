@@ -22,5 +22,13 @@
         <operation>notEqual</operation>
         <value>Completed</value>
     </filters>
+    <filters>
+        <field>STATUS</field>
+        <operation>notEqual</operation>
+        <value>Cancelled</value>
+    </filters>
     <label>Tasks — Next 3 Days</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>
