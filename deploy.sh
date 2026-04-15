@@ -99,10 +99,10 @@ sf project deploy start \
 
 echo ""
 
-# Deploy Task field separately — may fail due to restricted picklist on Task object
+# Deploy Task fields separately — may fail due to restricted picklist on Task object
 echo "Step 4a-2: Deploying Task custom field..."
 if ! sf project deploy start \
-  --source-dir "$TEMP_DIR/force-app/main/default/objects/Task" \
+  --source-dir "$TEMP_DIR/force-app/main/default/objects/Task/fields" \
   --target-org "$ORG_ALIAS" \
   --wait 10 2>&1; then
   echo ""
@@ -121,33 +121,25 @@ fi
 
 echo ""
 
-# Deploy flexipages
-echo "Step 4b: Deploying Lightning Record Pages..."
-if ! sf project deploy start \
-  --source-dir "$TEMP_DIR/force-app/main/default/flexipages" \
-  --target-org "$ORG_ALIAS" \
-  --wait 10 2>&1; then
-  echo ""
-  echo "WARNING: FlexiPage failed to deploy via metadata API."
-  echo "Record pages are easiest to build in Lightning App Builder."
-  echo ""
-  echo ">>> BUILD IT MANUALLY (2 minutes):"
-  echo "  1. Go to Setup → Object Manager → Contact → Lightning Record Pages"
-  echo "  2. Click New → Record Page → 'Contact Outreach Record Page'"
-  echo "  3. Choose Header + Two Column layout"
-  echo "  4. Add 5 Field Sections (drag from left panel):"
-  echo "     Section 1: 'Standard Contact Info' — Name, Account, Title, Phone, Email, LinkedIn URL"
-  echo "     Section 2: 'Outreach Sequence' — Outreach Status, Sequence Stage, Sequence Status,"
-  echo "                Current Touch, Next Touch Date, Last Touch Date, LinkedIn Connected,"
-  echo "                Copy Generated Through Stage"
-  echo "     Section 3: 'Research & Signals' — Company Research, Contact Research, Contact Specialty,"
-  echo "                Intent Score, Intent Signals, Signal Source, Email Verified, Enrichment Source"
-  echo "     Section 4: 'Draft Copy' (set collapsed) — all Email_Draft and LinkedIn_Message_Draft fields"
-  echo "     Section 5: 'Sequence History' — Start Date, Meaningful Reply, Reply Date/Channel/Type,"
-  echo "                Email Opens Count, Exclude From Sequence"
-  echo "  5. Save → Activate → Assign as Org Default for Contact"
-  echo ""
+# Deploy Task list views (separate step so errors are visible, not suppressed)
+echo "Step 4a-3: Deploying Task list views..."
+if [ -d "$TEMP_DIR/force-app/main/default/objects/Task/listViews" ]; then
+  sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/objects/Task/listViews" \
+    --target-org "$ORG_ALIAS" \
+    --ignore-conflicts \
+    --wait 10
+else
+  echo "  No Task list views found — skipping."
 fi
+
+echo ""
+
+# NOTE: FlexiPage (Contact Outreach Record Page) is NOT auto-deployed.
+# Salesforce does not allow changing a FlexiPage template post-creation, so
+# redeploys silently drop components placed in regions the org template lacks.
+# The page lives in Lightning App Builder and is maintained there directly.
+echo "Step 4b: Skipping FlexiPage auto-deploy (managed in App Builder)."
 
 echo ""
 
