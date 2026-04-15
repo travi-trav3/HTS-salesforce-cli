@@ -121,14 +121,22 @@ fi
 
 echo ""
 
-# Deploy Task list views (separate step so errors are visible, not suppressed)
+# Deploy Task list views (separate from Task fields so a Task field failure
+# doesn't roll back list view deploys; fail-soft so the overall script
+# continues even if list views hit a validation issue — error still logs).
 echo "Step 4a-3: Deploying Task list views..."
 if [ -d "$TEMP_DIR/force-app/main/default/objects/Task/listViews" ]; then
-  sf project deploy start \
+  if ! sf project deploy start \
     --source-dir "$TEMP_DIR/force-app/main/default/objects/Task/listViews" \
     --target-org "$ORG_ALIAS" \
-    --ignore-conflicts \
-    --wait 10
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Task list views failed to deploy. See error above."
+    echo "Most common causes:"
+    echo "  - Task.Sequence_Task__c field does not exist yet (create it manually per step 4a-2)"
+    echo "  - List view XML validation error"
+    echo ""
+  fi
 else
   echo "  No Task list views found — skipping."
 fi
