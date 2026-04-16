@@ -11,12 +11,20 @@
     </columns>
     <description>Tasks assigned to Dylan this week — completed vs overdue</description>
     <filter>
+        <booleanFilter>1 AND 2</booleanFilter>
         <criteriaItems>
             <column>ASSIGNED</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Dylan Ragsdale</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Cancelled</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
