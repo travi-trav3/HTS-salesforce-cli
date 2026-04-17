@@ -3,10 +3,12 @@ name: Deploy to Salesforce
 on:
   push:
     branches:
-      - claude/generate-salesforce-metadata-cQcGg
+      - main
+      - 'claude/**'
     paths:
       - 'force-app/**'
       - 'deploy.sh'
+      - '.github/workflows/deploy-salesforce.yml'
 
 jobs:
   deploy:
