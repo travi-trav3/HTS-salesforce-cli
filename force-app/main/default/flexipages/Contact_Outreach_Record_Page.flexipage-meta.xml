@@ -60,6 +60,16 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>runtime_sales_activities:activityPanel</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>forceContent:notesComponent</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>flexipage:fieldSection</componentName>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -103,7 +113,15 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>fieldItem_4_2</name>
+                    <value>Contact.Email_Opens_Count__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>fieldItem_5_1</name>
                     <value>Contact.Copy_Generated_Through_Stage__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>fieldItem_5_2</name>
+                    <value>Contact.Sequence_Start_Date__c</value>
                 </componentInstanceProperties>
             </componentInstance>
         </itemInstances>
@@ -165,7 +183,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>2</value>
+                    <value>1</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsible</name>
@@ -180,51 +198,51 @@
                     <value>Contact.LinkedIn_Connection_Note__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_1_2</name>
+                    <name>fieldItem_2_1</name>
                     <value>Contact.Email_Draft_Intro__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_2_1</name>
+                    <name>fieldItem_3_1</name>
                     <value>Contact.Email_Draft_Value1__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_2_2</name>
+                    <name>fieldItem_4_1</name>
                     <value>Contact.Email_Draft_Sub4__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_3_1</name>
+                    <name>fieldItem_5_1</name>
                     <value>Contact.LinkedIn_Message_Draft_1__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_3_2</name>
+                    <name>fieldItem_6_1</name>
                     <value>Contact.Email_Draft_FollowUp__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_4_1</name>
+                    <name>fieldItem_7_1</name>
                     <value>Contact.Email_Draft_Value2__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_4_2</name>
+                    <name>fieldItem_8_1</name>
                     <value>Contact.LinkedIn_Message_Draft_2__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_5_1</name>
+                    <name>fieldItem_9_1</name>
                     <value>Contact.Email_Draft_Sub8__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_5_2</name>
+                    <name>fieldItem_10_1</name>
                     <value>Contact.Email_Draft_DirectAsk__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_6_1</name>
+                    <name>fieldItem_11_1</name>
                     <value>Contact.LinkedIn_Message_Draft_3__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_6_2</name>
+                    <name>fieldItem_12_1</name>
                     <value>Contact.Email_Draft_Sub12__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_7_1</name>
+                    <name>fieldItem_13_1</name>
                     <value>Contact.Email_Draft_Pause__c</value>
                 </componentInstanceProperties>
             </componentInstance>
@@ -238,7 +256,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>2</value>
+                    <value>1</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsible</name>
@@ -246,10 +264,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>fieldItem_1_1</name>
-                    <value>Contact.Sequence_Start_Date__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>fieldItem_1_2</name>
                     <value>Contact.Meaningful_Reply__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -257,19 +271,15 @@
                     <value>Contact.Reply_Date__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_2_2</name>
+                    <name>fieldItem_3_1</name>
                     <value>Contact.Reply_Channel__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_3_1</name>
+                    <name>fieldItem_4_1</name>
                     <value>Contact.Reply_Type__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldItem_3_2</name>
-                    <value>Contact.Email_Opens_Count__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>fieldItem_4_1</name>
+                    <name>fieldItem_5_1</name>
                     <value>Contact.Exclude_From_Sequence__c</value>
                 </componentInstanceProperties>
             </componentInstance>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Snapshot__c</fullName>
+    <label>Company Snapshot</label>
+    <description>2-3 sentence summary of the company signal and why this contact is relevant. Written by Scout at a glance for Dylan. Updated by Lookahead Writer when new signals are found.</description>
+    <type>LongTextArea</type>
+    <length>500</length>
+    <visibleLines>3</visibleLines>
+</CustomField>

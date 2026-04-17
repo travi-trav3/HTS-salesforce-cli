@@ -18,17 +18,22 @@ echo ""
 # ----------------------------------------------------------
 # Step 1: Query Dylan's User ID
 # ----------------------------------------------------------
-echo "Querying Dylan's User ID from $ORG_ALIAS..."
-DYLAN_QUERY=$(sf data query \
-  --query "SELECT Id FROM User WHERE Name LIKE '%Dylan%' AND IsActive=true LIMIT 1" \
-  --target-org "$ORG_ALIAS" \
-  --json 2>&1) || {
-  echo "ERROR: Failed to query Dylan's User ID from $ORG_ALIAS"
-  echo "$DYLAN_QUERY"
-  exit 1
-}
+if [ "${CI:-}" = "true" ]; then
+  # In GitHub Actions, skip the query and use the known ID
+  DYLAN_USER_ID="005fI0000049deAQAQ"
+  echo "CI mode: Using hardcoded Dylan User ID: $DYLAN_USER_ID"
+else
+  echo "Querying Dylan's User ID from $ORG_ALIAS..."
+  DYLAN_QUERY=$(sf data query \
+    --query "SELECT Id FROM User WHERE Name LIKE '%Dylan%' AND IsActive=true LIMIT 1" \
+    --target-org "$ORG_ALIAS" \
+    --json 2>&1) || {
+    echo "ERROR: Failed to query Dylan's User ID from $ORG_ALIAS"
+    echo "$DYLAN_QUERY"
+    exit 1
+  }
 
-DYLAN_USER_ID=$(echo "$DYLAN_QUERY" | python3 -c "
+  DYLAN_USER_ID=$(echo "$DYLAN_QUERY" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 records = data.get('result', {}).get('records', [])
@@ -36,12 +41,13 @@ if not records:
     sys.exit(1)
 print(records[0]['Id'])
 " 2>/dev/null) || {
-  echo "ERROR: No active user matching 'Dylan' found in $ORG_ALIAS"
-  echo "Query result: $DYLAN_QUERY"
-  exit 1
-}
+    echo "ERROR: No active user matching 'Dylan' found in $ORG_ALIAS"
+    echo "Query result: $DYLAN_QUERY"
+    exit 1
+  }
 
-echo "  Dylan's User ID: $DYLAN_USER_ID"
+  echo "  Dylan's User ID: $DYLAN_USER_ID"
+fi
 echo ""
 
 # ----------------------------------------------------------
@@ -93,10 +99,10 @@ sf project deploy start \
 
 echo ""
 
-# Deploy Task field separately — may fail due to restricted picklist on Task object
+# Deploy Task fields separately — may fail due to restricted picklist on Task object
 echo "Step 4a-2: Deploying Task custom field..."
 if ! sf project deploy start \
-  --source-dir "$TEMP_DIR/force-app/main/default/objects/Task" \
+  --source-dir "$TEMP_DIR/force-app/main/default/objects/Task/fields" \
   --target-org "$ORG_ALIAS" \
   --wait 10 2>&1; then
   echo ""
@@ -115,33 +121,33 @@ fi
 
 echo ""
 
-# Deploy flexipages
-echo "Step 4b: Deploying Lightning Record Pages..."
-if ! sf project deploy start \
-  --source-dir "$TEMP_DIR/force-app/main/default/flexipages" \
-  --target-org "$ORG_ALIAS" \
-  --wait 10 2>&1; then
-  echo ""
-  echo "WARNING: FlexiPage failed to deploy via metadata API."
-  echo "Record pages are easiest to build in Lightning App Builder."
-  echo ""
-  echo ">>> BUILD IT MANUALLY (2 minutes):"
-  echo "  1. Go to Setup → Object Manager → Contact → Lightning Record Pages"
-  echo "  2. Click New → Record Page → 'Contact Outreach Record Page'"
-  echo "  3. Choose Header + Two Column layout"
-  echo "  4. Add 5 Field Sections (drag from left panel):"
-  echo "     Section 1: 'Standard Contact Info' — Name, Account, Title, Phone, Email, LinkedIn URL"
-  echo "     Section 2: 'Outreach Sequence' — Outreach Status, Sequence Stage, Sequence Status,"
-  echo "                Current Touch, Next Touch Date, Last Touch Date, LinkedIn Connected,"
-  echo "                Copy Generated Through Stage"
-  echo "     Section 3: 'Research & Signals' — Company Research, Contact Research, Contact Specialty,"
-  echo "                Intent Score, Intent Signals, Signal Source, Email Verified, Enrichment Source"
-  echo "     Section 4: 'Draft Copy' (set collapsed) — all Email_Draft and LinkedIn_Message_Draft fields"
-  echo "     Section 5: 'Sequence History' — Start Date, Meaningful Reply, Reply Date/Channel/Type,"
-  echo "                Email Opens Count, Exclude From Sequence"
-  echo "  5. Save → Activate → Assign as Org Default for Contact"
-  echo ""
+# Deploy Task list views (separate from Task fields so a Task field failure
+# doesn't roll back list view deploys; fail-soft so the overall script
+# continues even if list views hit a validation issue — error still logs).
+echo "Step 4a-3: Deploying Task list views..."
+if [ -d "$TEMP_DIR/force-app/main/default/objects/Task/listViews" ]; then
+  if ! sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/objects/Task/listViews" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Task list views failed to deploy. See error above."
+    echo "Most common causes:"
+    echo "  - Task.Sequence_Task__c field does not exist yet (create it manually per step 4a-2)"
+    echo "  - List view XML validation error"
+    echo ""
+  fi
+else
+  echo "  No Task list views found — skipping."
 fi
+
+echo ""
+
+# NOTE: FlexiPage (Contact Outreach Record Page) is NOT auto-deployed.
+# Salesforce does not allow changing a FlexiPage template post-creation, so
+# redeploys silently drop components placed in regions the org template lacks.
+# The page lives in Lightning App Builder and is maintained there directly.
+echo "Step 4b: Skipping FlexiPage auto-deploy (managed in App Builder)."
 
 echo ""
 
@@ -153,6 +159,40 @@ sf project deploy start \
   --wait 10
 
 echo ""
+
+# Deploy reports
+echo "Step 4d: Deploying Reports..."
+if [ -d "$TEMP_DIR/force-app/main/default/reports" ]; then
+  if ! sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/reports" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Some reports failed to deploy. Check errors above."
+    echo ""
+  fi
+else
+  echo "  No reports directory found — skipping."
+fi
+
+echo ""
+
+# Deploy dashboards
+echo "Step 4e: Deploying Dashboards..."
+if [ -d "$TEMP_DIR/force-app/main/default/dashboards" ]; then
+  if ! sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/dashboards" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Some dashboards failed to deploy. Check errors above."
+    echo ""
+  fi
+else
+  echo "  No dashboards directory found — skipping."
+fi
+
+echo ""
 echo "=== Deployment Complete ==="
 echo ""
 echo "Verification checklist:"
@@ -162,3 +202,4 @@ echo "  3. Check Object Manager → Task → Fields for Sequence_Task__c"
 echo "  4. Check Contact Record Page assignment"
 echo "  5. Create test Contact with Signal_Source → verify Flow 1 fires"
 echo "  6. Set Next_Touch_Date=TODAY on active contact → verify Flow 2 creates task"
+echo "  7. Check Dashboards tab for HTS Outreach dashboards"
