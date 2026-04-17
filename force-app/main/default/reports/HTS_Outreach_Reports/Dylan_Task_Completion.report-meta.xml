@@ -38,7 +38,7 @@
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
-        <dateColumn>DUE_DATE</dateColumn>
+        <dateColumn>LAST_UPDATE</dateColumn>
         <interval>INTERVAL_THISWEEK</interval>
     </timeFrameFilter>
 </Report>
