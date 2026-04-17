@@ -12,9 +12,6 @@
     <columns>
         <field>Contact.Current_Touch__c</field>
     </columns>
-    <columns>
-        <field>Contact.Next_Touch_Date__c</field>
-    </columns>
     <description>Active contacts with a Next Touch Date in the next 7 days — drives the Lookahead chart so Dylan can see upcoming workload distribution.</description>
     <filter>
         <booleanFilter>1 AND 2 AND 3</booleanFilter>
