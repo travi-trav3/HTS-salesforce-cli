@@ -143,11 +143,26 @@ fi
 
 echo ""
 
-# NOTE: FlexiPage (Contact Outreach Record Page) is NOT auto-deployed.
-# Salesforce does not allow changing a FlexiPage template post-creation, so
-# redeploys silently drop components placed in regions the org template lacks.
-# The page lives in Lightning App Builder and is maintained there directly.
-echo "Step 4b: Skipping FlexiPage auto-deploy (managed in App Builder)."
+# Deploy FlexiPage fail-soft. Historically this was skipped because template
+# swaps silently drop components placed in unsupported regions. We now deploy
+# but tolerate failure: pure content changes (field order, labels) succeed;
+# if a template-level incompatibility surfaces, the warning fires and the
+# page keeps whatever lives in App Builder.
+echo "Step 4b: Deploying FlexiPage (fail-soft)..."
+if [ -d "$TEMP_DIR/force-app/main/default/flexipages" ]; then
+  if ! sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/flexipages" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: FlexiPage deploy failed — likely a template/region"
+    echo "incompatibility. The page in App Builder is unchanged. Adjust"
+    echo "order or labels manually in Lightning App Builder if needed."
+    echo ""
+  fi
+else
+  echo "  No flexipages directory found — skipping."
+fi
 
 echo ""
 

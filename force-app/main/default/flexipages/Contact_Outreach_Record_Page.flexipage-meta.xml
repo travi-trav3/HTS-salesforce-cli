@@ -207,11 +207,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>fieldItem_4_1</name>
-                    <value>Contact.Email_Draft_Sub4__c</value>
+                    <value>Contact.LinkedIn_Message_Draft_1__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>fieldItem_5_1</name>
-                    <value>Contact.LinkedIn_Message_Draft_1__c</value>
+                    <value>Contact.Email_Draft_Sub4__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>fieldItem_6_1</name>

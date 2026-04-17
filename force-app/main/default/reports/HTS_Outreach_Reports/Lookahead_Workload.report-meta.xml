@@ -10,36 +10,43 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Contact.Sequence_Status__c</field>
-    </columns>
-    <columns>
         <field>Contact.Current_Touch__c</field>
     </columns>
-    <description>Contacts in the automated sequence (initialized by Gumloop, not excluded) grouped by Outreach Status. Excludes legacy/manual contacts so funnel conversion rates are meaningful.</description>
+    <columns>
+        <field>Contact.Next_Touch_Date__c</field>
+    </columns>
+    <description>Active contacts with a Next Touch Date in the next 7 days — drives the Lookahead chart so Dylan can see upcoming workload distribution.</description>
     <filter>
-        <booleanFilter>1 AND 2</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
         <criteriaItems>
             <column>Contact.Sequence_Status__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value></value>
+            <operator>equals</operator>
+            <value>Active</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Contact.Exclude_From_Sequence__c</column>
+            <column>Contact.Next_Touch_Date__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>0</value>
+            <operator>greaterOrEqual</operator>
+            <value>TODAY</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Contact.Next_Touch_Date__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>lessOrEqual</operator>
+            <value>NEXT_N_DAYS:7</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Contact.Outreach_Status__c</field>
+        <field>Contact.Next_Touch_Date__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Pipeline by Outreach Status</name>
+    <name>Lookahead Workload (Next 7 Days)</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>

@@ -133,6 +133,23 @@
             <metricLabel>Overdue</metricLabel>
             <report>HTS_Outreach_Reports/Overdue_Tasks</report>
         </components>
+        <components>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>Line</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>true</drillEnabled>
+            <drillToDetailEnabled>true</drillToDetailEnabled>
+            <enableHover>true</enableHover>
+            <expandOthers>false</expandOthers>
+            <header>Lookahead Workload (Next 7 Days)</header>
+            <legendPosition>Bottom</legendPosition>
+            <report>HTS_Outreach_Reports/Lookahead_Workload</report>
+            <showPercentage>false</showPercentage>
+            <showValues>true</showValues>
+            <sortBy>RowLabelAscending</sortBy>
+            <useReportChart>false</useReportChart>
+        </components>
     </rightSection>
     <runningUser>005fI0000049deAQAQ</runningUser>
     <textColor>#000000</textColor>
