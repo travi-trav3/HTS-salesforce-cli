@@ -17,4 +17,7 @@
         <value>1</value>
     </filters>
     <label>Completed Tasks</label>
+    <sharedTo>
+        <allInternalUsers/>
+    </sharedTo>
 </ListView>

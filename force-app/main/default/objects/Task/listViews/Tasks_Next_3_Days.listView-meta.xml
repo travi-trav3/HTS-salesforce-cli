@@ -28,4 +28,7 @@
         <value>Cancelled</value>
     </filters>
     <label>Tasks — Next 3 Days</label>
+    <sharedTo>
+        <allInternalUsers/>
+    </sharedTo>
 </ListView>

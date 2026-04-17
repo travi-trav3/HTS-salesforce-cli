@@ -9,7 +9,7 @@
     <columns>
         <field>CONTACT</field>
     </columns>
-    <description>Tasks assigned to Dylan this week — completed vs overdue</description>
+    <description>Tasks Dylan has completed this week — used by Dylan Task Completion gauge (target: 50/week)</description>
     <filter>
         <booleanFilter>1 AND 2</booleanFilter>
         <criteriaItems>
@@ -23,8 +23,8 @@
             <column>STATUS</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value>Cancelled</value>
+            <operator>equals</operator>
+            <value>Completed</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
