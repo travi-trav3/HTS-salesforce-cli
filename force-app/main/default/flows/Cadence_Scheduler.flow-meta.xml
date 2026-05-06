@@ -847,57 +847,57 @@
     <formulas>
         <name>NTD_After_T2</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 7</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 7 &gt;= {!$Flow.CurrentDate} + 2, {!Loop_Contacts.Sequence_Start_Date__c} + 7, {!$Flow.CurrentDate} + 2)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T3</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 10</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 10 &gt;= {!$Flow.CurrentDate} + 1, {!Loop_Contacts.Sequence_Start_Date__c} + 10, {!$Flow.CurrentDate} + 1)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T4</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 15</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 15 &gt;= {!$Flow.CurrentDate} + 3, {!Loop_Contacts.Sequence_Start_Date__c} + 15, {!$Flow.CurrentDate} + 3)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T5</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 21</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 21 &gt;= {!$Flow.CurrentDate} + 4, {!Loop_Contacts.Sequence_Start_Date__c} + 21, {!$Flow.CurrentDate} + 4)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T6</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 28</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 28 &gt;= {!$Flow.CurrentDate} + 5, {!Loop_Contacts.Sequence_Start_Date__c} + 28, {!$Flow.CurrentDate} + 5)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T7</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 32</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 32 &gt;= {!$Flow.CurrentDate} + 2, {!Loop_Contacts.Sequence_Start_Date__c} + 32, {!$Flow.CurrentDate} + 2)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T8</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 38</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 38 &gt;= {!$Flow.CurrentDate} + 4, {!Loop_Contacts.Sequence_Start_Date__c} + 38, {!$Flow.CurrentDate} + 4)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T9</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 49</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 49 &gt;= {!$Flow.CurrentDate} + 9, {!Loop_Contacts.Sequence_Start_Date__c} + 49, {!$Flow.CurrentDate} + 9)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T10</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 56</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 56 &gt;= {!$Flow.CurrentDate} + 5, {!Loop_Contacts.Sequence_Start_Date__c} + 56, {!$Flow.CurrentDate} + 5)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T11</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 63</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 63 &gt;= {!$Flow.CurrentDate} + 5, {!Loop_Contacts.Sequence_Start_Date__c} + 63, {!$Flow.CurrentDate} + 5)</expression>
     </formulas>
     <formulas>
         <name>NTD_After_T12</name>
         <dataType>Date</dataType>
-        <expression>{!Loop_Contacts.Sequence_Start_Date__c} + 77</expression>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 77 &gt;= {!$Flow.CurrentDate} + 12, {!Loop_Contacts.Sequence_Start_Date__c} + 77, {!$Flow.CurrentDate} + 12)</expression>
     </formulas>
     <formulas>
         <name>Subject_T2</name>
@@ -2495,7 +2495,7 @@
         <schedule>
             <frequency>Daily</frequency>
             <startDate>2026-03-31</startDate>
-            <startTime>13:00:00.000Z</startTime>
+            <startTime>07:00:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
