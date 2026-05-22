@@ -11,6 +11,21 @@
         </defaultConnector>
         <defaultConnectorLabel>Unknown Touch</defaultConnectorLabel>
         <rules>
+            <name>CT_0</name>
+            <label>Current Touch = 0</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Contacts.Current_Touch__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Task_T1</targetReference>
+            </connector>
+        </rules>
+        <rules>
             <name>CT_1</name>
             <label>Current Touch = 1</label>
             <conditionLogic>and</conditionLogic>
@@ -845,6 +860,11 @@
         <expression>"Touch " &amp; TEXT({!Loop_Contacts.Current_Touch__c} + 1) &amp; ": COPY MISSING — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
     </formulas>
     <formulas>
+        <name>NTD_After_T1</name>
+        <dataType>Date</dataType>
+        <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 3 &gt;= {!$Flow.CurrentDate} + 1, {!Loop_Contacts.Sequence_Start_Date__c} + 3, {!$Flow.CurrentDate} + 1)</expression>
+    </formulas>
+    <formulas>
         <name>NTD_After_T2</name>
         <dataType>Date</dataType>
         <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 7 &gt;= {!$Flow.CurrentDate} + 2, {!Loop_Contacts.Sequence_Start_Date__c} + 7, {!$Flow.CurrentDate} + 2)</expression>
@@ -898,6 +918,31 @@
         <name>NTD_After_T12</name>
         <dataType>Date</dataType>
         <expression>IF({!Loop_Contacts.Sequence_Start_Date__c} + 77 &gt;= {!$Flow.CurrentDate} + 12, {!Loop_Contacts.Sequence_Start_Date__c} + 77, {!$Flow.CurrentDate} + 12)</expression>
+    </formulas>
+    <formulas>
+        <name>Subject_T1</name>
+        <dataType>String</dataType>
+        <expression>"Touch 1: Send LinkedIn Connection Request — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+    </formulas>
+    <formulas>
+        <name>Desc_T1</name>
+        <dataType>String</dataType>
+        <expression>"Send LinkedIn connection request to " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName} &amp; ", " &amp; IF(ISBLANK({!Loop_Contacts.Title}), "", {!Loop_Contacts.Title} &amp; " at ") &amp; IF(ISBLANK({!Loop_Contacts.Account.Name}), "", {!Loop_Contacts.Account.Name}) &amp; "." &amp; BR() &amp; BR() &amp;
+"➡️ Default: Send WITHOUT a note (higher acceptance rate)." &amp; BR() &amp; BR() &amp;
+"Optional note suggestion (200 char max):" &amp; BR() &amp;
+IF(ISBLANK({!Loop_Contacts.LinkedIn_Connection_Note__c}), "(No note generated)", {!Loop_Contacts.LinkedIn_Connection_Note__c}) &amp; BR() &amp; BR() &amp;
+"LinkedIn Profile: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp;
+"Company Context:" &amp; BR() &amp;
+IF(ISBLANK({!Loop_Contacts.Company_Research__c}), "(No research available)", {!Loop_Contacts.Company_Research__c}) &amp; BR() &amp; BR() &amp;
+"Contact Context:" &amp; BR() &amp;
+IF(ISBLANK({!Loop_Contacts.Contact_Research__c}), "(No research available)", {!Loop_Contacts.Contact_Research__c}) &amp; BR() &amp; BR() &amp;
+"Specialty: " &amp; IF(ISBLANK(TEXT({!Loop_Contacts.Contact_Specialty__c})), "Unknown", TEXT({!Loop_Contacts.Contact_Specialty__c})) &amp; BR() &amp;
+"Onboarded: " &amp; IF({!Loop_Contacts.Is_Onboarded__c}, "Yes", "No") &amp; BR() &amp; BR() &amp;
+"Intent Signals:" &amp; BR() &amp;
+IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent_Signals__c} &amp; " (Score: " &amp; TEXT({!Loop_Contacts.Intent_Score__c}) &amp; "/100)") &amp; BR() &amp; BR() &amp;
+"⚠️ After sending:" &amp; BR() &amp;
+"1. Update LinkedIn Connection Status to 'Pending'" &amp; BR() &amp;
+"2. Mark this task as Complete"</expression>
     </formulas>
     <formulas>
         <name>Subject_T2</name>
@@ -1118,6 +1163,64 @@
         <object>Task</object>
         <connector>
             <targetReference>Loop_Contacts</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task_T1</name>
+        <label>Create Touch 1 Task</label>
+        <locationX>50</locationX>
+        <locationY>700</locationY>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>Subject_T1</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>005fI0000049deAQAQ</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sequence_Task__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Desc_T1</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <connector>
+            <targetReference>Update_Contact_T1</targetReference>
         </connector>
     </recordCreates>
     <recordCreates>
@@ -2024,6 +2127,48 @@
             <targetReference>Loop_Contacts</targetReference>
         </connector>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Contact_T1</name>
+        <label>Update Contact T1</label>
+        <locationX>50</locationX>
+        <locationY>800</locationY>
+        <object>Contact</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Outreach_Status__c</field>
+            <value>
+                <stringValue>Attempting Contact</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Current_Touch__c</field>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Next_Touch_Date__c</field>
+            <value>
+                <elementReference>NTD_After_T1</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Last_Touch_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <connector>
+            <targetReference>Loop_Contacts</targetReference>
+        </connector>
+    </recordUpdates>
     <recordUpdates>
         <name>Update_Contact_T2</name>
         <label>Update Contact T2</label>
