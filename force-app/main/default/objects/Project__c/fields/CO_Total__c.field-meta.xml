@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CO_Total__c</fullName>
+    <label>Change Order Total</label>
+    <summarizedField>Change_Order__c.CO_Amount__c</summarizedField>
+    <summaryForeignKey>Change_Order__c.Project__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <type>Summary</type>
+</CustomField>

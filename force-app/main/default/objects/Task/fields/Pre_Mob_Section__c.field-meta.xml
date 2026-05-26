@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pre_Mob_Section__c</fullName>
+    <label>Pre-Mob Section</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>A. Financial + Scope</fullName><default>false</default></value>
+            <value><fullName>B. Staffing</fullName><default>false</default></value>
+            <value><fullName>C. Safety</fullName><default>false</default></value>
+            <value><fullName>D. Training</fullName><default>false</default></value>
+            <value><fullName>E. Tools + Fleet</fullName><default>false</default></value>
+            <value><fullName>F. Procurement</fullName><default>false</default></value>
+            <value><fullName>G. Schedule</fullName><default>false</default></value>
+            <value><fullName>H. Client Alignment</fullName><default>false</default></value>
+            <value><fullName>Sign-off</fullName><default>false</default></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

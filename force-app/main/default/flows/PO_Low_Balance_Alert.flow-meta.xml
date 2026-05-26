@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Record-triggered flow on Project__c create/update. Posts a Chatter message @mentioning Amanda and Nikki when the PO remaining percentage drops below the per-Work-Order threshold. Resets the PO_Alert_Sent flag when the percentage rises back above the threshold (e.g., after a change order).</description>
+    <label>PO Low Balance Alert</label>
+    <processType>AutoLaunchedFlow</processType>
+    <status>Active</status>
+
+    <constants>
+        <name>AmandaUserId</name>
+        <dataType>String</dataType>
+        <value><stringValue>{{AMANDA_USER_ID}}</stringValue></value>
+    </constants>
+    <constants>
+        <name>NikkiUserId</name>
+        <dataType>String</dataType>
+        <value><stringValue>{{NIKKI_USER_ID}}</stringValue></value>
+    </constants>
+
+    <formulas>
+        <name>fThresholdValue</name>
+        <dataType>Number</dataType>
+        <expression>IF(ISBLANK({!$Record.PO_Alert_Threshold__c}), 15, {!$Record.PO_Alert_Threshold__c})</expression>
+    </formulas>
+    <formulas>
+        <name>fIsBelowThreshold</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+  NOT(ISBLANK({!$Record.Percent_Remaining__c})),
+  {!$Record.Percent_Remaining__c} &lt; {!fThresholdValue},
+  TEXT({!$Record.Stage__c}) &lt;&gt; "Closed"
+)</expression>
+    </formulas>
+    <formulas>
+        <name>fIsAboveThreshold</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+  NOT(ISBLANK({!$Record.Percent_Remaining__c})),
+  {!$Record.Percent_Remaining__c} &gt;= {!fThresholdValue}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>fAlertBody</name>
+        <dataType>String</dataType>
+        <expression>"Heads up: " &amp; {!$Record.Name} &amp; " is at " &amp; TEXT(ROUND({!$Record.Percent_Remaining__c}, 1)) &amp; "% of its PO value remaining ($" &amp; TEXT(ROUND({!$Record.Remaining_Balance__c}, 0)) &amp; " of $" &amp; TEXT(ROUND({!$Record.Total_Contract_Value__c}, 0)) &amp; "). Review billing and PO status."</expression>
+    </formulas>
+
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <object>Project__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+        <connector>
+            <targetReference>Route_Alert</targetReference>
+        </connector>
+    </start>
+
+    <decisions>
+        <name>Route_Alert</name>
+        <label>Route Alert</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <defaultConnectorLabel>No-op</defaultConnectorLabel>
+        <rules>
+            <name>Below_And_Not_Sent</name>
+            <label>Below threshold and not yet alerted</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fIsBelowThreshold</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue><booleanValue>true</booleanValue></rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.PO_Alert_Sent__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue><booleanValue>false</booleanValue></rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Post_Chatter_Alert</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>Above_And_Sent</name>
+            <label>Above threshold but flag was set: reset</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fIsAboveThreshold</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue><booleanValue>true</booleanValue></rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.PO_Alert_Sent__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue><booleanValue>true</booleanValue></rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Reset_Alert_Flag</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+
+    <actionCalls>
+        <name>Post_Chatter_Alert</name>
+        <label>Post Chatter @mention</label>
+        <locationX>50</locationX>
+        <locationY>240</locationY>
+        <actionName>chatterPost</actionName>
+        <actionType>chatterPost</actionType>
+        <inputParameters>
+            <name>subjectNameOrId</name>
+            <value><elementReference>$Record.Id</elementReference></value>
+        </inputParameters>
+        <inputParameters>
+            <name>text</name>
+            <value><elementReference>fAlertBody</elementReference></value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value><stringValue>TextPost</stringValue></value>
+        </inputParameters>
+        <inputParameters>
+            <name>mentionedNameOrIdList</name>
+            <value><elementReference>AmandaUserId</elementReference></value>
+        </inputParameters>
+        <inputParameters>
+            <name>mentionedNameOrIdList</name>
+            <value><elementReference>NikkiUserId</elementReference></value>
+        </inputParameters>
+        <connector>
+            <targetReference>Set_Alert_Sent_True</targetReference>
+        </connector>
+    </actionCalls>
+
+    <recordUpdates>
+        <name>Set_Alert_Sent_True</name>
+        <label>Set PO Alert Sent = true</label>
+        <locationX>50</locationX>
+        <locationY>360</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value><elementReference>$Record.Id</elementReference></value>
+        </filters>
+        <inputAssignments>
+            <field>PO_Alert_Sent__c</field>
+            <value><booleanValue>true</booleanValue></value>
+        </inputAssignments>
+        <object>Project__c</object>
+    </recordUpdates>
+
+    <recordUpdates>
+        <name>Reset_Alert_Flag</name>
+        <label>Reset PO Alert Sent = false</label>
+        <locationX>300</locationX>
+        <locationY>240</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value><elementReference>$Record.Id</elementReference></value>
+        </filters>
+        <inputAssignments>
+            <field>PO_Alert_Sent__c</field>
+            <value><booleanValue>false</booleanValue></value>
+        </inputAssignments>
+        <object>Project__c</object>
+    </recordUpdates>
+</Flow>
