@@ -22,7 +22,7 @@ echo "Querying Dylan's User ID from $ORG_ALIAS..."
 DYLAN_QUERY=$(sf data query \
   --query "SELECT Id FROM User WHERE Name LIKE '%Dylan%' AND IsActive=true LIMIT 1" \
   --target-org "$ORG_ALIAS" \
-  --json 2>&1) || {
+  --json) || {
   echo "ERROR: Failed to query Dylan's User ID from $ORG_ALIAS"
   echo "$DYLAN_QUERY"
   exit 1
@@ -30,7 +30,15 @@ DYLAN_QUERY=$(sf data query \
 
 DYLAN_USER_ID=$(echo "$DYLAN_QUERY" | python3 -c "
 import sys, json
-data = json.load(sys.stdin)
+text = sys.stdin.read()
+# sf CLI may prepend warnings to stdout; locate the JSON object.
+start = text.find('{')
+if start == -1:
+    sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
 records = data.get('result', {}).get('records', [])
 if not records:
     sys.exit(1)
