@@ -29,7 +29,7 @@ query_user_id() {
   result=$(sf data query \
     --query "SELECT Id FROM User WHERE Name LIKE '%${pattern}%' AND IsActive=true LIMIT 1" \
     --target-org "$ORG_ALIAS" \
-    --json 2>&1) || {
+    --json) || {
     echo "ERROR: Failed to query ${label}'s User ID" >&2
     echo "$result" >&2
     return 1
@@ -37,7 +37,15 @@ query_user_id() {
   local id
   id=$(echo "$result" | python3 -c "
 import sys, json
-data = json.load(sys.stdin)
+text = sys.stdin.read()
+# sf CLI may prepend warnings to stdout; locate the JSON object.
+start = text.find('{')
+if start == -1:
+    sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
 records = data.get('result', {}).get('records', [])
 if not records:
     sys.exit(1)
