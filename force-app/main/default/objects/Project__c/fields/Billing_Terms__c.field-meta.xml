@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Terms__c</fullName>
+    <label>Billing Terms</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Net 30</fullName><default>false</default></value>
+            <value><fullName>Net 45</fullName><default>true</default></value>
+            <value><fullName>Net 60</fullName><default>false</default></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

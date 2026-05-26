@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <label>Stage</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Pre-Mob</fullName><default>true</default></value>
+            <value><fullName>Executing</fullName><default>false</default></value>
+            <value><fullName>Demob</fullName><default>false</default></value>
+            <value><fullName>Closed</fullName><default>false</default></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

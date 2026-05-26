@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Requires_Balance</fullName>
+    <active>true</active>
+    <description>Light guard: a Work Order cannot be set to Closed unless Remaining Balance is populated.</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL(Stage__c, "Closed"),
+  ISBLANK(Remaining_Balance__c)
+)</errorConditionFormula>
+    <errorMessage>Cannot close a Work Order without a Remaining Balance value (verify PO Amount and Invoiced Amount are set).</errorMessage>
+    <errorDisplayField>Stage__c</errorDisplayField>
+</ValidationRule>

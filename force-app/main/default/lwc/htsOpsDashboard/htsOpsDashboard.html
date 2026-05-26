@@ -1,0 +1,217 @@
+<template>
+    <div class="slds-grid slds-wrap slds-gutters">
+        <template if:true={error}>
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-notify slds-notify_alert slds-theme_error" role="alert">
+                    Could not load dashboard data.
+                </div>
+            </div>
+        </template>
+
+        <template if:true={hasData}>
+            <!-- Tile 1: Work Orders by Stage -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_x-small">
+                <article class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title slds-text-heading_small">
+                            Work Orders by Stage
+                        </h2>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                        <template for:each={stageCounts} for:item="s">
+                            <div key={s.stage} class="slds-grid slds-grid_align-spread slds-p-vertical_x-small">
+                                <span class="slds-text-body_regular">{s.stage}</span>
+                                <span class="slds-text-heading_medium slds-text-color_default">{s.count}</span>
+                            </div>
+                        </template>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Tile 2: PO Balance by Work Order -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-3 slds-p-around_x-small">
+                <article class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title slds-text-heading_small">
+                            PO Balance by Work Order
+                        </h2>
+                    </div>
+                    <div class="slds-card__body">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th>Work Order</th>
+                                    <th>Customer</th>
+                                    <th>Contract Value</th>
+                                    <th>Remaining</th>
+                                    <th>% Remaining</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={poBalances} for:item="row">
+                                    <tr key={row.workOrderId}>
+                                        <td>{row.workOrderName}</td>
+                                        <td>{row.accountName}</td>
+                                        <td>
+                                            <lightning-formatted-number
+                                                value={row.totalContractValue}
+                                                format-style="currency"
+                                                currency-code="USD">
+                                            </lightning-formatted-number>
+                                        </td>
+                                        <td>
+                                            <lightning-formatted-number
+                                                value={row.remainingBalance}
+                                                format-style="currency"
+                                                currency-code="USD">
+                                            </lightning-formatted-number>
+                                        </td>
+                                        <td>
+                                            <span class={row.badgeClass}>{row.percentDisplay}</span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Tile 3: Overdue Gate Tasks -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-around_x-small">
+                <article class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title slds-text-heading_small">
+                            Overdue Gate Tasks ({overdueCount})
+                        </h2>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                        <template if:true={overdueGates.length}>
+                            <template for:each={overdueGates} for:item="group">
+                                <div key={group.workOrderId} class="slds-m-bottom_small">
+                                    <h3 class="slds-text-title_caps slds-m-bottom_xx-small">
+                                        {group.workOrderName}
+                                    </h3>
+                                    <ul class="slds-list_dotted">
+                                        <template for:each={group.tasks} for:item="t">
+                                            <li key={t.taskId}>
+                                                {t.subject} — due {t.dueDate} ({t.daysOverdue}d overdue) — {t.ownerName}
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </template>
+                        <template if:false={overdueGates.length}>
+                            <p class="slds-text-color_weak">No overdue gate tasks.</p>
+                        </template>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Tile 4: Days Since Last Invoice -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-around_x-small">
+                <article class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title slds-text-heading_small">
+                            Days Since Last Invoice
+                        </h2>
+                    </div>
+                    <div class="slds-card__body">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th>Work Order</th>
+                                    <th>Last Invoice</th>
+                                    <th>Days</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={invoiceAging} for:item="row">
+                                    <tr key={row.workOrderId}>
+                                        <td>{row.workOrderName}</td>
+                                        <td>{row.lastInvoiceDate}</td>
+                                        <td>
+                                            <template if:true={row.isStale}>
+                                                <span class="slds-badge slds-theme_warning">{row.daysSinceLastInvoice}</span>
+                                            </template>
+                                            <template if:false={row.isStale}>
+                                                <span>{row.daysSinceLastInvoice}</span>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Tile 5: Mobilization Countdown -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-around_x-small">
+                <article class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title slds-text-heading_small">
+                            Mobilization Countdown (Pre-Mob)
+                        </h2>
+                    </div>
+                    <div class="slds-card__body">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th>Work Order</th>
+                                    <th>Mob Date</th>
+                                    <th>Days to Mob</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={mobilizationCountdown} for:item="row">
+                                    <tr key={row.workOrderId}>
+                                        <td>{row.workOrderName}</td>
+                                        <td>{row.mobilizationDate}</td>
+                                        <td>
+                                            <template if:true={row.isImminent}>
+                                                <span class="slds-badge slds-theme_warning">{row.daysToMobilization}</span>
+                                            </template>
+                                            <template if:false={row.isImminent}>
+                                                <span>{row.daysToMobilization}</span>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Tile 6: Missing PO Data -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-around_x-small">
+                <article class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title slds-text-heading_small">
+                            Missing PO Data ({missingPoCount})
+                        </h2>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                        <template if:true={missingPoData.length}>
+                            <ul class="slds-list_dotted">
+                                <template for:each={missingPoData} for:item="row">
+                                    <li key={row.workOrderId}>
+                                        {row.workOrderName} —
+                                        <template if:true={row.missingPoNumber}>PO# </template>
+                                        <template if:true={row.missingPoAmount}>PO$ </template>
+                                        <template if:true={row.missingMobDate}>MobDate</template>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={missingPoData.length}>
+                            <p class="slds-text-color_weak">All active Work Orders have complete PO data.</p>
+                        </template>
+                    </div>
+                </article>
+            </div>
+        </template>
+    </div>
+</template>

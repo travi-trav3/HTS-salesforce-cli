@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#1B5E20</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>HTS Operations: Work Orders, Change Orders, Pre-Mob tracking, PO balances, dashboard.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>HTS Operations</label>
+    <navType>Standard</navType>
+    <tabs>HTS_Ops_Dashboard</tabs>
+    <tabs>Project__c</tabs>
+    <tabs>Change_Order__c</tabs>
+    <tabs>standard-Opportunity</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>standard-Task</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

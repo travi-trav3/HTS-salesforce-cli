@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Screen flow launched from the Create Work Order quick action on Opportunity. Collects required project, billing, and cash flow inputs and creates a Project__c (Work Order).</description>
+    <label>Create Work Order</label>
+    <processType>Flow</processType>
+    <status>Active</status>
+
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>newProjectId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <recordLookups>
+        <name>Get_Opportunity</name>
+        <label>Get Opportunity</label>
+        <locationX>176</locationX>
+        <locationY>50</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Screen_Work_Order_Details</targetReference>
+        </connector>
+    </recordLookups>
+
+    <screens>
+        <name>Screen_Work_Order_Details</name>
+        <label>Work Order Details</label>
+        <locationX>176</locationX>
+        <locationY>170</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>false</allowFinish>
+        <allowPause>true</allowPause>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+        <fields>
+            <name>in_PO_Number</name>
+            <dataType>String</dataType>
+            <fieldText>PO Number</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>in_PO_Amount</name>
+            <dataType>Currency</dataType>
+            <fieldText>PO Amount</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>in_Customer_Site</name>
+            <dataType>String</dataType>
+            <fieldText>Customer Site</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>in_Mobilization_Date</name>
+            <dataType>Date</dataType>
+            <fieldText>Mobilization Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>in_Method_of_Mobilization</name>
+            <choiceReferences>Choice_Drive</choiceReferences>
+            <choiceReferences>Choice_Fly</choiceReferences>
+            <choiceReferences>Choice_Mixed</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>Choice_Drive</defaultSelectedChoiceReference>
+            <fieldText>Method of Mobilization</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>in_Project_Lead</name>
+            <extensionName>flowruntime:lookup</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Project Lead</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>objectApiName</name>
+                <value>
+                    <stringValue>User</stringValue>
+                </value>
+            </inputParameters>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>in_Job_Code</name>
+            <dataType>String</dataType>
+            <fieldText>Job Code</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>in_Requires_New_Hires</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Requires New Hires</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>in_SOW_Notes</name>
+            <dataType>String</dataType>
+            <fieldText>Scope of Work Notes</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <connector>
+            <targetReference>Screen_Billing_Rates</targetReference>
+        </connector>
+    </screens>
+
+    <choices>
+        <name>Choice_Drive</name>
+        <choiceText>Drive</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Drive</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Fly</name>
+        <choiceText>Fly</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Fly</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Mixed</name>
+        <choiceText>Mixed</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Mixed</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Net30</name>
+        <choiceText>Net 30</choiceText>
+        <dataType>String</dataType>
+        <value><stringValue>Net 30</stringValue></value>
+    </choices>
+    <choices>
+        <name>Choice_Net45</name>
+        <choiceText>Net 45</choiceText>
+        <dataType>String</dataType>
+        <value><stringValue>Net 45</stringValue></value>
+    </choices>
+    <choices>
+        <name>Choice_Net60</name>
+        <choiceText>Net 60</choiceText>
+        <dataType>String</dataType>
+        <value><stringValue>Net 60</stringValue></value>
+    </choices>
+
+    <screens>
+        <name>Screen_Billing_Rates</name>
+        <label>Billing Rates &amp; Cash Flow</label>
+        <locationX>176</locationX>
+        <locationY>290</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+        <fields>
+            <name>in_Tech_2_ST_Rate</name>
+            <dataType>Currency</dataType>
+            <defaultValue>
+                <numberValue>123.50</numberValue>
+            </defaultValue>
+            <fieldText>Tech 2 Rate - ST (Lead)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>in_Tech_2_OT_Rate</name>
+            <dataType>Currency</dataType>
+            <defaultValue>
+                <numberValue>160.55</numberValue>
+            </defaultValue>
+            <fieldText>Tech 2 Rate - OT (Lead)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>in_Tech_1_ST_Rate</name>
+            <dataType>Currency</dataType>
+            <defaultValue>
+                <numberValue>95.00</numberValue>
+            </defaultValue>
+            <fieldText>Tech 1 Rate - ST (Standard)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>in_Tech_1_OT_Rate</name>
+            <dataType>Currency</dataType>
+            <defaultValue>
+                <numberValue>123.50</numberValue>
+            </defaultValue>
+            <fieldText>Tech 1 Rate - OT (Standard)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>in_Estimated_Project_Length</name>
+            <dataType>Number</dataType>
+            <fieldText>Estimated Project Length (Weeks)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>0</scale>
+        </fields>
+        <fields>
+            <name>in_Estimated_Biweekly_Labor_Cost</name>
+            <dataType>Currency</dataType>
+            <fieldText>Estimated Biweekly Labor Cost</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>in_Tooling_Equipment_Budget</name>
+            <dataType>Currency</dataType>
+            <fieldText>Tooling / Equipment Budget</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>in_Billing_Terms</name>
+            <choiceReferences>Choice_Net30</choiceReferences>
+            <choiceReferences>Choice_Net45</choiceReferences>
+            <choiceReferences>Choice_Net60</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>Choice_Net45</defaultSelectedChoiceReference>
+            <fieldText>Billing Terms</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <connector>
+            <targetReference>Create_Work_Order_Record</targetReference>
+        </connector>
+    </screens>
+
+    <recordCreates>
+        <name>Create_Work_Order_Record</name>
+        <label>Create Work Order</label>
+        <locationX>176</locationX>
+        <locationY>410</locationY>
+        <inputAssignments>
+            <field>Opportunity__c</field>
+            <value><elementReference>recordId</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Account__c</field>
+            <value><elementReference>Get_Opportunity.AccountId</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value><stringValue>Pre-Mob</stringValue></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PO_Number__c</field>
+            <value><elementReference>in_PO_Number</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PO_Amount__c</field>
+            <value><elementReference>in_PO_Amount</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Customer_Site__c</field>
+            <value><elementReference>in_Customer_Site</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Mobilization_Date__c</field>
+            <value><elementReference>in_Mobilization_Date</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Method_of_Mobilization__c</field>
+            <value><elementReference>in_Method_of_Mobilization</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Job_Code__c</field>
+            <value><elementReference>in_Job_Code</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Requires_New_Hires__c</field>
+            <value><elementReference>in_Requires_New_Hires</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SOW_Notes__c</field>
+            <value><elementReference>in_SOW_Notes</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_2_ST_Rate__c</field>
+            <value><elementReference>in_Tech_2_ST_Rate</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_2_OT_Rate__c</field>
+            <value><elementReference>in_Tech_2_OT_Rate</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_1_ST_Rate__c</field>
+            <value><elementReference>in_Tech_1_ST_Rate</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_1_OT_Rate__c</field>
+            <value><elementReference>in_Tech_1_OT_Rate</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Estimated_Project_Length__c</field>
+            <value><elementReference>in_Estimated_Project_Length</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Estimated_Biweekly_Labor_Cost__c</field>
+            <value><elementReference>in_Estimated_Biweekly_Labor_Cost</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tooling_Equipment_Budget__c</field>
+            <value><elementReference>in_Tooling_Equipment_Budget</elementReference></value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Billing_Terms__c</field>
+            <value><elementReference>in_Billing_Terms</elementReference></value>
+        </inputAssignments>
+        <object>Project__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Screen_Success</targetReference>
+        </connector>
+    </recordCreates>
+
+    <screens>
+        <name>Screen_Success</name>
+        <label>Work Order Created</label>
+        <locationX>176</locationX>
+        <locationY>530</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+        <fields>
+            <name>SuccessMessage</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Work Order created.&lt;/b&gt; Pre-Mob tasks will generate automatically.&lt;/p&gt;&lt;p&gt;&lt;a href="/lightning/r/Project__c/{!Create_Work_Order_Record}/view" target="_top"&gt;Open the new Work Order&lt;/a&gt;, or click &lt;b&gt;Finish&lt;/b&gt; to return to the Opportunity.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+    </screens>
+
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Opportunity</targetReference>
+        </connector>
+    </start>
+</Flow>
