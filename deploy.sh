@@ -77,6 +77,7 @@ echo ""
 # ----------------------------------------------------------
 echo "Step 2: Copying metadata to temp directory and substituting placeholders..."
 cp -r force-app "$TEMP_DIR/"
+cp sfdx-project.json "$TEMP_DIR/"
 FLOW_DIR="$TEMP_DIR/force-app/main/default/flows"
 
 substitute() {
