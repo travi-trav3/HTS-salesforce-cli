@@ -2,6 +2,7 @@
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <masterLabel>Change Order Record Page</masterLabel>
     <sobjectType>Change_Order__c</sobjectType>
+    <type>RecordPage</type>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>

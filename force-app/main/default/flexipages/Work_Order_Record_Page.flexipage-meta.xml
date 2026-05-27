@@ -2,8 +2,9 @@
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <masterLabel>Work Order Record Page</masterLabel>
     <sobjectType>Project__c</sobjectType>
+    <type>RecordPage</type>
     <template>
-        <name>flexipage:recordHomeRightSidebar</name>
+        <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
     <flexiPageRegions>
         <name>header</name>
@@ -117,20 +118,6 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:relatedListContainer</componentName>
-            </componentInstance>
-        </itemInstances>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <name>sidebar</name>
-        <type>Region</type>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_sales_activities:activitiesByType</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_chatter:feedContainer</componentName>
             </componentInstance>
         </itemInstances>
     </flexiPageRegions>

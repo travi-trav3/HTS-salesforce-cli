@@ -250,20 +250,9 @@
         </fields>
         <fields>
             <name>in_Project_Lead</name>
-            <extensionName>flowruntime:lookup</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>label</name>
-                <value>
-                    <stringValue>Project Lead</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>objectApiName</name>
-                <value>
-                    <stringValue>User</stringValue>
-                </value>
-            </inputParameters>
+            <dataType>String</dataType>
+            <fieldText>Project Lead User ID (optional — leave blank to default to Ian)</fieldText>
+            <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>
         <fields>

@@ -1,40 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionCalls>
-        <name>Post_Chatter_Alert</name>
-        <label>Post Chatter @mention</label>
-        <locationX>50</locationX>
-        <locationY>240</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <inputParameters>
-            <name>subjectNameOrId</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>text</name>
-            <value>
-                <elementReference>fAlertBody</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-            <value>
-                <stringValue>TextPost</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mentionedNameOrIdList</name>
-            <value>
-                <elementReference>AmandaUserId</elementReference>
-            </value>
-        </inputParameters>
-        <connector>
-            <targetReference>Set_Alert_Sent_True</targetReference>
-        </connector>
-    </actionCalls>
     <apiVersion>62.0</apiVersion>
     <constants>
         <name>AmandaUserId</name>
@@ -75,7 +40,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Post_Chatter_Alert</targetReference>
+                <targetReference>Set_Alert_Sent_True</targetReference>
             </connector>
         </rules>
         <rules>
@@ -101,7 +66,7 @@
             </connector>
         </rules>
     </decisions>
-    <description>Record-triggered flow on Project__c create/update. Posts a Chatter message @mentioning Amanda and Nikki when the PO remaining percentage drops below the per-Work-Order threshold. Resets the PO_Alert_Sent flag when the percentage rises back above the threshold (e.g., after a change order).</description>
+    <description>Record-triggered flow on Project__c create/update. Sets PO_Alert_Sent__c=true when the PO remaining percentage drops below the per-Work-Order threshold; resets the flag when it rises back above. The Chatter @mention to Amanda + Nikki is intentionally omitted in this version — wire it up in Flow Builder once Chatter is configured.</description>
     <formulas>
         <name>fThresholdValue</name>
         <dataType>Number</dataType>
@@ -123,11 +88,6 @@
   NOT(ISBLANK({!$Record.Percent_Remaining__c})),
   {!$Record.Percent_Remaining__c} &gt;= {!fThresholdValue}
 )</expression>
-    </formulas>
-    <formulas>
-        <name>fAlertBody</name>
-        <dataType>String</dataType>
-        <expression>"Heads up: " &amp; {!$Record.Name} &amp; " is at " &amp; TEXT(ROUND({!$Record.Percent_Remaining__c}, 1)) &amp; "% of its PO value remaining ($" &amp; TEXT(ROUND({!$Record.Remaining_Balance__c}, 0)) &amp; " of $" &amp; TEXT(ROUND({!$Record.Total_Contract_Value__c}, 0)) &amp; "). Review billing and PO status."</expression>
     </formulas>
     <label>PO Low Balance Alert</label>
     <processType>AutoLaunchedFlow</processType>
