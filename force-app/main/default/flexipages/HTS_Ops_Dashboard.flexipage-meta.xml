@@ -11,6 +11,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>c:htsOpsDashboard</componentName>
+                <identifier>htsOpsDashboard1</identifier>
             </componentInstance>
         </itemInstances>
     </flexiPageRegions>

@@ -29,7 +29,7 @@ query_user_id() {
   result=$(sf data query \
     --query "SELECT Id FROM User WHERE Name LIKE '%${pattern}%' AND IsActive=true LIMIT 1" \
     --target-org "$ORG_ALIAS" \
-    --json 2>&1) || {
+    --json) || {
     echo "ERROR: Failed to query ${label}'s User ID" >&2
     echo "$result" >&2
     return 1
@@ -37,7 +37,15 @@ query_user_id() {
   local id
   id=$(echo "$result" | python3 -c "
 import sys, json
-data = json.load(sys.stdin)
+text = sys.stdin.read()
+# sf CLI may prepend warnings to stdout; locate the JSON object.
+start = text.find('{')
+if start == -1:
+    sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
 records = data.get('result', {}).get('records', [])
 if not records:
     sys.exit(1)
@@ -69,7 +77,15 @@ echo ""
 # ----------------------------------------------------------
 echo "Step 2: Copying metadata to temp directory and substituting placeholders..."
 cp -r force-app "$TEMP_DIR/"
+cp sfdx-project.json "$TEMP_DIR/"
 FLOW_DIR="$TEMP_DIR/force-app/main/default/flows"
+
+# Fix Flow XML element ordering (Salesforce requires alphabetical grouping;
+# repeated metadata generation can interleave elements).
+if [ -f fix_flow_xml.py ]; then
+  echo "  Normalising flow XML element order..."
+  python3 fix_flow_xml.py "$FLOW_DIR" > /dev/null
+fi
 
 substitute() {
   local file="$1"
@@ -121,13 +137,16 @@ sf project deploy start \
 echo ""
 
 echo "Step 3b: Deploying new Task custom fields..."
+echo "  (If these were created manually in the UI to work around the"
+echo "   metadata-API picklist quirk, this step will no-op or warn — safe to ignore.)"
 if ! sf project deploy start \
   --source-dir "force-app/main/default/objects/Task" \
   --target-org "$ORG_ALIAS" \
   --wait 15 2>&1; then
   echo ""
-  echo "WARNING: Task field deploy failed. Known Salesforce issue with Task picklists via metadata API."
-  echo "Create the four custom Task fields manually if needed:"
+  echo "WARNING: Task field deploy failed via metadata API (known Salesforce quirk)."
+  echo "If the four fields already exist in the org (created manually), continuing is safe."
+  echo "Required fields:"
   echo "  - Is_Gate__c (Checkbox, default false)"
   echo "  - Pre_Mob_Section__c (Picklist values: A. Financial + Scope, B. Staffing, C. Safety,"
   echo "    D. Training, E. Tools + Fleet, F. Procurement, G. Schedule, H. Client Alignment, Sign-off)"
@@ -136,35 +155,24 @@ if ! sf project deploy start \
 fi
 echo ""
 
-echo "Step 3c: Deploying Tabs..."
-sf project deploy start \
-  --source-dir "force-app/main/default/tabs" \
-  --target-org "$ORG_ALIAS" \
-  --wait 10 || echo "  Tabs deploy reported issues; continuing."
-echo ""
-
-echo "Step 3d: Deploying Apex (HTSOpsDashboardController + test)..."
+echo "Step 3c: Deploying Apex (HTSOpsDashboardController + test)..."
 sf project deploy start \
   --source-dir "force-app/main/default/classes" \
   --target-org "$ORG_ALIAS" \
   --wait 15
 echo ""
 
-echo "Step 3e: Deploying LWC htsOpsDashboard..."
+echo "Step 3d: Deploying LWC htsOpsDashboard..."
 sf project deploy start \
   --source-dir "force-app/main/default/lwc" \
   --target-org "$ORG_ALIAS" \
   --wait 10
 echo ""
 
-echo "Step 3f: Deploying Quick Action (Opportunity.Create_Work_Order)..."
-sf project deploy start \
-  --source-dir "force-app/main/default/objects/Opportunity" \
-  --target-org "$ORG_ALIAS" \
-  --wait 10 || echo "  Quick Action deploy reported issues; may need manual addition to Opportunity page layout."
+echo "Step 3e: Quick Action — manual setup (see post-deploy steps)."
 echo ""
 
-echo "Step 3g: Deploying FlexiPages (Work Order, Change Order, Ops Dashboard)..."
+echo "Step 3f: Deploying FlexiPages (Work Order, Change Order, Ops Dashboard)..."
 if ! sf project deploy start \
   --source-dir "force-app/main/default/flexipages" \
   --target-org "$ORG_ALIAS" \
@@ -173,6 +181,13 @@ if ! sf project deploy start \
   echo "WARNING: FlexiPage deploy reported issues. New record pages should deploy clean;"
   echo "existing-page modifications may silently no-op. Verify in App Builder."
 fi
+echo ""
+
+echo "Step 3g: Deploying Tabs..."
+sf project deploy start \
+  --source-dir "force-app/main/default/tabs" \
+  --target-org "$ORG_ALIAS" \
+  --wait 10 || echo "  Tabs deploy reported issues; continuing."
 echo ""
 
 echo "Step 3h: Deploying Lightning App (HTS_Operations)..."
@@ -201,8 +216,43 @@ echo ""
 echo "Manual post-deploy steps:"
 echo "  1. Assign permission set 'HTS Ops Sprint 1' to users:"
 echo "       sf org assign permset --name HTS_Ops_Sprint1 --on-behalf-of <username> --target-org $ORG_ALIAS"
-echo "  2. Add 'Create Work Order' quick action to the Opportunity Lightning Record Page via App Builder."
-echo "  3. Activate the 'Work Order Record Page' as the org default for Project__c"
+echo ""
+echo "  2. Create the 'Create Work Order' Quick Action on Opportunity (2 min):"
+echo "       Setup → Object Manager → Opportunity → Buttons, Links, and Actions → New Action"
+echo "       Action Type: Flow"
+echo "       Flow: Create Work Order"
+echo "       Label: Create Work Order"
+echo "       Save, then add the action to the Opportunity Lightning Record Page via App Builder."
+echo ""
+echo "  3. Build the Work Order Record Page in Lightning App Builder (~7 min):"
+echo "       Setup → Object Manager → Work Order → Lightning Record Pages → New"
+echo "       Choose 'Header and Right Sidebar' template, label 'Work Order Record Page'."
+echo "       Sections (drag Field Section components into the main column):"
+echo "         - Project Details (Name, Stage, Opportunity, Customer, Site, Mob Date,"
+echo "           Method, Project Lead, Job Code, Requires New Hires, SOW Notes, Days to Mob)"
+echo "         - PO & Financials (PO Number, PO Amount, CO Total, Total Contract Value,"
+echo "           Invoiced, Remaining Balance, % Remaining, Alert Threshold, Last Invoice,"
+echo "           Billing Terms)"
+echo "         - Cash Flow Inputs (Project Length, Biweekly Labor, Tooling Budget)"
+echo "         - Billing Rates (Tech 2 ST/OT, Tech 1 ST/OT)"
+echo "       Add Related Lists below. Save → Activate → Org Default."
+echo ""
+echo "  4. Build the Change Order Record Page (~2 min):"
+echo "       Object Manager → Change Order → Lightning Record Pages → New"
+echo "       One Field Section with: Name, Work Order, Amount, Date Received, CO PO Number,"
+echo "       Description. Save → Activate → Org Default."
+echo ""
+echo "  5. Activate the Work Order Record Page as the org default for Project__c"
 echo "     (Setup → Object Manager → Work Order → Lightning Record Pages → Activation)."
-echo "  4. Pin the Ops Dashboard tab in the HTS Operations app."
-echo "  5. Run the Part 12 test plan from the brief."
+echo ""
+echo "  6. Pin the Ops Dashboard tab in the HTS Operations app."
+echo ""
+echo "  7. Build the Overdue Gate Task Alert as a scheduled flow (Salesforce does not allow"
+echo "     record-triggered flows on Task). In Flow Builder: New Flow → Scheduled Flow,"
+echo "     daily at 8am, filter Tasks where Is_Gate__c=true AND Status!='Completed' AND"
+echo "     ActivityDate<TODAY AND related Work Order Stage='Pre-Mob'; post Chatter @mention"
+echo "     to owner; if 3+ days overdue, also @mention Nikki."
+echo ""
+echo "  8. Wire up Chatter @mentions on PO Low Balance Alert in Flow Builder (Amanda + Nikki)."
+echo ""
+echo "  9. Run the Part 12 test plan from the brief."
