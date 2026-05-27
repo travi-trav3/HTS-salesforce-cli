@@ -80,6 +80,13 @@ cp -r force-app "$TEMP_DIR/"
 cp sfdx-project.json "$TEMP_DIR/"
 FLOW_DIR="$TEMP_DIR/force-app/main/default/flows"
 
+# Fix Flow XML element ordering (Salesforce requires alphabetical grouping;
+# repeated metadata generation can interleave elements).
+if [ -f fix_flow_xml.py ]; then
+  echo "  Normalising flow XML element order..."
+  python3 fix_flow_xml.py "$FLOW_DIR" > /dev/null
+fi
+
 substitute() {
   local file="$1"
   if grep -q '{{[A-Z]*_USER_ID}}' "$file" 2>/dev/null; then
@@ -164,7 +171,7 @@ echo ""
 
 echo "Step 3e: Deploying Quick Action (Opportunity.Create_Work_Order)..."
 sf project deploy start \
-  --source-dir "force-app/main/default/objects/Opportunity" \
+  --source-dir "force-app/main/default/quickActions" \
   --target-org "$ORG_ALIAS" \
   --wait 10 || echo "  Quick Action deploy reported issues; may need manual addition to Opportunity page layout."
 echo ""

@@ -1,26 +1,182 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
+    <choices>
+        <name>Choice_Drive</name>
+        <choiceText>Drive</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Drive</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Fly</name>
+        <choiceText>Fly</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Fly</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Mixed</name>
+        <choiceText>Mixed</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Mixed</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Net30</name>
+        <choiceText>Net 30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Net 30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Net45</name>
+        <choiceText>Net 45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Net 45</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Net60</name>
+        <choiceText>Net 60</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Net 60</stringValue>
+        </value>
+    </choices>
     <description>Screen flow launched from the Create Work Order quick action on Opportunity. Collects required project, billing, and cash flow inputs and creates a Project__c (Work Order).</description>
     <label>Create Work Order</label>
     <processType>Flow</processType>
-    <status>Active</status>
-
-    <variables>
-        <name>recordId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>newProjectId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-
+    <recordCreates>
+        <name>Create_Work_Order_Record</name>
+        <label>Create Work Order</label>
+        <locationX>176</locationX>
+        <locationY>410</locationY>
+        <inputAssignments>
+            <field>Opportunity__c</field>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Account__c</field>
+            <value>
+                <elementReference>Get_Opportunity.AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <stringValue>Pre-Mob</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PO_Number__c</field>
+            <value>
+                <elementReference>in_PO_Number</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PO_Amount__c</field>
+            <value>
+                <elementReference>in_PO_Amount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Customer_Site__c</field>
+            <value>
+                <elementReference>in_Customer_Site</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Mobilization_Date__c</field>
+            <value>
+                <elementReference>in_Mobilization_Date</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Method_of_Mobilization__c</field>
+            <value>
+                <elementReference>in_Method_of_Mobilization</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Job_Code__c</field>
+            <value>
+                <elementReference>in_Job_Code</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Requires_New_Hires__c</field>
+            <value>
+                <elementReference>in_Requires_New_Hires</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SOW_Notes__c</field>
+            <value>
+                <elementReference>in_SOW_Notes</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_2_ST_Rate__c</field>
+            <value>
+                <elementReference>in_Tech_2_ST_Rate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_2_OT_Rate__c</field>
+            <value>
+                <elementReference>in_Tech_2_OT_Rate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_1_ST_Rate__c</field>
+            <value>
+                <elementReference>in_Tech_1_ST_Rate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_1_OT_Rate__c</field>
+            <value>
+                <elementReference>in_Tech_1_OT_Rate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Estimated_Project_Length__c</field>
+            <value>
+                <elementReference>in_Estimated_Project_Length</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Estimated_Biweekly_Labor_Cost__c</field>
+            <value>
+                <elementReference>in_Estimated_Biweekly_Labor_Cost</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tooling_Equipment_Budget__c</field>
+            <value>
+                <elementReference>in_Tooling_Equipment_Budget</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Billing_Terms__c</field>
+            <value>
+                <elementReference>in_Billing_Terms</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Project__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Screen_Success</targetReference>
+        </connector>
+    </recordCreates>
     <recordLookups>
         <name>Get_Opportunity</name>
         <label>Get Opportunity</label>
@@ -42,7 +198,6 @@
             <targetReference>Screen_Work_Order_Details</targetReference>
         </connector>
     </recordLookups>
-
     <screens>
         <name>Screen_Work_Order_Details</name>
         <label>Work Order Details</label>
@@ -136,50 +291,6 @@
             <targetReference>Screen_Billing_Rates</targetReference>
         </connector>
     </screens>
-
-    <choices>
-        <name>Choice_Drive</name>
-        <choiceText>Drive</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Drive</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Choice_Fly</name>
-        <choiceText>Fly</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Fly</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Choice_Mixed</name>
-        <choiceText>Mixed</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Mixed</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Choice_Net30</name>
-        <choiceText>Net 30</choiceText>
-        <dataType>String</dataType>
-        <value><stringValue>Net 30</stringValue></value>
-    </choices>
-    <choices>
-        <name>Choice_Net45</name>
-        <choiceText>Net 45</choiceText>
-        <dataType>String</dataType>
-        <value><stringValue>Net 45</stringValue></value>
-    </choices>
-    <choices>
-        <name>Choice_Net60</name>
-        <choiceText>Net 60</choiceText>
-        <dataType>String</dataType>
-        <value><stringValue>Net 60</stringValue></value>
-    </choices>
-
     <screens>
         <name>Screen_Billing_Rates</name>
         <label>Billing Rates &amp; Cash Flow</label>
@@ -273,95 +384,6 @@
             <targetReference>Create_Work_Order_Record</targetReference>
         </connector>
     </screens>
-
-    <recordCreates>
-        <name>Create_Work_Order_Record</name>
-        <label>Create Work Order</label>
-        <locationX>176</locationX>
-        <locationY>410</locationY>
-        <inputAssignments>
-            <field>Opportunity__c</field>
-            <value><elementReference>recordId</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Account__c</field>
-            <value><elementReference>Get_Opportunity.AccountId</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Stage__c</field>
-            <value><stringValue>Pre-Mob</stringValue></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>PO_Number__c</field>
-            <value><elementReference>in_PO_Number</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>PO_Amount__c</field>
-            <value><elementReference>in_PO_Amount</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Customer_Site__c</field>
-            <value><elementReference>in_Customer_Site</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Mobilization_Date__c</field>
-            <value><elementReference>in_Mobilization_Date</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Method_of_Mobilization__c</field>
-            <value><elementReference>in_Method_of_Mobilization</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Job_Code__c</field>
-            <value><elementReference>in_Job_Code</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Requires_New_Hires__c</field>
-            <value><elementReference>in_Requires_New_Hires</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>SOW_Notes__c</field>
-            <value><elementReference>in_SOW_Notes</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Tech_2_ST_Rate__c</field>
-            <value><elementReference>in_Tech_2_ST_Rate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Tech_2_OT_Rate__c</field>
-            <value><elementReference>in_Tech_2_OT_Rate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Tech_1_ST_Rate__c</field>
-            <value><elementReference>in_Tech_1_ST_Rate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Tech_1_OT_Rate__c</field>
-            <value><elementReference>in_Tech_1_OT_Rate</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Estimated_Project_Length__c</field>
-            <value><elementReference>in_Estimated_Project_Length</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Estimated_Biweekly_Labor_Cost__c</field>
-            <value><elementReference>in_Estimated_Biweekly_Labor_Cost</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Tooling_Equipment_Budget__c</field>
-            <value><elementReference>in_Tooling_Equipment_Budget</elementReference></value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Billing_Terms__c</field>
-            <value><elementReference>in_Billing_Terms</elementReference></value>
-        </inputAssignments>
-        <object>Project__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <connector>
-            <targetReference>Screen_Success</targetReference>
-        </connector>
-    </recordCreates>
-
     <screens>
         <name>Screen_Success</name>
         <label>Work Order Created</label>
@@ -378,7 +400,6 @@
             <fieldType>DisplayText</fieldType>
         </fields>
     </screens>
-
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
@@ -386,4 +407,19 @@
             <targetReference>Get_Opportunity</targetReference>
         </connector>
     </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>newProjectId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
 </Flow>

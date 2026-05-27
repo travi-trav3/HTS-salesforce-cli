@@ -1,17 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Post_Owner_Alert</name>
+        <label>Post Owner Chatter Alert</label>
+        <locationX>50</locationX>
+        <locationY>240</locationY>
+        <actionName>chatterPost</actionName>
+        <actionType>chatterPost</actionType>
+        <inputParameters>
+            <name>subjectNameOrId</name>
+            <value>
+                <elementReference>$Record.WhatId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>text</name>
+            <value>
+                <elementReference>fOwnerAlertBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value>
+                <stringValue>TextPost</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mentionedNameOrIdList</name>
+            <value>
+                <elementReference>$Record.OwnerId</elementReference>
+            </value>
+        </inputParameters>
+        <connector>
+            <targetReference>Mark_Alert_Sent</targetReference>
+        </connector>
+    </actionCalls>
+    <actionCalls>
+        <name>Post_Escalation</name>
+        <label>Post Escalation Chatter @Nikki</label>
+        <locationX>300</locationX>
+        <locationY>240</locationY>
+        <actionName>chatterPost</actionName>
+        <actionType>chatterPost</actionType>
+        <inputParameters>
+            <name>subjectNameOrId</name>
+            <value>
+                <elementReference>$Record.WhatId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>text</name>
+            <value>
+                <elementReference>fEscalationBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value>
+                <stringValue>TextPost</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mentionedNameOrIdList</name>
+            <value>
+                <elementReference>NikkiUserId</elementReference>
+            </value>
+        </inputParameters>
+        <connector>
+            <targetReference>Mark_Escalated</targetReference>
+        </connector>
+    </actionCalls>
     <apiVersion>62.0</apiVersion>
-    <description>Scheduled flow (daily 08:00) that runs once per overdue Pre-Mob gate Task and posts Chatter @mentions to the task owner on the related Work Order. Tasks 3+ days overdue also @mention Nikki. Dedupe via Overdue_Alert_Sent__c; escalation tracked via Escalated__c.</description>
-    <label>Overdue Gate Task Alert</label>
-    <processType>AutoLaunchedFlow</processType>
-    <status>Active</status>
-
     <constants>
         <name>NikkiUserId</name>
         <dataType>String</dataType>
-        <value><stringValue>{{NIKKI_USER_ID}}</stringValue></value>
+        <value>
+            <stringValue>{{NIKKI_USER_ID}}</stringValue>
+        </value>
     </constants>
-
+    <decisions>
+        <name>Route_Per_Task</name>
+        <label>Route Per Task</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <defaultConnectorLabel>Already alerted - no action</defaultConnectorLabel>
+        <rules>
+            <name>Not_Yet_Alerted</name>
+            <label>Not yet alerted - post owner notification</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Overdue_Alert_Sent__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Post_Owner_Alert</targetReference>
+            </connector>
+        </rules>
+        <rules>
+            <name>Escalation_Needed</name>
+            <label>3+ days overdue and not yet escalated</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fIsEscalating</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Overdue_Alert_Sent__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Post_Escalation</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <description>Scheduled flow (daily 08:00) that runs once per overdue Pre-Mob gate Task and posts Chatter @mentions to the task owner on the related Work Order. Tasks 3+ days overdue also @mention Nikki. Dedupe via Overdue_Alert_Sent__c; escalation tracked via Escalated__c.</description>
     <formulas>
         <name>fDaysOverdue</name>
         <dataType>Number</dataType>
@@ -32,7 +143,50 @@
         <dataType>String</dataType>
         <expression>"Escalation: Pre-Mob gate task " &amp; {!$Record.Subject} &amp; " is 3+ days overdue (due " &amp; TEXT({!$Record.ActivityDate}) &amp; "). Original owner has been notified."</expression>
     </formulas>
-
+    <label>Overdue Gate Task Alert</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Mark_Alert_Sent</name>
+        <label>Mark Overdue Alert Sent</label>
+        <locationX>50</locationX>
+        <locationY>360</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Overdue_Alert_Sent__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Mark_Escalated</name>
+        <label>Mark Escalated to Nikki</label>
+        <locationX>300</locationX>
+        <locationY>360</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Escalated__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordUpdates>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
@@ -46,151 +200,27 @@
         <filters>
             <field>Is_Gate__c</field>
             <operator>EqualTo</operator>
-            <value><booleanValue>true</booleanValue></value>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
         </filters>
         <filters>
             <field>Status</field>
             <operator>NotEqualTo</operator>
-            <value><stringValue>Completed</stringValue></value>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
         </filters>
         <filters>
             <field>ActivityDate</field>
             <operator>LessThan</operator>
-            <value><elementReference>$Flow.CurrentDate</elementReference></value>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
         </filters>
         <connector>
             <targetReference>Route_Per_Task</targetReference>
         </connector>
     </start>
-
-    <decisions>
-        <name>Route_Per_Task</name>
-        <label>Route Per Task</label>
-        <locationX>176</locationX>
-        <locationY>120</locationY>
-        <defaultConnectorLabel>Already alerted - no action</defaultConnectorLabel>
-        <rules>
-            <name>Not_Yet_Alerted</name>
-            <label>Not yet alerted - post owner notification</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Overdue_Alert_Sent__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>false</booleanValue></rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Post_Owner_Alert</targetReference>
-            </connector>
-        </rules>
-        <rules>
-            <name>Escalation_Needed</name>
-            <label>3+ days overdue and not yet escalated</label>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>fIsEscalating</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Overdue_Alert_Sent__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue><booleanValue>true</booleanValue></rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Post_Escalation</targetReference>
-            </connector>
-        </rules>
-    </decisions>
-
-    <actionCalls>
-        <name>Post_Owner_Alert</name>
-        <label>Post Owner Chatter Alert</label>
-        <locationX>50</locationX>
-        <locationY>240</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <inputParameters>
-            <name>subjectNameOrId</name>
-            <value><elementReference>$Record.WhatId</elementReference></value>
-        </inputParameters>
-        <inputParameters>
-            <name>text</name>
-            <value><elementReference>fOwnerAlertBody</elementReference></value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-            <value><stringValue>TextPost</stringValue></value>
-        </inputParameters>
-        <inputParameters>
-            <name>mentionedNameOrIdList</name>
-            <value><elementReference>$Record.OwnerId</elementReference></value>
-        </inputParameters>
-        <connector>
-            <targetReference>Mark_Alert_Sent</targetReference>
-        </connector>
-    </actionCalls>
-
-    <recordUpdates>
-        <name>Mark_Alert_Sent</name>
-        <label>Mark Overdue Alert Sent</label>
-        <locationX>50</locationX>
-        <locationY>360</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value><elementReference>$Record.Id</elementReference></value>
-        </filters>
-        <inputAssignments>
-            <field>Overdue_Alert_Sent__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <object>Task</object>
-    </recordUpdates>
-
-    <actionCalls>
-        <name>Post_Escalation</name>
-        <label>Post Escalation Chatter @Nikki</label>
-        <locationX>300</locationX>
-        <locationY>240</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <inputParameters>
-            <name>subjectNameOrId</name>
-            <value><elementReference>$Record.WhatId</elementReference></value>
-        </inputParameters>
-        <inputParameters>
-            <name>text</name>
-            <value><elementReference>fEscalationBody</elementReference></value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-            <value><stringValue>TextPost</stringValue></value>
-        </inputParameters>
-        <inputParameters>
-            <name>mentionedNameOrIdList</name>
-            <value><elementReference>NikkiUserId</elementReference></value>
-        </inputParameters>
-        <connector>
-            <targetReference>Mark_Escalated</targetReference>
-        </connector>
-    </actionCalls>
-
-    <recordUpdates>
-        <name>Mark_Escalated</name>
-        <label>Mark Escalated to Nikki</label>
-        <locationX>300</locationX>
-        <locationY>360</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value><elementReference>$Record.Id</elementReference></value>
-        </filters>
-        <inputAssignments>
-            <field>Escalated__c</field>
-            <value><booleanValue>true</booleanValue></value>
-        </inputAssignments>
-        <object>Task</object>
-    </recordUpdates>
+    <status>Active</status>
 </Flow>

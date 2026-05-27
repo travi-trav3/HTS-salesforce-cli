@@ -3,7 +3,7 @@
     <masterLabel>Work Order Record Page</masterLabel>
     <sobjectType>Project__c</sobjectType>
     <template>
-        <name>flexipage:recordHomeTemplateDesktop</name>
+        <name>flexipage:recordHomeRightSidebar</name>
     </template>
     <flexiPageRegions>
         <name>header</name>
@@ -45,6 +45,8 @@
                 <componentInstanceProperties><name>fieldItem_6_1</name><value>Project__c.SOW_Notes__c</value></componentInstanceProperties>
                 <componentInstanceProperties><name>fieldItem_6_2</name><value>Project__c.Days_To_Mobilization__c</value></componentInstanceProperties>
             </componentInstance>
+        </itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentName>flexipage:fieldSection</componentName>
                 <componentInstanceProperties>
@@ -70,6 +72,8 @@
                 <componentInstanceProperties><name>fieldItem_5_1</name><value>Project__c.Last_Invoice_Date__c</value></componentInstanceProperties>
                 <componentInstanceProperties><name>fieldItem_5_2</name><value>Project__c.Billing_Terms__c</value></componentInstanceProperties>
             </componentInstance>
+        </itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentName>flexipage:fieldSection</componentName>
                 <componentInstanceProperties>
@@ -88,6 +92,8 @@
                 <componentInstanceProperties><name>fieldItem_1_2</name><value>Project__c.Estimated_Biweekly_Labor_Cost__c</value></componentInstanceProperties>
                 <componentInstanceProperties><name>fieldItem_2_1</name><value>Project__c.Tooling_Equipment_Budget__c</value></componentInstanceProperties>
             </componentInstance>
+        </itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentName>flexipage:fieldSection</componentName>
                 <componentInstanceProperties>
@@ -107,6 +113,8 @@
                 <componentInstanceProperties><name>fieldItem_2_1</name><value>Project__c.Tech_1_ST_Rate__c</value></componentInstanceProperties>
                 <componentInstanceProperties><name>fieldItem_2_2</name><value>Project__c.Tech_1_OT_Rate__c</value></componentInstanceProperties>
             </componentInstance>
+        </itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentName>force:relatedListContainer</componentName>
             </componentInstance>
@@ -119,6 +127,8 @@
             <componentInstance>
                 <componentName>runtime_sales_activities:activitiesByType</componentName>
             </componentInstance>
+        </itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentName>runtime_chatter:feedContainer</componentName>
             </componentInstance>
