@@ -130,13 +130,16 @@ sf project deploy start \
 echo ""
 
 echo "Step 3b: Deploying new Task custom fields..."
+echo "  (If these were created manually in the UI to work around the"
+echo "   metadata-API picklist quirk, this step will no-op or warn — safe to ignore.)"
 if ! sf project deploy start \
   --source-dir "force-app/main/default/objects/Task" \
   --target-org "$ORG_ALIAS" \
   --wait 15 2>&1; then
   echo ""
-  echo "WARNING: Task field deploy failed. Known Salesforce issue with Task picklists via metadata API."
-  echo "Create the four custom Task fields manually if needed:"
+  echo "WARNING: Task field deploy failed via metadata API (known Salesforce quirk)."
+  echo "If the four fields already exist in the org (created manually), continuing is safe."
+  echo "Required fields:"
   echo "  - Is_Gate__c (Checkbox, default false)"
   echo "  - Pre_Mob_Section__c (Picklist values: A. Financial + Scope, B. Staffing, C. Safety,"
   echo "    D. Training, E. Tools + Fleet, F. Procurement, G. Schedule, H. Client Alignment, Sign-off)"
@@ -145,35 +148,28 @@ if ! sf project deploy start \
 fi
 echo ""
 
-echo "Step 3c: Deploying Tabs..."
-sf project deploy start \
-  --source-dir "force-app/main/default/tabs" \
-  --target-org "$ORG_ALIAS" \
-  --wait 10 || echo "  Tabs deploy reported issues; continuing."
-echo ""
-
-echo "Step 3d: Deploying Apex (HTSOpsDashboardController + test)..."
+echo "Step 3c: Deploying Apex (HTSOpsDashboardController + test)..."
 sf project deploy start \
   --source-dir "force-app/main/default/classes" \
   --target-org "$ORG_ALIAS" \
   --wait 15
 echo ""
 
-echo "Step 3e: Deploying LWC htsOpsDashboard..."
+echo "Step 3d: Deploying LWC htsOpsDashboard..."
 sf project deploy start \
   --source-dir "force-app/main/default/lwc" \
   --target-org "$ORG_ALIAS" \
   --wait 10
 echo ""
 
-echo "Step 3f: Deploying Quick Action (Opportunity.Create_Work_Order)..."
+echo "Step 3e: Deploying Quick Action (Opportunity.Create_Work_Order)..."
 sf project deploy start \
   --source-dir "force-app/main/default/objects/Opportunity" \
   --target-org "$ORG_ALIAS" \
   --wait 10 || echo "  Quick Action deploy reported issues; may need manual addition to Opportunity page layout."
 echo ""
 
-echo "Step 3g: Deploying FlexiPages (Work Order, Change Order, Ops Dashboard)..."
+echo "Step 3f: Deploying FlexiPages (Work Order, Change Order, Ops Dashboard)..."
 if ! sf project deploy start \
   --source-dir "force-app/main/default/flexipages" \
   --target-org "$ORG_ALIAS" \
@@ -182,6 +178,13 @@ if ! sf project deploy start \
   echo "WARNING: FlexiPage deploy reported issues. New record pages should deploy clean;"
   echo "existing-page modifications may silently no-op. Verify in App Builder."
 fi
+echo ""
+
+echo "Step 3g: Deploying Tabs..."
+sf project deploy start \
+  --source-dir "force-app/main/default/tabs" \
+  --target-org "$ORG_ALIAS" \
+  --wait 10 || echo "  Tabs deploy reported issues; continuing."
 echo ""
 
 echo "Step 3h: Deploying Lightning App (HTS_Operations)..."
