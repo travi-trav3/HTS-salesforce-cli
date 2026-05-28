@@ -97,9 +97,14 @@ print(records[0]['Id'])
 activate_flow() {
   local api_name="$1"
   local ver_result
+  # Flow object in Tooling API stores the API name on the parent
+  # FlowDefinition; reference it through the Definition relationship.
   ver_result=$(sf data query \
-    --query "SELECT VersionNumber FROM Flow WHERE DefinitionName='${api_name}' AND Status!='Obsolete' ORDER BY VersionNumber DESC LIMIT 1" \
-    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>/dev/null) || return 0
+    --query "SELECT VersionNumber FROM Flow WHERE Definition.DeveloperName='${api_name}' AND Status!='Obsolete' ORDER BY VersionNumber DESC LIMIT 1" \
+    --use-tooling-api --target-org "$ORG_ALIAS" --json) || {
+    echo "  ${api_name}: version lookup failed (activate manually in Setup > Flows)"
+    return 0
+  }
   local version
   version=$(echo "$ver_result" | python3 -c "
 import sys, json
@@ -118,7 +123,10 @@ if records:
   local def_result
   def_result=$(sf data query \
     --query "SELECT Id FROM FlowDefinition WHERE DeveloperName='${api_name}'" \
-    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>/dev/null) || return 0
+    --use-tooling-api --target-org "$ORG_ALIAS" --json) || {
+    echo "  ${api_name}: FlowDefinition lookup failed"
+    return 0
+  }
   local def_id
   def_id=$(echo "$def_result" | python3 -c "
 import sys, json
@@ -142,10 +150,10 @@ if records:
       --use-tooling-api --target-org "$ORG_ALIAS" >/dev/null 2>&1; then
       echo "  Activated: ${api_name} (v${version})"
     else
-      echo "  Could not auto-activate ${api_name} (activate manually in Setup > Flows)"
+      echo "  Could not auto-activate ${api_name} v${version} (activate manually in Setup > Flows)"
     fi
   else
-    echo "  Skipped activation: ${api_name} (no version found in org)"
+    echo "  Skipped activation: ${api_name} (version=${version:-empty}, defId=${def_id:-empty})"
   fi
 }
 
