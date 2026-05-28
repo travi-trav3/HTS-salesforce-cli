@@ -58,6 +58,98 @@ print(records[0]['Id'])
 }
 
 # ----------------------------------------------------------
+# query_notification_type_id <DEVELOPER_NAME> -> echoes 18-char ID
+# Reads CustomNotificationType via Tooling API.
+# ----------------------------------------------------------
+query_notification_type_id() {
+  local dev_name="$1"
+  local result
+  result=$(sf data query \
+    --query "SELECT Id FROM CustomNotificationType WHERE DeveloperName='${dev_name}' LIMIT 1" \
+    --use-tooling-api \
+    --target-org "$ORG_ALIAS" \
+    --json) || {
+    echo "ERROR: Failed to query CustomNotificationType ${dev_name}" >&2
+    return 1
+  }
+  echo "$result" | python3 -c "
+import sys, json
+text = sys.stdin.read()
+start = text.find('{')
+if start == -1:
+    sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
+records = data.get('result', {}).get('records', [])
+if not records:
+    sys.exit(1)
+print(records[0]['Id'])
+" 2>/dev/null
+}
+
+# ----------------------------------------------------------
+# activate_flow <FLOW_API_NAME>
+# Salesforce often deploys flows as Draft. This activates the latest
+# version via the Tooling API.
+# ----------------------------------------------------------
+activate_flow() {
+  local api_name="$1"
+  local ver_result
+  ver_result=$(sf data query \
+    --query "SELECT VersionNumber FROM Flow WHERE DefinitionName='${api_name}' AND Status!='Obsolete' ORDER BY VersionNumber DESC LIMIT 1" \
+    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>/dev/null) || return 0
+  local version
+  version=$(echo "$ver_result" | python3 -c "
+import sys, json
+text = sys.stdin.read()
+start = text.find('{')
+if start == -1: sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
+records = data.get('result', {}).get('records', [])
+if records:
+    print(records[0]['VersionNumber'])
+" 2>/dev/null)
+
+  local def_result
+  def_result=$(sf data query \
+    --query "SELECT Id FROM FlowDefinition WHERE DeveloperName='${api_name}'" \
+    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>/dev/null) || return 0
+  local def_id
+  def_id=$(echo "$def_result" | python3 -c "
+import sys, json
+text = sys.stdin.read()
+start = text.find('{')
+if start == -1: sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
+records = data.get('result', {}).get('records', [])
+if records:
+    print(records[0]['Id'])
+" 2>/dev/null)
+
+  if [ -n "$version" ] && [ -n "$def_id" ]; then
+    if sf data update record \
+      --sobject FlowDefinition \
+      --record-id "$def_id" \
+      --values "ActiveVersionNumber=$version" \
+      --use-tooling-api --target-org "$ORG_ALIAS" >/dev/null 2>&1; then
+      echo "  Activated: ${api_name} (v${version})"
+    else
+      echo "  Could not auto-activate ${api_name} (activate manually in Setup > Flows)"
+    fi
+  else
+    echo "  Skipped activation: ${api_name} (no version found in org)"
+  fi
+}
+
+# ----------------------------------------------------------
 # Step 1: Query User IDs
 # ----------------------------------------------------------
 echo "Step 1: Querying User IDs from $ORG_ALIAS..."
@@ -70,6 +162,18 @@ echo "  Dylan:  $DYLAN_USER_ID"
 echo "  Ian:    $IAN_USER_ID"
 echo "  Amanda: $AMANDA_USER_ID"
 echo "  Nikki:  $NIKKI_USER_ID"
+echo ""
+
+echo "Step 1b: Querying Custom Notification Type IDs..."
+HTS_PO_ALERT_TYPE_ID=$(query_notification_type_id "HTS_PO_Alert" || true)
+if [ -z "${HTS_PO_ALERT_TYPE_ID:-}" ]; then
+  echo "  WARNING: 'HTS_PO_Alert' Custom Notification Type not found."
+  echo "  Create it via Setup > Custom Notifications > New (name: HTS PO Alert)."
+  echo "  Skipping notification placeholder substitution; flows that reference it will fail."
+  HTS_PO_ALERT_TYPE_ID="MISSING"
+else
+  echo "  HTS_PO_Alert: $HTS_PO_ALERT_TYPE_ID"
+fi
 echo ""
 
 # ----------------------------------------------------------
@@ -89,13 +193,14 @@ fi
 
 substitute() {
   local file="$1"
-  if grep -q '{{[A-Z]*_USER_ID}}' "$file" 2>/dev/null; then
+  if grep -q '{{[A-Z_]*}}' "$file" 2>/dev/null; then
     local tmpfile="$file.tmp"
     sed \
       -e "s/{{DYLAN_USER_ID}}/${DYLAN_USER_ID}/g" \
       -e "s/{{IAN_USER_ID}}/${IAN_USER_ID}/g" \
       -e "s/{{AMANDA_USER_ID}}/${AMANDA_USER_ID}/g" \
       -e "s/{{NIKKI_USER_ID}}/${NIKKI_USER_ID}/g" \
+      -e "s/{{HTS_PO_ALERT_TYPE_ID}}/${HTS_PO_ALERT_TYPE_ID}/g" \
       "$file" > "$tmpfile"
     mv "$tmpfile" "$file"
     echo "  Substituted in: $(basename "$file")"
@@ -106,10 +211,10 @@ for file in "$FLOW_DIR"/*.xml; do
   substitute "$file"
 done
 
-REMAINING=$(grep -r -l '{{[A-Z]*_USER_ID}}' "$TEMP_DIR/force-app" --include="*.xml" 2>/dev/null | wc -l | tr -d ' ' || true)
+REMAINING=$(grep -r -l '{{[A-Z_]*}}' "$TEMP_DIR/force-app" --include="*.xml" 2>/dev/null | wc -l | tr -d ' ' || true)
 if [ "$REMAINING" -gt 0 ]; then
   echo "ERROR: Unresolved placeholders remain:"
-  grep -r -l '{{[A-Z]*_USER_ID}}' "$TEMP_DIR/force-app" --include="*.xml"
+  grep -r -l '{{[A-Z_]*}}' "$TEMP_DIR/force-app" --include="*.xml"
   exit 1
 fi
 echo "  All placeholders resolved."
@@ -202,6 +307,12 @@ sf project deploy start \
   --source-dir "force-app/main/default/flows" \
   --target-org "$ORG_ALIAS" \
   --wait 20
+echo ""
+
+echo "Step 3i-2: Activating Sprint 1 flows (Salesforce often deploys flows as Draft)..."
+for flow in Create_Work_Order Generate_PreMob_Tasks PO_Low_Balance_Alert Overdue_Gate_Task_Alert; do
+  activate_flow "$flow"
+done
 echo ""
 
 echo "Step 3j: Deploying Permission Set (HTS_Ops_Sprint1)..."

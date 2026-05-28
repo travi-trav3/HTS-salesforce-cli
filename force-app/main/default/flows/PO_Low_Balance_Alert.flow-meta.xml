@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Notify_PO_Alert</name>
+        <label>Notify Amanda + Nikki</label>
+        <locationX>50</locationX>
+        <locationY>360</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>NotificationTypeId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>AlertRecipients</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>fNotificationTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>fNotificationBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <connector>
+            <targetReference>Set_Alert_Sent_True</targetReference>
+        </connector>
+    </actionCalls>
     <apiVersion>62.0</apiVersion>
+    <assignments>
+        <name>Build_Recipient_List</name>
+        <label>Build Recipient List</label>
+        <locationX>50</locationX>
+        <locationY>240</locationY>
+        <assignmentItems>
+            <assignToReference>AlertRecipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>AmandaUserId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AlertRecipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>NikkiUserId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Notify_PO_Alert</targetReference>
+        </connector>
+    </assignments>
     <constants>
         <name>AmandaUserId</name>
         <dataType>String</dataType>
@@ -13,6 +78,13 @@
         <dataType>String</dataType>
         <value>
             <stringValue>{{NIKKI_USER_ID}}</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>NotificationTypeId</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>{{HTS_PO_ALERT_TYPE_ID}}</stringValue>
         </value>
     </constants>
     <decisions>
@@ -40,7 +112,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Alert_Sent_True</targetReference>
+                <targetReference>Build_Recipient_List</targetReference>
             </connector>
         </rules>
         <rules>
@@ -66,7 +138,7 @@
             </connector>
         </rules>
     </decisions>
-    <description>Record-triggered flow on Project__c create/update. Sets PO_Alert_Sent__c=true when the PO remaining percentage drops below the per-Work-Order threshold; resets the flag when it rises back above. The Chatter @mention to Amanda + Nikki is intentionally omitted in this version — wire it up in Flow Builder once Chatter is configured.</description>
+    <description>Record-triggered flow on Project__c create/update. When the PO remaining percentage drops below the per-Work-Order threshold AND the alert has not yet been sent, sends a Custom Notification to Amanda and Nikki and sets PO_Alert_Sent__c=true. Resets the flag when the percentage rises back above the threshold (e.g., after a change order brings balance up).</description>
     <formulas>
         <name>fThresholdValue</name>
         <dataType>Number</dataType>
@@ -89,13 +161,23 @@
   {!$Record.Percent_Remaining__c} &gt;= {!fThresholdValue}
 )</expression>
     </formulas>
+    <formulas>
+        <name>fNotificationTitle</name>
+        <dataType>String</dataType>
+        <expression>"Low PO Balance: " &amp; {!$Record.Name}</expression>
+    </formulas>
+    <formulas>
+        <name>fNotificationBody</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Name} &amp; " has dropped below its PO alert threshold. Review billing and PO status."</expression>
+    </formulas>
     <label>PO Low Balance Alert</label>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
         <name>Set_Alert_Sent_True</name>
         <label>Set PO Alert Sent = true</label>
         <locationX>50</locationX>
-        <locationY>360</locationY>
+        <locationY>480</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -144,4 +226,11 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>AlertRecipients</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>
