@@ -96,15 +96,20 @@ print(records[0]['Id'])
 # ----------------------------------------------------------
 activate_flow() {
   local api_name="$1"
+  echo "  Checking ${api_name}..."
   local ver_result
-  # Flow object in Tooling API stores the API name on the parent
-  # FlowDefinition; reference it through the Definition relationship.
+  # Run query without -e/-pipefail killing the function silently.
+  set +e
   ver_result=$(sf data query \
     --query "SELECT VersionNumber FROM Flow WHERE Definition.DeveloperName='${api_name}' AND Status!='Obsolete' ORDER BY VersionNumber DESC LIMIT 1" \
-    --use-tooling-api --target-org "$ORG_ALIAS" --json) || {
-    echo "  ${api_name}: version lookup failed (activate manually in Setup > Flows)"
+    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>&1)
+  local sf_rc=$?
+  set -e
+  if [ $sf_rc -ne 0 ]; then
+    echo "    Version lookup failed (rc=$sf_rc). Activate manually in Setup > Flows."
+    echo "    sf output: $ver_result" | head -3
     return 0
-  }
+  fi
   local version
   version=$(echo "$ver_result" | python3 -c "
 import sys, json
@@ -121,12 +126,17 @@ if records:
 " 2>/dev/null)
 
   local def_result
+  set +e
   def_result=$(sf data query \
     --query "SELECT Id FROM FlowDefinition WHERE DeveloperName='${api_name}'" \
-    --use-tooling-api --target-org "$ORG_ALIAS" --json) || {
-    echo "  ${api_name}: FlowDefinition lookup failed"
+    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>&1)
+  local def_rc=$?
+  set -e
+  if [ $def_rc -ne 0 ]; then
+    echo "    FlowDefinition lookup failed (rc=$def_rc)."
+    echo "    sf output: $def_result" | head -3
     return 0
-  }
+  fi
   local def_id
   def_id=$(echo "$def_result" | python3 -c "
 import sys, json
@@ -142,18 +152,25 @@ if records:
     print(records[0]['Id'])
 " 2>/dev/null)
 
+  echo "    version=${version:-<empty>} defId=${def_id:-<empty>}"
   if [ -n "$version" ] && [ -n "$def_id" ]; then
-    if sf data update record \
+    set +e
+    local upd_output
+    upd_output=$(sf data update record \
       --sobject FlowDefinition \
       --record-id "$def_id" \
       --values "ActiveVersionNumber=$version" \
-      --use-tooling-api --target-org "$ORG_ALIAS" >/dev/null 2>&1; then
-      echo "  Activated: ${api_name} (v${version})"
+      --use-tooling-api --target-org "$ORG_ALIAS" 2>&1)
+    local upd_rc=$?
+    set -e
+    if [ $upd_rc -eq 0 ]; then
+      echo "    Activated v${version}"
     else
-      echo "  Could not auto-activate ${api_name} v${version} (activate manually in Setup > Flows)"
+      echo "    Update failed (rc=$upd_rc). Activate manually in Setup > Flows."
+      echo "    sf output: $upd_output" | head -3
     fi
   else
-    echo "  Skipped activation: ${api_name} (version=${version:-empty}, defId=${def_id:-empty})"
+    echo "    Skipped (missing version or defId). Activate manually in Setup > Flows."
   fi
 }
 
