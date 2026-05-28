@@ -241,6 +241,25 @@ sf project deploy start \
   --wait 15
 echo ""
 
+# Deploy + activate flows before the Apex step. The Apex test inserts a
+# Project__c that triggers PO Low Balance Alert; if the active flow in
+# the org is missing required fields (e.g. Target ID on Send Custom
+# Notification), the insert fails and the test fails with it. Deploying
+# and activating the latest flow XML first guarantees the test runs
+# against the same version source-controlled here.
+echo "Step 3a-2: Deploying Flows..."
+sf project deploy start \
+  --source-dir "force-app/main/default/flows" \
+  --target-org "$ORG_ALIAS" \
+  --wait 20
+echo ""
+
+echo "Step 3a-3: Activating Sprint 1 flows (Salesforce often deploys flows as Draft)..."
+for flow in Create_Work_Order Generate_PreMob_Tasks PO_Low_Balance_Alert Overdue_Gate_Task_Alert; do
+  activate_flow "$flow"
+done
+echo ""
+
 echo "Step 3b: Deploying new Task custom fields..."
 echo "  (If these were created manually in the UI to work around the"
 echo "   metadata-API picklist quirk, this step will no-op or warn — safe to ignore.)"
@@ -302,17 +321,7 @@ sf project deploy start \
   --wait 10 || echo "  Application deploy reported issues; continuing."
 echo ""
 
-echo "Step 3i: Deploying Flows..."
-sf project deploy start \
-  --source-dir "force-app/main/default/flows" \
-  --target-org "$ORG_ALIAS" \
-  --wait 20
-echo ""
-
-echo "Step 3i-2: Activating Sprint 1 flows (Salesforce often deploys flows as Draft)..."
-for flow in Create_Work_Order Generate_PreMob_Tasks PO_Low_Balance_Alert Overdue_Gate_Task_Alert; do
-  activate_flow "$flow"
-done
+echo "Step 3i: Flows already deployed + activated in Step 3a-2/3a-3."
 echo ""
 
 echo "Step 3j: Deploying Permission Set (HTS_Ops_Sprint1)..."
