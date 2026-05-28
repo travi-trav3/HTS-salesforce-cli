@@ -154,19 +154,23 @@ if records:
 
   echo "    version=${version:-<empty>} defId=${def_id:-<empty>}"
   if [ -n "$version" ] && [ -n "$def_id" ]; then
+    # FlowDefinition activeVersionNumber is metadata-only on the Tooling API
+    # object — it cannot be set via a plain field update. The supported path
+    # is a PATCH to the Tooling sobjects endpoint wrapping the field inside
+    # a Metadata composite.
     set +e
     local upd_output
-    upd_output=$(sf data update record \
-      --sobject FlowDefinition \
-      --record-id "$def_id" \
-      --values "ActiveVersionNumber=$version" \
-      --use-tooling-api --target-org "$ORG_ALIAS" 2>&1)
+    upd_output=$(sf api request rest \
+      "/services/data/v62.0/tooling/sobjects/FlowDefinition/${def_id}" \
+      --method PATCH \
+      --body "{\"Metadata\":{\"activeVersionNumber\":${version}}}" \
+      --target-org "$ORG_ALIAS" 2>&1)
     local upd_rc=$?
     set -e
     if [ $upd_rc -eq 0 ]; then
       echo "    Activated v${version}"
     else
-      echo "    Update failed (rc=$upd_rc). Activate manually in Setup > Flows."
+      echo "    Activation failed (rc=$upd_rc). Activate manually in Setup > Flows."
       echo "    sf output: $upd_output" | head -3
     fi
   else
