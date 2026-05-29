@@ -39,7 +39,7 @@
             </value>
         </inputParameters>
         <connector>
-            <targetReference>Set_Alert_Sent_True</targetReference>
+            <targetReference>Create_Low_Balance_Log</targetReference>
         </connector>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
@@ -134,7 +134,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Reset_Alert_Flag</targetReference>
+                <targetReference>Create_Recovery_Log</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -173,6 +173,94 @@
     </formulas>
     <label>PO Low Balance Alert</label>
     <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Low_Balance_Log</name>
+        <label>Create Low Balance audit log</label>
+        <locationX>50</locationX>
+        <locationY>420</locationY>
+        <inputAssignments>
+            <field>Work_Order__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Alert_Type__c</field>
+            <value>
+                <stringValue>Low Balance</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Triggered_At__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Remaining_Balance_At_Trigger__c</field>
+            <value>
+                <elementReference>$Record.Remaining_Balance__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Percent_Remaining_At_Trigger__c</field>
+            <value>
+                <elementReference>$Record.Percent_Remaining__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Recipient__c</field>
+            <value>
+                <elementReference>AmandaUserId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>PO_Alert_Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Set_Alert_Sent_True</targetReference>
+        </connector>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Recovery_Log</name>
+        <label>Create Balance Recovered audit log</label>
+        <locationX>300</locationX>
+        <locationY>360</locationY>
+        <inputAssignments>
+            <field>Work_Order__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Alert_Type__c</field>
+            <value>
+                <stringValue>Balance Recovered</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Triggered_At__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Remaining_Balance_At_Trigger__c</field>
+            <value>
+                <elementReference>$Record.Remaining_Balance__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Percent_Remaining_At_Trigger__c</field>
+            <value>
+                <elementReference>$Record.Percent_Remaining__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>PO_Alert_Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Reset_Alert_Flag</targetReference>
+        </connector>
+    </recordCreates>
     <recordUpdates>
         <name>Set_Alert_Sent_True</name>
         <label>Set PO Alert Sent = true</label>

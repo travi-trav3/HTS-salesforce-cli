@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>API-only access for the QBO→Salesforce sync middleware. Read access to Work Order + Change Order for matching; write access scoped to the two QBO-sourced fields (Invoiced_Amount__c, Last_Invoice_Date__c). No UI, no flow execution control. Assign to the dedicated qbo-sync@hts.com integration user.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>HTS QBO Integration</label>
+    <license>Salesforce</license>
+
+    <objectPermissions>
+        <object>Project__c</object>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Change_Order__c</object>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+
+    <fieldPermissions><field>Project__c.Name</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Project__c.Stage__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Project__c.PO_Number__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Project__c.PO_Amount__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Project__c.Account__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Project__c.Invoiced_Amount__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Project__c.Last_Invoice_Date__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
+
+    <fieldPermissions><field>Change_Order__c.CO_Amount__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Change_Order__c.CO_PO_Number__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+</PermissionSet>

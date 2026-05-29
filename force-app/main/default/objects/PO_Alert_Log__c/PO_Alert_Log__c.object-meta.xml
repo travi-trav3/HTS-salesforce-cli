@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Audit trail of PO Low Balance alerts fired by the PO_Low_Balance_Alert flow. One record per notification sent.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <label>PO Alert Log</label>
+    <nameField>
+        <displayFormat>PAL-{00000000}</displayFormat>
+        <label>PO Alert Log Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>PO Alert Logs</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

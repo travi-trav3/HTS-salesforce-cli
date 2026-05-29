@@ -262,10 +262,11 @@ cd "$TEMP_DIR"
 echo "=== Sprint 1 Deploy: Work Orders ==="
 echo ""
 
-echo "Step 3a: Deploying Project__c and Change_Order__c objects + fields..."
+echo "Step 3a: Deploying Project__c, Change_Order__c, and PO_Alert_Log__c objects + fields..."
 sf project deploy start \
   --source-dir "force-app/main/default/objects/Project__c" \
   --source-dir "force-app/main/default/objects/Change_Order__c" \
+  --source-dir "force-app/main/default/objects/PO_Alert_Log__c" \
   --target-org "$ORG_ALIAS" \
   --wait 15
 echo ""
@@ -402,6 +403,20 @@ echo "     daily at 8am, filter Tasks where Is_Gate__c=true AND Status!='Complet
 echo "     ActivityDate<TODAY AND related Work Order Stage='Pre-Mob'; post Chatter @mention"
 echo "     to owner; if 3+ days overdue, also @mention Nikki."
 echo ""
-echo "  8. Wire up Chatter @mentions on PO Low Balance Alert in Flow Builder (Amanda + Nikki)."
+echo "  8. Chatter @mentions on PO Low Balance Alert — superseded by Custom Notification"
+echo "     ('HTS PO Alert' type, delivered to Amanda + Nikki via the flow). PO_Alert_Log__c"
+echo "     records are also written for every fire/recovery as an audit trail."
 echo ""
-echo "  9. Run the Part 12 test plan from the brief."
+echo "  9. (Sprint 1.5) Provision the QBO sync integration user:"
+echo "       a. Create user 'qbo-sync@hts.com' (API-only or full Salesforce license)."
+echo "       b. Assign permission set: sf org assign permset --name HTS_QBO_Integration \\"
+echo "            --on-behalf-of qbo-sync@hts.com --target-org $ORG_ALIAS"
+echo "       c. Generate an OAuth-enabled Connected App for the middleware to authenticate as"
+echo "          this user (Setup → App Manager → New Connected App)."
+echo ""
+echo " 10. (Sprint 1.5) Run the QBO sync reconciliation script (in hts-qbo-sync repo)"
+echo "       ONCE before enabling the QBO webhook, to backfill Invoiced_Amount__c on every"
+echo "       open Work Order. Reconciliation writes a row to system_meta; the webhook handler"
+echo "       refuses to start until that row exists."
+echo ""
+echo " 11. Run the Part 12 test plan from the brief."

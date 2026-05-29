@@ -23,6 +23,21 @@
         <modifyAllRecords>false</modifyAllRecords>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <object>PO_Alert_Log__c</object>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+
+    <fieldPermissions><field>PO_Alert_Log__c.Alert_Type__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>PO_Alert_Log__c.Triggered_At__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>PO_Alert_Log__c.Remaining_Balance_At_Trigger__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>PO_Alert_Log__c.Percent_Remaining_At_Trigger__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>PO_Alert_Log__c.Recipient__c</field><editable>false</editable><readable>true</readable></fieldPermissions>
 
     <fieldPermissions><field>Project__c.Opportunity__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
     <fieldPermissions><field>Project__c.Account__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
@@ -75,6 +90,10 @@
     </tabSettings>
     <tabSettings>
         <tab>HTS_Ops_Dashboard</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>PO_Alert_Log__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 
