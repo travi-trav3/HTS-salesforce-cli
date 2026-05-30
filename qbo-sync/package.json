@@ -1,0 +1,41 @@
+{
+  "name": "hts-qbo-sync",
+  "version": "0.1.0",
+  "private": true,
+  "description": "QuickBooks Online → Salesforce invoice sync middleware for HTS Workforce.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/server.js",
+    "start:worker": "node dist/worker.js",
+    "dev:server": "tsx watch src/server.ts",
+    "dev:worker": "tsx watch src/worker.ts",
+    "migrate": "node --import tsx scripts/migrate.ts",
+    "reconcile": "node --import tsx bin/reconcile.ts",
+    "qbo:authorize": "node --import tsx bin/qbo-authorize.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "fastify": "^5.2.0",
+    "jsforce": "^3.6.0",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.13.1",
+    "pg-boss": "^10.1.5",
+    "pino": "^9.5.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/pg": "^8.11.10",
+    "eslint": "^9.17.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
