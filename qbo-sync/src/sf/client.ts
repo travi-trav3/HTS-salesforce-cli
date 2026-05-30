@@ -40,7 +40,8 @@ export class SalesforceClient {
       }),
     );
     const signingInput = `${header}.${claims}`;
-    const key = await readFile(this.cfg.SF_JWT_KEY_PATH, 'utf8');
+    // Inline PEM (SF_JWT_KEY) takes precedence; otherwise read from file path.
+    const key = this.cfg.SF_JWT_KEY ?? (await readFile(this.cfg.SF_JWT_KEY_PATH!, 'utf8'));
     const signature = createSign('RSA-SHA256').update(signingInput).sign(key);
     return `${signingInput}.${base64url(signature)}`;
   }
@@ -85,6 +86,16 @@ export class SalesforceClient {
       `WHERE PO_Number__c = '${escaped}' AND Stage__c != 'Closed'`;
     const result = await conn.query<WorkOrderRecord>(soql);
     return result.records;
+  }
+
+  /** Cheap connectivity + auth check. Returns the org name and instance URL. */
+  async verifyConnection(): Promise<{ orgName: string; instanceUrl: string }> {
+    const conn = await this.connection();
+    const res = await conn.query<{ Name: string }>('SELECT Id, Name FROM Organization LIMIT 1');
+    return {
+      orgName: res.records[0]?.Name ?? '(unknown)',
+      instanceUrl: conn.instanceUrl,
+    };
   }
 
   /** Every open Work Order carrying a non-blank PO number (for backfill). */

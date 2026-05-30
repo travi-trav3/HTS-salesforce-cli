@@ -20,6 +20,8 @@
     "migrate:prod": "node dist/scripts/migrate.js",
     "reconcile": "node --import tsx bin/reconcile.ts",
     "replay": "node --import tsx bin/replay-event.ts",
+    "preflight": "node --import tsx bin/preflight.ts",
+    "dry-run": "node --import tsx bin/dry-run.ts",
     "qbo:authorize": "node --import tsx bin/qbo-authorize.ts",
     "test": "vitest run",
     "test:watch": "vitest",

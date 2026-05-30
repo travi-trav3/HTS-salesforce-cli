@@ -111,6 +111,14 @@ export class QboClient {
     return ((json.QueryResponse?.[entity] as T[] | undefined) ?? []) as T[];
   }
 
+  /** Cheap connectivity + auth check. Returns the connected company's name. */
+  async getCompanyName(): Promise<string> {
+    const json = await this.apiGet<{ CompanyInfo?: { CompanyName?: string } }>(
+      `companyinfo/${this.cfg.QBO_REALM_ID}`,
+    );
+    return json.CompanyInfo?.CompanyName ?? '(unknown)';
+  }
+
   async getInvoice(id: string): Promise<QboInvoice | null> {
     const json = await this.apiGet<{ Invoice?: QboInvoice }>(`invoice/${id}`);
     return json.Invoice ?? null;
