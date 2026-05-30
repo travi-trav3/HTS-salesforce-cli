@@ -53,6 +53,19 @@ CREATE TABLE IF NOT EXISTS system_meta (
   updated_at  timestamptz NOT NULL DEFAULT now()
 );
 
+-- Maps each QBO invoice to the PO it carried (and the WO it resolved to) at
+-- last processing. Needed because a Delete event arrives with only the invoice
+-- id — the invoice is already gone from QBO, so we look up its PO here to know
+-- which Work Order's total to re-sum.
+CREATE TABLE IF NOT EXISTS invoice_po_map (
+  invoice_id     text PRIMARY KEY,
+  po_number      text NOT NULL,
+  work_order_id  text,
+  updated_at     timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_invoice_po_map_po ON invoice_po_map (po_number);
+
 -- QBO OAuth tokens (single realm). Access tokens are short-lived; refresh
 -- tokens roll ~every 100 days of inactivity. Stored encrypted-at-rest by the
 -- managed Postgres provider; never logged.

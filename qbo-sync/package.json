@@ -8,13 +8,16 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "start": "node dist/server.js",
-    "start:worker": "node dist/worker.js",
+    "start": "node dist/src/server.js",
+    "start:worker": "node dist/src/worker.js",
+    "start:cdc": "node dist/src/cdc-poller.js",
     "dev:server": "tsx watch src/server.ts",
     "dev:worker": "tsx watch src/worker.ts",
+    "dev:cdc": "tsx watch src/cdc-poller.ts",
     "migrate": "node --import tsx scripts/migrate.ts",
+    "migrate:prod": "node dist/scripts/migrate.js",
     "reconcile": "node --import tsx bin/reconcile.ts",
     "qbo:authorize": "node --import tsx bin/qbo-authorize.ts",
     "test": "vitest run",
@@ -24,7 +27,6 @@
   "dependencies": {
     "fastify": "^5.2.0",
     "jsforce": "^3.6.0",
-    "node-fetch": "^3.3.2",
     "pg": "^8.13.1",
     "pg-boss": "^10.1.5",
     "pino": "^9.5.0",

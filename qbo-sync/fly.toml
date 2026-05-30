@@ -1,0 +1,41 @@
+# Fly.io configuration for hts-qbo-sync.
+# Replace <app-name> and the region before first deploy. Secrets are set via
+# `fly secrets set ...`, never committed.
+
+app = "hts-qbo-sync"
+primary_region = "iad"  # change to the region closest to HTS
+
+[build]
+  dockerfile = "Dockerfile"
+
+# Run DB migrations on every release, before the new version takes traffic.
+[deploy]
+  release_command = "node dist/scripts/migrate.js"
+
+# Three process groups from one image:
+#   web    - the webhook server (gets the public HTTPS service)
+#   worker - the pg-boss consumer
+#   cdc    - the 5-minute CDC fallback poller
+[processes]
+  web = "node dist/src/server.js"
+  worker = "node dist/src/worker.js"
+  cdc = "node dist/src/cdc-poller.js"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false   # webhook endpoint must stay reachable
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["web"]
+
+[[http_service.checks]]
+  method = "GET"
+  path = "/health"
+  interval = "30s"
+  timeout = "5s"
+  grace_period = "10s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
