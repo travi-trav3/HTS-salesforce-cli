@@ -19,6 +19,7 @@
     "migrate": "node --import tsx scripts/migrate.ts",
     "migrate:prod": "node dist/scripts/migrate.js",
     "reconcile": "node --import tsx bin/reconcile.ts",
+    "replay": "node --import tsx bin/replay-event.ts",
     "qbo:authorize": "node --import tsx bin/qbo-authorize.ts",
     "test": "vitest run",
     "test:watch": "vitest",

@@ -21,6 +21,9 @@ const schema = z.object({
   SF_JWT_KEY_PATH: z.string().min(1),
 
   OPS_ALERT_EMAIL: z.string().email().optional(),
+  // Incoming-webhook URL for ops alerts (Slack/Discord/Teams compatible).
+  // When unset, alerts are logged only.
+  OPS_ALERT_WEBHOOK_URL: z.string().url().optional(),
   CDC_POLL_CRON: z.string().default('*/5 * * * *'),
   CDC_LOOKBACK_OVERLAP_SECONDS: z.coerce.number().int().nonnegative().default(60),
 });

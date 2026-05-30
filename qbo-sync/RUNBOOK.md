@@ -44,9 +44,14 @@ Symptom: ops alert "job dead-lettered", row in `webhook_events` with
 `status='dead_letter'`.
 1. Read `last_error` for that `event_id`.
 2. Fix the root cause (e.g. SF field perms, expired token).
-3. Replay: set the row back to pending and re-enqueue. (A `bin/replay-event`
-   helper is the intended tool; until then, re-insert the pg-boss job manually
-   or re-trigger via the CDC poller, which will re-detect the change.)
+3. Replay:
+   ```bash
+   npm run replay -- <event_id>        # one event
+   npm run replay -- --all-dead-letter # every dead-lettered event
+   ```
+   This resets the row to pending, clears attempts, and re-enqueues a fresh
+   job from the stored payload. Idempotent: replaying an already-correct event
+   simply recomputes the same totals.
 
 ### needs_attention queue (business cases)
 These are Amanda's to resolve, not technical failures:
@@ -89,7 +94,10 @@ npm run reconcile -- --apply # writes to SF and sets the reconciliation gate
 | Fly API token | on operator change / leak | `fly tokens revoke` + reissue |
 
 ## TODO before go-live
-- [ ] Wire `sendOpsAlert` to a real channel (email/Slack); it currently only logs.
-- [ ] Add `bin/replay-event.ts` for one-command dead-letter replay.
+- [x] Wire `sendOpsAlert` to a real channel — set `OPS_ALERT_WEBHOOK_URL` to a
+      Slack/Discord/Teams incoming webhook. Falls back to log-only if unset.
+- [x] `bin/replay-event.ts` for one-command dead-letter replay (`npm run replay`).
 - [ ] Migrate from a personal Fly account to an HTS-owned Fly org.
 - [ ] Fill in the access/recovery blanks at the top of this file.
+- [ ] (Optional) Add email delivery to `sendOpsAlert` if a provider is chosen;
+      `OPS_ALERT_EMAIL` is already plumbed through config.
