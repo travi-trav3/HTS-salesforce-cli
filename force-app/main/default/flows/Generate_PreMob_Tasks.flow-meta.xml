@@ -1343,7 +1343,7 @@
             <assignToReference>TaskVar_18.OwnerId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>AmandaUserId</elementReference>
+                <elementReference>ProjectLeadOwnerId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1559,7 +1559,7 @@
             <assignToReference>TaskVar_21.OwnerId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>AmandaUserId</elementReference>
+                <elementReference>DylanUserId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1631,7 +1631,7 @@
             <assignToReference>TaskVar_22.OwnerId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>AmandaUserId</elementReference>
+                <elementReference>DylanUserId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
