@@ -62,6 +62,23 @@
             <metricLabel>Missing Data</metricLabel>
             <report>HTS_Outreach_Reports/Data_Quality_Issues</report>
         </components>
+        <components>
+            <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
+            <chartAxisRange>Auto</chartAxisRange>
+            <componentType>Bar</componentType>
+            <displayUnits>Auto</displayUnits>
+            <drillEnabled>true</drillEnabled>
+            <drillToDetailEnabled>true</drillToDetailEnabled>
+            <enableHover>true</enableHover>
+            <expandOthers>false</expandOthers>
+            <header>Contacts by Current Touch</header>
+            <legendPosition>Bottom</legendPosition>
+            <report>HTS_Outreach_Reports/Contacts_by_Current_Touch</report>
+            <showPercentage>false</showPercentage>
+            <showValues>true</showValues>
+            <sortBy>RowLabelAscending</sortBy>
+            <useReportChart>false</useReportChart>
+        </components>
     </middleSection>
     <rightSection>
         <columnSize>Medium</columnSize>
