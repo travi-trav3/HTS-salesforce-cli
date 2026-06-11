@@ -40,7 +40,7 @@
             <value></value>
         </criteriaItems>
         <criteriaItems>
-            <column>PHONE</column>
+            <column>Contact.Phone</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>

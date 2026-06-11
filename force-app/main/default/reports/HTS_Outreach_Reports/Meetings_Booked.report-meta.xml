@@ -15,7 +15,7 @@
     <columns>
         <field>Contact.Meeting_Booked_Date__c</field>
     </columns>
-    <description>Contacts whose Meeting Booked Date falls in the current week. Driven by the timestamped Meeting_Booked_Date__c field (stamped once when Outreach Status first reaches Meeting Scheduled), so the count is time-bound and does not drop when a contact later advances past Meeting Scheduled.</description>
+    <description>Contacts whose Meeting Booked Date is in the current week. Uses the timestamped Meeting_Booked_Date__c (stamped once when Outreach Status first reaches Meeting Scheduled) so the count is time-bound and never decreases when a contact advances.</description>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
