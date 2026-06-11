@@ -143,6 +143,25 @@ fi
 
 echo ""
 
+# Deploy Permission Sets (fail-soft). Grants FLS on dashboard-only fields
+# such as Contact.Meeting_Booked_Date__c. Must run after the field deploy
+# (Step 4a) so the field exists before the permission set references it.
+echo "Step 4a-4: Deploying Permission Sets..."
+if [ -d "$TEMP_DIR/force-app/main/default/permissionsets" ]; then
+  if ! sf project deploy start \
+    --source-dir "$TEMP_DIR/force-app/main/default/permissionsets" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Permission set deploy failed. See error above."
+    echo ""
+  fi
+else
+  echo "  No permission sets found — skipping."
+fi
+
+echo ""
+
 # Deploy FlexiPage fail-soft. Historically this was skipped because template
 # swaps silently drop components placed in unsupported regions. We now deploy
 # but tolerate failure: pure content changes (field order, labels) succeed;

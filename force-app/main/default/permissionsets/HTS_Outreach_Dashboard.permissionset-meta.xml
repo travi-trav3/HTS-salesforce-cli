@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>HTS Outreach Dashboard</label>
+    <description>Grants read access to dashboard-only fields (e.g., Meeting Booked Date) for users who view or run the HTS Outreach dashboards. Assign to the dashboard running user (Dylan) and to admins who maintain the data.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <fieldPermissions>
+        <field>Contact.Meeting_Booked_Date__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+</PermissionSet>
