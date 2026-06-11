@@ -12,28 +12,22 @@
     <columns>
         <field>TITLE</field>
     </columns>
-    <description>Contacts with Outreach Status = Meeting Scheduled</description>
-    <filter>
-        <criteriaItems>
-            <column>Contact.Outreach_Status__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Meeting Scheduled</value>
-        </criteriaItems>
-    </filter>
+    <columns>
+        <field>Contact.Meeting_Booked_Date__c</field>
+    </columns>
+    <description>Contacts whose Meeting Booked Date falls in the current week. Driven by the timestamped Meeting_Booked_Date__c field (stamped once when Outreach Status first reaches Meeting Scheduled), so the count is time-bound and does not drop when a contact later advances past Meeting Scheduled.</description>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Contact.Outreach_Status__c</field>
-        <sortOrder>Asc</sortOrder>
+        <field>Contact.Meeting_Booked_Date__c</field>
+        <sortOrder>Desc</sortOrder>
     </groupingsDown>
     <name>Meetings Booked</name>
     <reportType>ContactList</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
-        <dateColumn>CREATED_DATE</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <dateColumn>Contact.Meeting_Booked_Date__c</dateColumn>
+        <interval>INTERVAL_THISWEEK</interval>
     </timeFrameFilter>
 </Report>

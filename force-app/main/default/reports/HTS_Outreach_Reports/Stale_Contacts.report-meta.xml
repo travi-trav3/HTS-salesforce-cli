@@ -18,9 +18,9 @@
     <columns>
         <field>Contact.Next_Touch_Date__c</field>
     </columns>
-    <description>Active contacts with no touch in 7+ days — investigate</description>
+    <description>Active contacts with no touch in 7+ days, including those never touched (blank Last Touch Date) — investigate.</description>
     <filter>
-        <booleanFilter>1 AND 2</booleanFilter>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
         <criteriaItems>
             <column>Contact.Sequence_Status__c</column>
             <columnToColumn>false</columnToColumn>
@@ -34,6 +34,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>lessThan</operator>
             <value>LAST_N_DAYS:7</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Contact.Last_Touch_Date__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value></value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

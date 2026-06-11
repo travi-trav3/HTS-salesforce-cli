@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <assignments>
+        <name>Stamp_Booked_Date</name>
+        <label>Stamp Booked Date</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Meeting_Booked_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Stamps Meeting_Booked_Date__c with today the first time a Contact's Outreach Status reaches "Meeting Scheduled" (before-save, only while the date is still blank), so the Meetings Booked metric is timestamped and never decreases when the contact later advances.</description>
+    <label>Stamp Meeting Booked Date</label>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+        <filterLogic>1 AND 2</filterLogic>
+        <filters>
+            <field>Outreach_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Meeting Scheduled</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Meeting_Booked_Date__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <connector>
+            <targetReference>Stamp_Booked_Date</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+</Flow>

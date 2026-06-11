@@ -21,7 +21,7 @@
             <report>HTS_Outreach_Reports/Pipeline_by_Outreach_Status</report>
             <showPercentage>false</showPercentage>
             <showValues>true</showValues>
-            <sortBy>RowLabelAscending</sortBy>
+            <sortBy>RowValueDescending</sortBy>
             <useReportChart>false</useReportChart>
         </components>
         <components>
@@ -53,7 +53,7 @@
             <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
             <componentType>Metric</componentType>
             <displayUnits>Auto</displayUnits>
-            <header>Meetings Booked</header>
+            <header>Meetings Booked (This Week)</header>
             <indicatorHighColor>#54C254</indicatorHighColor>
             <indicatorLowColor>#C25454</indicatorLowColor>
             <indicatorMiddleColor>#C2C254</indicatorMiddleColor>
@@ -114,7 +114,7 @@
             <drillToDetailEnabled>true</drillToDetailEnabled>
             <enableHover>true</enableHover>
             <expandOthers>false</expandOthers>
-            <header>Engaged Trend (Last 2 Weeks)</header>
+            <header>Engaged Trend (Last 30 Days)</header>
             <legendPosition>Bottom</legendPosition>
             <report>HTS_Outreach_Reports/Engaged_Contacts_This_Week</report>
             <showPercentage>false</showPercentage>

@@ -9,9 +9,9 @@
     <columns>
         <field>CONTACT</field>
     </columns>
-    <description>Tasks Dylan has completed this week — used by Dylan Task Completion gauge (target: 50/week)</description>
+    <description>Sequence tasks Dylan completed this week — drives the Dylan Task Completion gauge (target: 50/week). Scoped to Sequence_Task = true so it matches the "Tasks Completed This Week" metric tile exactly.</description>
     <filter>
-        <booleanFilter>1 AND 2</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
         <criteriaItems>
             <column>ASSIGNED</column>
             <columnToColumn>false</columnToColumn>
@@ -25,6 +25,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Completed</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Task.Sequence_Task__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

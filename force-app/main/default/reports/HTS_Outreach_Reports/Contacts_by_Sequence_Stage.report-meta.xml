@@ -12,7 +12,16 @@
     <columns>
         <field>Contact.Current_Touch__c</field>
     </columns>
-    <description>Contacts grouped by Sequence Stage for donut chart</description>
+    <description>Active sequence contacts grouped by Sequence Stage for the donut chart. Filtered to Sequence Status = Active so legacy/manual contacts with a blank stage are excluded.</description>
+    <filter>
+        <criteriaItems>
+            <column>Contact.Sequence_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Active</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

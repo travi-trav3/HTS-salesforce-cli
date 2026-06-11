@@ -12,14 +12,14 @@
     <columns>
         <field>Contact.Outreach_Status__c</field>
     </columns>
-    <description>Contacts that became Engaged this week vs last week for trend comparison</description>
+    <description>Engagement trend by reply week (last 30 days). Keyed off the engagement event (Meaningful Reply = true with a Reply Date) rather than current Outreach Status, so past weeks do not shrink as contacts advance to Meeting Scheduled.</description>
     <filter>
         <criteriaItems>
-            <column>Contact.Outreach_Status__c</column>
+            <column>Contact.Meaningful_Reply__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Engaged</value>
+            <value>1</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

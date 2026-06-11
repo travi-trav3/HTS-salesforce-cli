@@ -17,7 +17,7 @@
     </columns>
     <description>Contacts in the automated sequence (initialized by Gumloop, not excluded) grouped by Outreach Status. Excludes legacy/manual contacts so funnel conversion rates are meaningful.</description>
     <filter>
-        <booleanFilter>1 AND 2</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
         <criteriaItems>
             <column>Contact.Sequence_Status__c</column>
             <columnToColumn>false</columnToColumn>
@@ -31,6 +31,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Contact.Outreach_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Deferred</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
