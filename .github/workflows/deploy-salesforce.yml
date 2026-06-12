@@ -25,6 +25,19 @@ jobs:
           sf org login sfdx-url --sfdx-url-file auth_url.txt --alias hts-prod --set-default
           rm auth_url.txt
 
+      - name: Retrieve current dashboard XML (temporary diagnostic)
+        run: |
+          sf project retrieve start \
+            --metadata "Dashboard:HTS_Outreach_Dashboards/HTS_Outreach_Weekly_Snapshot" \
+            --metadata "Dashboard:HTS_Outreach_Dashboards/HTS_Outreach_Detail_View" \
+            --target-org hts-prod --wait 10
+          echo "=====BEGIN WEEKLY_SNAPSHOT_XML====="
+          cat "force-app/main/default/dashboards/HTS_Outreach_Dashboards/HTS_Outreach_Weekly_Snapshot.dashboard-meta.xml"
+          echo "=====END WEEKLY_SNAPSHOT_XML====="
+          echo "=====BEGIN DETAIL_VIEW_XML====="
+          cat "force-app/main/default/dashboards/HTS_Outreach_Dashboards/HTS_Outreach_Detail_View.dashboard-meta.xml"
+          echo "=====END DETAIL_VIEW_XML====="
+
       - name: Deploy metadata
         run: |
           chmod +x deploy.sh
