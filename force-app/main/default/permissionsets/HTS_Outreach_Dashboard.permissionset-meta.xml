@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>HTS Outreach Dashboard</label>
-    <description>Grants read access to the Contact fields used by the HTS Outreach dashboards/reports, so the dashboards render (and can be edited/saved) for anyone who maintains or views them. Assign to the dashboard running user (Dylan), admins, and any viewer (e.g., Nikki) who opens the editor.</description>
+    <description>Read access to the Contact/Task fields the HTS Outreach dashboards use, so they render and stay editable for assignees (Dylan, admins, viewers).</description>
     <hasActivationRequired>false</hasActivationRequired>
     <fieldPermissions>
         <field>Contact.Meeting_Booked_Date__c</field>
