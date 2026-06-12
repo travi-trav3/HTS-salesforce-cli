@@ -25,18 +25,18 @@ jobs:
           sf org login sfdx-url --sfdx-url-file auth_url.txt --alias hts-prod --set-default
           rm auth_url.txt
 
-      - name: Retrieve current dashboard XML (temporary diagnostic)
+      - name: Retrieve task reports (guards in-org filter fixes; temporary)
         run: |
           sf project retrieve start \
-            --metadata "Dashboard:HTS_Outreach_Dashboards/HTS_Outreach_Weekly_Snapshot" \
-            --metadata "Dashboard:HTS_Outreach_Dashboards/HTS_Outreach_Detail_View" \
+            --metadata "Report:HTS_Outreach_Reports/Dylan_Task_Completion" \
+            --metadata "Report:HTS_Outreach_Reports/Tasks_Completed_This_Week" \
             --target-org hts-prod --wait 10
-          echo "=====BEGIN WEEKLY_SNAPSHOT_XML====="
-          cat "force-app/main/default/dashboards/HTS_Outreach_Dashboards/HTS_Outreach_Weekly_Snapshot.dashboard-meta.xml"
-          echo "=====END WEEKLY_SNAPSHOT_XML====="
-          echo "=====BEGIN DETAIL_VIEW_XML====="
-          cat "force-app/main/default/dashboards/HTS_Outreach_Dashboards/HTS_Outreach_Detail_View.dashboard-meta.xml"
-          echo "=====END DETAIL_VIEW_XML====="
+          echo "=====BEGIN DYLAN_TASK_COMPLETION_XML====="
+          cat "force-app/main/default/reports/HTS_Outreach_Reports/Dylan_Task_Completion.report-meta.xml"
+          echo "=====END DYLAN_TASK_COMPLETION_XML====="
+          echo "=====BEGIN TASKS_COMPLETED_XML====="
+          cat "force-app/main/default/reports/HTS_Outreach_Reports/Tasks_Completed_This_Week.report-meta.xml"
+          echo "=====END TASKS_COMPLETED_XML====="
 
       - name: Deploy metadata
         run: |
