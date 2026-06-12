@@ -15,9 +15,16 @@
     <columns>
         <field>Contact.Email_Verified__c</field>
     </columns>
-    <description>Contacts with enrichment/data gaps: specialty Unknown or blank, or missing email — broader than the original "Unknown specialty only" check.</description>
+    <description>Active sequence contacts with enrichment/data gaps: specialty Unknown or blank, or missing email. Scoped to Sequence Status = Active so it flags only people currently being worked, not the legacy contact base.</description>
     <filter>
-        <booleanFilter>1 OR 2 OR 3</booleanFilter>
+        <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
+        <criteriaItems>
+            <column>Contact.Sequence_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Active</value>
+        </criteriaItems>
         <criteriaItems>
             <column>Contact.Contact_Specialty__c</column>
             <columnToColumn>false</columnToColumn>
