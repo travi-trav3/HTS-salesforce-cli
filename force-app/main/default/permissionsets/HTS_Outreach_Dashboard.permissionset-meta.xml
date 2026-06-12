@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>HTS Outreach Dashboard</label>
-    <description>Grants read access to dashboard-only fields (e.g., Meeting Booked Date) for users who view or run the HTS Outreach dashboards. Assign to the dashboard running user (Dylan) and to admins who maintain the data.</description>
+    <description>Grants read access to the Contact fields used by the HTS Outreach dashboards/reports, so the dashboards render (and can be edited/saved) for anyone who maintains or views them. Assign to the dashboard running user (Dylan), admins, and any viewer (e.g., Nikki) who opens the editor.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <fieldPermissions>
         <field>Contact.Meeting_Booked_Date__c</field>
@@ -10,6 +10,76 @@
     </fieldPermissions>
     <fieldPermissions>
         <field>Contact.Current_Touch__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Contact_Specialty__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Enrichment_Source__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Email_Verified__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Outreach_Status__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Sequence_Status__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Sequence_Stage__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Next_Touch_Date__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Last_Touch_Date__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Reply_Date__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Reply_Type__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Reply_Channel__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Meaningful_Reply__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Contact.Exclude_From_Sequence__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Task.Sequence_Task__c</field>
         <readable>true</readable>
         <editable>false</editable>
     </fieldPermissions>
