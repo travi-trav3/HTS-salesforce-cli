@@ -196,6 +196,12 @@ echo ""
 
 # Deploy reports
 echo "Step 4d: Deploying Reports..."
+# The two task reports rely on the "Open & Completed Activities" standard
+# filter, which is set in-org and NOT represented in report XML — any deploy
+# resets it to "Open" and zeroes the reports. Exclude them so the in-org
+# setting survives; they remain in the repo for reference only.
+rm -f "$TEMP_DIR/force-app/main/default/reports/HTS_Outreach_Reports/Dylan_Task_Completion.report-meta.xml"
+rm -f "$TEMP_DIR/force-app/main/default/reports/HTS_Outreach_Reports/Tasks_Completed_This_Week.report-meta.xml"
 if [ -d "$TEMP_DIR/force-app/main/default/reports" ]; then
   if ! sf project deploy start \
     --source-dir "$TEMP_DIR/force-app/main/default/reports" \
