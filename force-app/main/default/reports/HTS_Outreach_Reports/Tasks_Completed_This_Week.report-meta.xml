@@ -12,16 +12,9 @@
     <columns>
         <field>ACCOUNT</field>
     </columns>
-    <description>Sequence tasks Dylan completed this week — weekly productivity metric</description>
+    <description>Sequence tasks completed this week (all owned by Dylan) — weekly productivity metric.</description>
     <filter>
-        <booleanFilter>1 AND 2 AND 3</booleanFilter>
-        <criteriaItems>
-            <column>ASSIGNED</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Dylan Ragsdale</value>
-        </criteriaItems>
+        <booleanFilter>1 AND 2</booleanFilter>
         <criteriaItems>
             <column>STATUS</column>
             <columnToColumn>false</columnToColumn>

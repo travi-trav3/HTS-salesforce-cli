@@ -9,16 +9,9 @@
     <columns>
         <field>CONTACT</field>
     </columns>
-    <description>Sequence tasks Dylan completed this week — drives the Dylan Task Completion gauge (target: 50/week). Scoped to Sequence_Task = true so it matches the "Tasks Completed This Week" metric tile exactly.</description>
+    <description>Sequence tasks completed this week (all owned by Dylan). Counts by completion = Last Modified date. Drives the Dylan Task Completion gauge and matches the Tasks Completed This Week tile.</description>
     <filter>
-        <booleanFilter>1 AND 2 AND 3</booleanFilter>
-        <criteriaItems>
-            <column>ASSIGNED</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Dylan Ragsdale</value>
-        </criteriaItems>
+        <booleanFilter>1 AND 2</booleanFilter>
         <criteriaItems>
             <column>STATUS</column>
             <columnToColumn>false</columnToColumn>
