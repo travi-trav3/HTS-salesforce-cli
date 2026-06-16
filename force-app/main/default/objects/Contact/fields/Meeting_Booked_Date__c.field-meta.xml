@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Meeting_Booked_Date__c</fullName>
+    <label>Meeting Booked Date</label>
+    <description>Stamped automatically the first time Outreach Status reaches "Meeting Scheduled" (set once, never overwritten). Permanent timestamp used by the Meetings Booked dashboard metric so the count is time-bound and does not decrease when a contact later advances.</description>
+    <inlineHelpText>Set automatically when a meeting is first booked. Do not edit manually.</inlineHelpText>
+    <type>Date</type>
+</CustomField>

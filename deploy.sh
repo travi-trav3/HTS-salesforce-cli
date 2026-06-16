@@ -2,13 +2,19 @@
 set -euo pipefail
 
 # ============================================================
-# HTS Salesforce CLI — Deploy Script (Supervised Mode v2)
+# HTS Salesforce CLI — Deploy Script (Supervised Mode v3)
 # ============================================================
-# Queries Dylan / Ian / Amanda / Nikki User IDs from the
-# target org, substitutes {{DYLAN_USER_ID}} / {{IAN_USER_ID}} /
-# {{AMANDA_USER_ID}} / {{NIKKI_USER_ID}} placeholders in flow
-# metadata, and deploys to hts-prod in the order required by
-# the Sprint 1 brief.
+# Unified deploy for BOTH product domains:
+#   - Work Orders   (Project__c / Change_Order__c, ops dashboard, work-order flows)
+#   - Outreach      (Contact/Account fields, Task list views, outreach flows,
+#                    reports, dashboards)
+#
+# Queries Dylan / Ian / Amanda / Nikki User IDs from the target org,
+# substitutes {{DYLAN_USER_ID}} / {{IAN_USER_ID}} / {{AMANDA_USER_ID}} /
+# {{NIKKI_USER_ID}} placeholders in flow metadata, then deploys every
+# metadata type ONCE in Salesforce dependency order
+# (objects → fields → apex → lwc → flexipages → tabs → app → flows →
+#  permsets → reports → dashboards).
 # ============================================================
 
 ORG_ALIAS="${ORG_ALIAS:-hts-prod}"
@@ -21,6 +27,8 @@ echo ""
 
 # ----------------------------------------------------------
 # query_user_id <NAME_PATTERN> <LABEL> -> echoes 18-char User Id
+# Works in CI too: the workflow authenticates to the org via JWT
+# before running this, so the live query succeeds without hardcoding.
 # ----------------------------------------------------------
 query_user_id() {
   local pattern="$1"
@@ -118,14 +126,10 @@ echo ""
 cd "$TEMP_DIR"
 
 # ----------------------------------------------------------
-# Step 3: Sprint 1 — phased deploy (objects -> fields -> rest)
-# Order per Part 0 of the brief: objects → fields → picklists →
-# formulas/rollups → screen flow + quick action → record-triggered
-# flows → LWC + Apex → page layouts → tests.
-# Field metadata is bundled inside each object directory so
-# objects + fields + picklists + formulas + rollups deploy together.
+# Step 3: Phased deploy — every metadata type deployed ONCE,
+# in Salesforce dependency order, covering BOTH domains.
 # ----------------------------------------------------------
-echo "=== Sprint 1 Deploy: Work Orders ==="
+echo "=== Deploying to $ORG_ALIAS ==="
 echo ""
 
 echo "Step 3a: Deploying Project__c and Change_Order__c objects + fields..."
@@ -136,22 +140,48 @@ sf project deploy start \
   --wait 15
 echo ""
 
-echo "Step 3b: Deploying new Task custom fields..."
+echo "Step 3a-2: Deploying Contact and Account custom fields..."
+sf project deploy start \
+  --source-dir "force-app/main/default/objects/Contact" \
+  --source-dir "force-app/main/default/objects/Account" \
+  --target-org "$ORG_ALIAS" \
+  --wait 10
+echo ""
+
+echo "Step 3b: Deploying Task custom fields..."
 echo "  (If these were created manually in the UI to work around the"
 echo "   metadata-API picklist quirk, this step will no-op or warn — safe to ignore.)"
 if ! sf project deploy start \
-  --source-dir "force-app/main/default/objects/Task" \
+  --source-dir "force-app/main/default/objects/Task/fields" \
   --target-org "$ORG_ALIAS" \
   --wait 15 2>&1; then
   echo ""
-  echo "WARNING: Task field deploy failed via metadata API (known Salesforce quirk)."
-  echo "If the four fields already exist in the org (created manually), continuing is safe."
-  echo "Required fields:"
+  echo "WARNING: Task field deploy failed via metadata API (known Salesforce quirk"
+  echo "with the Task object's restricted Type picklist)."
+  echo "If the fields already exist in the org (created manually), continuing is safe."
+  echo "Work-order gate fields:"
   echo "  - Is_Gate__c (Checkbox, default false)"
-  echo "  - Pre_Mob_Section__c (Picklist values: A. Financial + Scope, B. Staffing, C. Safety,"
+  echo "  - Pre_Mob_Section__c (Picklist: A. Financial + Scope, B. Staffing, C. Safety,"
   echo "    D. Training, E. Tools + Fleet, F. Procurement, G. Schedule, H. Client Alignment, Sign-off)"
   echo "  - Overdue_Alert_Sent__c (Checkbox, default false)"
   echo "  - Escalated__c (Checkbox, default false)"
+  echo "Outreach field:"
+  echo "  - Sequence_Task__c (Checkbox, default false)"
+fi
+echo ""
+
+echo "Step 3b-2: Deploying Task list views..."
+if [ -d "force-app/main/default/objects/Task/listViews" ]; then
+  if ! sf project deploy start \
+    --source-dir "force-app/main/default/objects/Task/listViews" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo ""
+    echo "WARNING: Task list views failed to deploy (most often because"
+    echo "Task.Sequence_Task__c does not exist yet — create it manually per Step 3b)."
+  fi
+else
+  echo "  No Task list views found — skipping."
 fi
 echo ""
 
@@ -172,14 +202,14 @@ echo ""
 echo "Step 3e: Quick Action — manual setup (see post-deploy steps)."
 echo ""
 
-echo "Step 3f: Deploying FlexiPages (Work Order, Change Order, Ops Dashboard)..."
+echo "Step 3f: Deploying FlexiPages (fail-soft)..."
 if ! sf project deploy start \
   --source-dir "force-app/main/default/flexipages" \
   --target-org "$ORG_ALIAS" \
   --wait 15 2>&1; then
   echo ""
   echo "WARNING: FlexiPage deploy reported issues. New record pages should deploy clean;"
-  echo "existing-page modifications may silently no-op. Verify in App Builder."
+  echo "existing-page or template-level modifications may silently no-op. Verify in App Builder."
 fi
 echo ""
 
@@ -204,55 +234,71 @@ sf project deploy start \
   --wait 20
 echo ""
 
-echo "Step 3j: Deploying Permission Set (HTS_Ops_Sprint1)..."
-sf project deploy start \
-  --source-dir "force-app/main/default/permissionsets" \
-  --target-org "$ORG_ALIAS" \
-  --wait 10 || echo "  Permission set deploy reported issues; continuing."
+echo "Step 3j: Deploying Permission Sets (fail-soft)..."
+if [ -d "force-app/main/default/permissionsets" ]; then
+  if ! sf project deploy start \
+    --source-dir "force-app/main/default/permissionsets" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo "  Permission set deploy reported issues; continuing."
+  fi
+else
+  echo "  No permission sets found — skipping."
+fi
 echo ""
 
-echo "=== Sprint 1 Deployment Complete ==="
+echo "Step 3k: Deploying Reports (fail-soft)..."
+# The two task reports rely on the "Open & Completed Activities" standard
+# filter, which is set in-org and NOT represented in report XML — any deploy
+# resets it to "Open" and zeroes the reports. Exclude them so the in-org
+# setting survives; they remain in the repo for reference only.
+rm -f "force-app/main/default/reports/HTS_Outreach_Reports/Dylan_Task_Completion.report-meta.xml"
+rm -f "force-app/main/default/reports/HTS_Outreach_Reports/Tasks_Completed_This_Week.report-meta.xml"
+if [ -d "force-app/main/default/reports" ]; then
+  if ! sf project deploy start \
+    --source-dir "force-app/main/default/reports" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo "  Some reports failed to deploy. Check errors above."
+  fi
+else
+  echo "  No reports directory found — skipping."
+fi
+echo ""
+
+echo "Step 3l: Deploying Dashboards (fail-soft)..."
+if [ -d "force-app/main/default/dashboards" ]; then
+  if ! sf project deploy start \
+    --source-dir "force-app/main/default/dashboards" \
+    --target-org "$ORG_ALIAS" \
+    --wait 10 2>&1; then
+    echo "  Some dashboards failed to deploy. Check errors above."
+  fi
+else
+  echo "  No dashboards directory found — skipping."
+fi
+echo ""
+
+echo "=== Deployment Complete ==="
 echo ""
 echo "Manual post-deploy steps:"
-echo "  1. Assign permission set 'HTS Ops Sprint 1' to users:"
+echo "  1. Assign permission sets to users, e.g.:"
 echo "       sf org assign permset --name HTS_Ops_Sprint1 --on-behalf-of <username> --target-org $ORG_ALIAS"
 echo ""
-echo "  2. Create the 'Create Work Order' Quick Action on Opportunity (2 min):"
-echo "       Setup → Object Manager → Opportunity → Buttons, Links, and Actions → New Action"
-echo "       Action Type: Flow"
-echo "       Flow: Create Work Order"
-echo "       Label: Create Work Order"
-echo "       Save, then add the action to the Opportunity Lightning Record Page via App Builder."
+echo "  2. Create the 'Create Work Order' Quick Action on Opportunity (Flow: Create Work Order),"
+echo "     then add it to the Opportunity Lightning Record Page via App Builder."
 echo ""
-echo "  3. Build the Work Order Record Page in Lightning App Builder (~7 min):"
-echo "       Setup → Object Manager → Work Order → Lightning Record Pages → New"
-echo "       Choose 'Header and Right Sidebar' template, label 'Work Order Record Page'."
-echo "       Sections (drag Field Section components into the main column):"
-echo "         - Project Details (Name, Stage, Opportunity, Customer, Site, Mob Date,"
-echo "           Method, Project Lead, Job Code, Requires New Hires, SOW Notes, Days to Mob)"
-echo "         - PO & Financials (PO Number, PO Amount, CO Total, Total Contract Value,"
-echo "           Invoiced, Remaining Balance, % Remaining, Alert Threshold, Last Invoice,"
-echo "           Billing Terms)"
-echo "         - Cash Flow Inputs (Project Length, Biweekly Labor, Tooling Budget)"
-echo "         - Billing Rates (Tech 2 ST/OT, Tech 1 ST/OT)"
-echo "       Add Related Lists below. Save → Activate → Org Default."
+echo "  3. Build/activate the Work Order and Change Order record pages in Lightning App Builder"
+echo "     (see brief Part 0); activate as org default for Project__c / Change_Order__c."
 echo ""
-echo "  4. Build the Change Order Record Page (~2 min):"
-echo "       Object Manager → Change Order → Lightning Record Pages → New"
-echo "       One Field Section with: Name, Work Order, Amount, Date Received, CO PO Number,"
-echo "       Description. Save → Activate → Org Default."
+echo "  4. Build the Overdue Gate Task Alert as a scheduled flow (Salesforce does not allow"
+echo "     record-triggered flows on Task): daily, Tasks where Is_Gate__c=true AND"
+echo "     Status!='Completed' AND ActivityDate<TODAY AND Work Order Stage='Pre-Mob';"
+echo "     @mention owner, and Nikki if 3+ days overdue."
 echo ""
-echo "  5. Activate the Work Order Record Page as the org default for Project__c"
-echo "     (Setup → Object Manager → Work Order → Lightning Record Pages → Activation)."
-echo ""
-echo "  6. Pin the Ops Dashboard tab in the HTS Operations app."
-echo ""
-echo "  7. Build the Overdue Gate Task Alert as a scheduled flow (Salesforce does not allow"
-echo "     record-triggered flows on Task). In Flow Builder: New Flow → Scheduled Flow,"
-echo "     daily at 8am, filter Tasks where Is_Gate__c=true AND Status!='Completed' AND"
-echo "     ActivityDate<TODAY AND related Work Order Stage='Pre-Mob'; post Chatter @mention"
-echo "     to owner; if 3+ days overdue, also @mention Nikki."
-echo ""
-echo "  8. Wire up Chatter @mentions on PO Low Balance Alert in Flow Builder (Amanda + Nikki)."
-echo ""
-echo "  9. Run the Part 12 test plan from the brief."
+echo "  Outreach verification:"
+echo "    - Contact → Fields: confirm all custom fields; Account → Onboarded_Account__c;"
+echo "      Task → Sequence_Task__c."
+echo "    - Create a test Contact with Signal_Source → verify Sequence Initialization fires."
+echo "    - Set Next_Touch_Date=TODAY on an active contact → verify Cadence Scheduler creates a task."
+echo "    - Check the Dashboards tab for HTS Outreach dashboards."
