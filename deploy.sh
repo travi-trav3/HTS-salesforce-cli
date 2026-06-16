@@ -66,6 +66,127 @@ print(records[0]['Id'])
 }
 
 # ----------------------------------------------------------
+# query_notification_type_id <DEVELOPER_NAME> -> echoes 18-char ID
+# Reads CustomNotificationType via Tooling API.
+# ----------------------------------------------------------
+query_notification_type_id() {
+  local dev_name="$1"
+  local result
+  result=$(sf data query \
+    --query "SELECT Id FROM CustomNotificationType WHERE DeveloperName='${dev_name}' LIMIT 1" \
+    --use-tooling-api \
+    --target-org "$ORG_ALIAS" \
+    --json) || {
+    echo "ERROR: Failed to query CustomNotificationType ${dev_name}" >&2
+    return 1
+  }
+  echo "$result" | python3 -c "
+import sys, json
+text = sys.stdin.read()
+start = text.find('{')
+if start == -1:
+    sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
+records = data.get('result', {}).get('records', [])
+if not records:
+    sys.exit(1)
+print(records[0]['Id'])
+" 2>/dev/null
+}
+
+# ----------------------------------------------------------
+# activate_flow <FLOW_API_NAME>
+# Salesforce often deploys flows as Draft. This activates the latest
+# version via the Tooling API.
+# ----------------------------------------------------------
+activate_flow() {
+  local api_name="$1"
+  echo "  Checking ${api_name}..."
+  local ver_result
+  # Run query without -e/-pipefail killing the function silently.
+  set +e
+  ver_result=$(sf data query \
+    --query "SELECT VersionNumber FROM Flow WHERE Definition.DeveloperName='${api_name}' AND Status!='Obsolete' ORDER BY VersionNumber DESC LIMIT 1" \
+    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>&1)
+  local sf_rc=$?
+  set -e
+  if [ $sf_rc -ne 0 ]; then
+    echo "    Version lookup failed (rc=$sf_rc). Activate manually in Setup > Flows."
+    echo "    sf output: $ver_result" | head -3
+    return 0
+  fi
+  local version
+  version=$(echo "$ver_result" | python3 -c "
+import sys, json
+text = sys.stdin.read()
+start = text.find('{')
+if start == -1: sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
+records = data.get('result', {}).get('records', [])
+if records:
+    print(records[0]['VersionNumber'])
+" 2>/dev/null)
+
+  local def_result
+  set +e
+  def_result=$(sf data query \
+    --query "SELECT Id FROM FlowDefinition WHERE DeveloperName='${api_name}'" \
+    --use-tooling-api --target-org "$ORG_ALIAS" --json 2>&1)
+  local def_rc=$?
+  set -e
+  if [ $def_rc -ne 0 ]; then
+    echo "    FlowDefinition lookup failed (rc=$def_rc)."
+    echo "    sf output: $def_result" | head -3
+    return 0
+  fi
+  local def_id
+  def_id=$(echo "$def_result" | python3 -c "
+import sys, json
+text = sys.stdin.read()
+start = text.find('{')
+if start == -1: sys.exit(1)
+try:
+    data = json.loads(text[start:])
+except json.JSONDecodeError:
+    sys.exit(1)
+records = data.get('result', {}).get('records', [])
+if records:
+    print(records[0]['Id'])
+" 2>/dev/null)
+
+  echo "    version=${version:-<empty>} defId=${def_id:-<empty>}"
+  if [ -n "$version" ] && [ -n "$def_id" ]; then
+    # FlowDefinition activeVersionNumber is metadata-only on the Tooling API
+    # object — it cannot be set via a plain field update. The supported path
+    # is a PATCH to the Tooling sobjects endpoint wrapping the field inside
+    # a Metadata composite.
+    set +e
+    local upd_output
+    upd_output=$(sf api request rest \
+      "/services/data/v62.0/tooling/sobjects/FlowDefinition/${def_id}" \
+      --method PATCH \
+      --body "{\"Metadata\":{\"activeVersionNumber\":${version}}}" \
+      --target-org "$ORG_ALIAS" 2>&1)
+    local upd_rc=$?
+    set -e
+    if [ $upd_rc -eq 0 ]; then
+      echo "    Activated v${version}"
+    else
+      echo "    Activation failed (rc=$upd_rc). Activate manually in Setup > Flows."
+      echo "    sf output: $upd_output" | head -3
+    fi
+  else
+    echo "    Skipped (missing version or defId). Activate manually in Setup > Flows."
+  fi
+}
+
+# ----------------------------------------------------------
 # Step 1: Query User IDs
 # ----------------------------------------------------------
 echo "Step 1: Querying User IDs from $ORG_ALIAS..."
@@ -78,6 +199,18 @@ echo "  Dylan:  $DYLAN_USER_ID"
 echo "  Ian:    $IAN_USER_ID"
 echo "  Amanda: $AMANDA_USER_ID"
 echo "  Nikki:  $NIKKI_USER_ID"
+echo ""
+
+echo "Step 1b: Querying Custom Notification Type IDs..."
+HTS_PO_ALERT_TYPE_ID=$(query_notification_type_id "HTS_PO_Alert" || true)
+if [ -z "${HTS_PO_ALERT_TYPE_ID:-}" ]; then
+  echo "  WARNING: 'HTS_PO_Alert' Custom Notification Type not found."
+  echo "  Create it via Setup > Custom Notifications > New (name: HTS PO Alert)."
+  echo "  Skipping notification placeholder substitution; flows that reference it will fail."
+  HTS_PO_ALERT_TYPE_ID="MISSING"
+else
+  echo "  HTS_PO_Alert: $HTS_PO_ALERT_TYPE_ID"
+fi
 echo ""
 
 # ----------------------------------------------------------
@@ -97,13 +230,14 @@ fi
 
 substitute() {
   local file="$1"
-  if grep -q '{{[A-Z]*_USER_ID}}' "$file" 2>/dev/null; then
+  if grep -q '{{[A-Z_]*}}' "$file" 2>/dev/null; then
     local tmpfile="$file.tmp"
     sed \
       -e "s/{{DYLAN_USER_ID}}/${DYLAN_USER_ID}/g" \
       -e "s/{{IAN_USER_ID}}/${IAN_USER_ID}/g" \
       -e "s/{{AMANDA_USER_ID}}/${AMANDA_USER_ID}/g" \
       -e "s/{{NIKKI_USER_ID}}/${NIKKI_USER_ID}/g" \
+      -e "s/{{HTS_PO_ALERT_TYPE_ID}}/${HTS_PO_ALERT_TYPE_ID}/g" \
       "$file" > "$tmpfile"
     mv "$tmpfile" "$file"
     echo "  Substituted in: $(basename "$file")"
@@ -114,10 +248,10 @@ for file in "$FLOW_DIR"/*.xml; do
   substitute "$file"
 done
 
-REMAINING=$(grep -r -l '{{[A-Z]*_USER_ID}}' "$TEMP_DIR/force-app" --include="*.xml" 2>/dev/null | wc -l | tr -d ' ' || true)
+REMAINING=$(grep -r -l '{{[A-Z_]*}}' "$TEMP_DIR/force-app" --include="*.xml" 2>/dev/null | wc -l | tr -d ' ' || true)
 if [ "$REMAINING" -gt 0 ]; then
   echo "ERROR: Unresolved placeholders remain:"
-  grep -r -l '{{[A-Z]*_USER_ID}}' "$TEMP_DIR/force-app" --include="*.xml"
+  grep -r -l '{{[A-Z_]*}}' "$TEMP_DIR/force-app" --include="*.xml"
   exit 1
 fi
 echo "  All placeholders resolved."
@@ -185,6 +319,26 @@ else
 fi
 echo ""
 
+# Deploy + activate flows BEFORE the Apex step. The Apex test inserts a
+# Project__c that triggers PO Low Balance Alert; if the active flow in the
+# org is missing required fields (e.g. Target ID on Send Custom Notification),
+# the insert fails and the test fails with it. Flows run after all object
+# fields (Project/Change_Order, Contact/Account, Task) are deployed, because
+# the work-order flows reference Task fields and the outreach flows reference
+# Contact/Account fields.
+echo "Step 3b-3: Deploying Flows..."
+sf project deploy start \
+  --source-dir "force-app/main/default/flows" \
+  --target-org "$ORG_ALIAS" \
+  --wait 20
+echo ""
+
+echo "Step 3b-4: Activating work-order flows (Salesforce often deploys flows as Draft)..."
+for flow in Create_Work_Order Generate_PreMob_Tasks PO_Low_Balance_Alert Overdue_Gate_Task_Alert; do
+  activate_flow "$flow"
+done
+echo ""
+
 echo "Step 3c: Deploying Apex (HTSOpsDashboardController + test)..."
 sf project deploy start \
   --source-dir "force-app/main/default/classes" \
@@ -227,11 +381,7 @@ sf project deploy start \
   --wait 10 || echo "  Application deploy reported issues; continuing."
 echo ""
 
-echo "Step 3i: Deploying Flows..."
-sf project deploy start \
-  --source-dir "force-app/main/default/flows" \
-  --target-org "$ORG_ALIAS" \
-  --wait 20
+echo "Step 3i: Flows already deployed + activated in Step 3b-3/3b-4."
 echo ""
 
 echo "Step 3j: Deploying Permission Sets (fail-soft)..."
