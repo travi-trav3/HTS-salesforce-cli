@@ -1,0 +1,29 @@
+# Salesforce / SFDX
+.sf/
+.sfdx/
+.localdevserver/
+deploy-output/
+*.log
+
+# sf CLI auth artifacts — never commit these
+auth_url.txt
+*.sfdx-auth-url
+
+# Node (qbo-sync and tooling)
+node_modules/
+npm-debug.log*
+dist/
+build/
+coverage/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
