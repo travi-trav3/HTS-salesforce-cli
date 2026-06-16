@@ -1,0 +1,41 @@
+name: Deploy to Salesforce
+
+# Manual gate: deploys to the live org ONLY when a human triggers this
+# workflow from the Actions tab (workflow_dispatch). It no longer runs
+# automatically on push, so merging to main never deploys on its own and
+# feature branches can never touch the org.
+on:
+  workflow_dispatch:
+    inputs:
+      org_alias:
+        description: 'Target org alias'
+        required: true
+        default: 'hts-prod'
+      confirm:
+        description: 'Type DEPLOY to confirm you intend to deploy to the org above'
+        required: true
+        default: ''
+
+jobs:
+  deploy:
+    # Hard stop unless the operator typed DEPLOY.
+    if: ${{ github.event.inputs.confirm == 'DEPLOY' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Salesforce CLI
+        run: npm install -g @salesforce/cli
+
+      - name: Authenticate to Salesforce
+        run: |
+          echo "${{ secrets.SFDX_AUTH_URL }}" > auth_url.txt
+          sf org login sfdx-url --sfdx-url-file auth_url.txt --alias "${{ github.event.inputs.org_alias }}" --set-default
+          rm auth_url.txt
+
+      - name: Deploy metadata
+        env:
+          ORG_ALIAS: ${{ github.event.inputs.org_alias }}
+        run: |
+          chmod +x deploy.sh
+          ./deploy.sh

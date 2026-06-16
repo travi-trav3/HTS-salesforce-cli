@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Percent_Remaining__c</fullName>
     <label>Percent Remaining</label>
-    <formula>IF((NULLVALUE(PO_Amount__c, 0) + NULLVALUE(CO_Total__c, 0)) = 0, 0, (Remaining_Balance__c / (NULLVALUE(PO_Amount__c, 0) + NULLVALUE(CO_Total__c, 0))) * 100)</formula>
+    <formula>IF((NULLVALUE(PO_Amount__c, 0) + NULLVALUE(CO_Total__c, 0)) = 0, 0, Remaining_Balance__c / (NULLVALUE(PO_Amount__c, 0) + NULLVALUE(CO_Total__c, 0)))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <type>Percent</type>
     <precision>5</precision>
