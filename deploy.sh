@@ -360,6 +360,13 @@ sf project deploy start \
   --wait 10 || echo "  Permission set deploy reported issues; continuing."
 echo ""
 
+echo "Step 3k: Deploying Quick Actions (New Change Order on Work Order)..."
+sf project deploy start \
+  --source-dir "force-app/main/default/quickActions" \
+  --target-org "$ORG_ALIAS" \
+  --wait 10 || echo "  Quick action deploy reported issues; continuing."
+echo ""
+
 echo "=== Sprint 1 Deployment Complete ==="
 echo ""
 echo "Manual post-deploy steps:"
