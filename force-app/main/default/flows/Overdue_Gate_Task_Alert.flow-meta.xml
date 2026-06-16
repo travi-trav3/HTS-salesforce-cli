@@ -80,6 +80,9 @@
                 <elementReference>$Record.WhatId</elementReference>
             </value>
         </inputParameters>
+        <connector>
+            <targetReference>Mark_Standard_Sent</targetReference>
+        </connector>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
     <assignments>
@@ -186,6 +189,27 @@
     <label>Overdue Gate Task Alert</label>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
+        <name>Mark_Standard_Sent</name>
+        <label>Mark Overdue Alert Sent (Standard)</label>
+        <locationX>300</locationX>
+        <locationY>840</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Overdue_Alert_Sent__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>Mark_Escalated</name>
         <label>Mark Task as Escalated</label>
         <locationX>50</locationX>
@@ -223,7 +247,7 @@
         <schedule>
             <frequency>Daily</frequency>
             <startDate>2026-05-29</startDate>
-            <startTime>08:00:00.000Z</startTime>
+            <startTime>12:00:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
