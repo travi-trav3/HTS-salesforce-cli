@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All_Pre_Mob_Tasks</fullName>
-    <columns>SUBJECT</columns>
+    <columns>Subject</columns>
     <columns>WHAT_NAME</columns>
     <columns>Pre_Mob_Section__c</columns>
-    <columns>ASSIGNED_TO</columns>
-    <columns>ACTIVITY_DATE</columns>
-    <columns>STATUS</columns>
+    <columns>OwnerId</columns>
+    <columns>ActivityDate</columns>
+    <columns>Status</columns>
     <columns>Is_Gate__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Pre_Mob_Section__c</field>
-        <operation>notEqual</operation>
-        <value></value>
+        <operation>includes</operation>
+        <value>A. Financial + Scope,B. Staffing,C. Safety,D. Training,E. Tools + Fleet,F. Procurement,G. Schedule,H. Client Alignment,Sign-off</value>
     </filters>
     <filters>
         <field>Status</field>
