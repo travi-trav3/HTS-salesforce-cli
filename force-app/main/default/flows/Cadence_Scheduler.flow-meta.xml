@@ -252,7 +252,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -302,7 +302,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -352,7 +352,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -402,7 +402,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -452,7 +452,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -502,7 +502,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -552,7 +552,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -602,7 +602,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -684,7 +684,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -734,7 +734,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -784,7 +784,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -834,7 +834,32 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Missing_Copy_Task</targetReference>
+                <targetReference>Get_Existing_Missing_Task</targetReference>
+            </connector>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Existing_Missing_Task_Check</name>
+        <label>Existing Missing Task Check</label>
+        <locationX>500</locationX>
+        <locationY>625</locationY>
+        <defaultConnector>
+            <targetReference>Create_Missing_Copy_Task</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Existing — Create Task</defaultConnectorLabel>
+        <rules>
+            <name>Has_Existing_Missing_Task</name>
+            <label>Has Existing — Skip</label>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Existing_Missing_Task.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Contacts</targetReference>
             </connector>
         </rules>
     </decisions>
@@ -2093,6 +2118,40 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             <targetReference>Update_Contact_T13</targetReference>
         </connector>
     </recordCreates>
+    <recordLookups>
+        <name>Get_Existing_Missing_Task</name>
+        <label>Get Existing Missing Copy Task</label>
+        <locationX>500</locationX>
+        <locationY>550</locationY>
+        <object>Task</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WhoId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Subject</field>
+            <operator>Contains</operator>
+            <value>
+                <stringValue>COPY MISSING</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <connector>
+            <targetReference>Existing_Missing_Task_Check</targetReference>
+        </connector>
+    </recordLookups>
     <recordLookups>
         <name>Get_Eligible_Contacts</name>
         <label>Get Eligible Contacts</label>
