@@ -30,7 +30,11 @@ DYLAN_QUERY=$(sf data query \
 
 DYLAN_USER_ID=$(echo "$DYLAN_QUERY" | python3 -c "
 import sys, json
-data = json.load(sys.stdin)
+raw = sys.stdin.read()
+idx = raw.find('{')
+if idx < 0:
+    sys.exit(1)
+data = json.loads(raw[idx:])
 records = data.get('result', {}).get('records', [])
 if not records:
     sys.exit(1)
