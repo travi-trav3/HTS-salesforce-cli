@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>My_Tasks_This_Week</fullName>
-    <columns>Subject</columns>
+    <columns>SUBJECT</columns>
     <columns>WHAT_NAME</columns>
-    <columns>ActivityDate</columns>
-    <columns>Status</columns>
-    <columns>Priority</columns>
+    <columns>STATUS</columns>
+    <columns>PRIORITY</columns>
     <columns>Is_Gate__c</columns>
     <columns>Pre_Mob_Section__c</columns>
     <filterScope>Mine</filterScope>

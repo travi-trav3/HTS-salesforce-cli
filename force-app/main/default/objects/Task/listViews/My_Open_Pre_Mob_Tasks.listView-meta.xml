@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>My_Open_Pre_Mob_Tasks</fullName>
-    <columns>Subject</columns>
+    <columns>SUBJECT</columns>
     <columns>Pre_Mob_Section__c</columns>
     <columns>WHAT_NAME</columns>
-    <columns>ActivityDate</columns>
-    <columns>Status</columns>
-    <columns>Priority</columns>
+    <columns>STATUS</columns>
+    <columns>PRIORITY</columns>
     <columns>Is_Gate__c</columns>
     <filterScope>Mine</filterScope>
     <filters>
