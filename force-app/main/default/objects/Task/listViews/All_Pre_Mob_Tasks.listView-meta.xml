@@ -8,11 +8,6 @@
     <columns>Is_Gate__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>Pre_Mob_Section__c</field>
-        <operation>includes</operation>
-        <value>A. Financial + Scope,B. Staffing,C. Safety,D. Training,E. Tools + Fleet,F. Procurement,G. Schedule,H. Client Alignment,Sign-off</value>
-    </filters>
-    <filters>
         <field>Status</field>
         <operation>notEqual</operation>
         <value>Completed</value>
