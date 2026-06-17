@@ -6,10 +6,6 @@
         <layoutSectionStyle>TwoColumnsLeftToRight</layoutSectionStyle>
         <quickActionLayoutColumns>
             <quickActionLayoutItems>
-                <field>Name</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
                 <field>CO_Amount__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
