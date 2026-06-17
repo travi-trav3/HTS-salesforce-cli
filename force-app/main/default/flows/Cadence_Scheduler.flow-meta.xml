@@ -982,12 +982,12 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
     <formulas>
         <name>Subject_T3</name>
         <dataType>String</dataType>
-        <expression>"Touch 3: Review &amp; Send Email (FROM NIKKI) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+        <expression>"Touch 3: Review &amp; Send Email (FROM IAN) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
     </formulas>
     <formulas>
         <name>Desc_T3</name>
         <dataType>String</dataType>
-        <expression>"Review and send this value-add email FROM NIKKI's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Nikki Cummings" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value1__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value1__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro email (Dylan)" &amp; BR() &amp; BR() &amp; "⚠️ Send from Nikki's email. Mark task Complete after sending."</expression>
+        <expression>"Review and send this value-add email FROM IAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Ian Steele" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value1__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value1__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro email (Dylan)" &amp; BR() &amp; BR() &amp; "⚠️ Send from Ian's email. Mark task Complete after sending."</expression>
     </formulas>
     <formulas>
         <name>Subject_T4_LI</name>
@@ -1002,12 +1002,12 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
     <formulas>
         <name>Desc_T4_LI</name>
         <dataType>String</dataType>
-        <expression>"Review and send this LinkedIn message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_1__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_1__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value email (Nikki)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+        <expression>"Review and send this LinkedIn message." &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Message_Draft_1__c}), "(Draft not available)", {!Loop_Contacts.LinkedIn_Message_Draft_1__c}) &amp; BR() &amp; BR() &amp; "LinkedIn: " &amp; IF(ISBLANK({!Loop_Contacts.LinkedIn_Profile_URL__c}), "(Not available)", {!Loop_Contacts.LinkedIn_Profile_URL__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value email (Ian)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
     </formulas>
     <formulas>
         <name>Desc_T4_Email</name>
         <dataType>String</dataType>
-        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub4__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub4__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value (Nikki)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
+        <expression>"Review and send this follow-up email FROM DYLAN's email address." &amp; BR() &amp; "LinkedIn not connected — sending substitute email instead." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Sub4__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Sub4__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1 — LI request, T2 — Intro (Dylan), T3 — Value (Ian)" &amp; BR() &amp; BR() &amp; "⚠️ Mark Complete after sending."</expression>
     </formulas>
     <formulas>
         <name>Subject_T5</name>
@@ -1032,12 +1032,12 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
     <formulas>
         <name>Subject_T7</name>
         <dataType>String</dataType>
-        <expression>"Touch 7: Review &amp; Send Email (FROM NIKKI) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
+        <expression>"Touch 7: Review &amp; Send Email (FROM IAN) — " &amp; {!Loop_Contacts.FirstName} &amp; " " &amp; {!Loop_Contacts.LastName}</expression>
     </formulas>
     <formulas>
         <name>Desc_T7</name>
         <dataType>String</dataType>
-        <expression>"Review and send this value-add email FROM NIKKI's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Nikki Cummings" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value2__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value2__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T6 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Send from Nikki's email. Mark task Complete after sending."</expression>
+        <expression>"Review and send this value-add email FROM IAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Ian Steele" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_Value2__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_Value2__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T6 outreach" &amp; BR() &amp; BR() &amp; "⚠️ Send from Ian's email. Mark task Complete after sending."</expression>
     </formulas>
     <formulas>
         <name>Subject_T8_LI</name>

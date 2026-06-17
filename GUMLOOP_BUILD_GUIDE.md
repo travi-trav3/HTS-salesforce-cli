@@ -157,7 +157,7 @@ Add an **AI/LLM** node to generate all 5 Wave 1 draft fields. The prompt should 
 |---|---|---|
 | `LinkedIn_Connection_Note__c` | 200 chars | Optional connection request note. Short. Most requests sent WITHOUT a note. |
 | `Email_Draft_Intro__c` | 2000 chars | Touch 2 — Intro email from Dylan. Casual, 3-4 sentences. |
-| `Email_Draft_Value1__c` | 2000 chars | Touch 3 — Value-add email from Nikki. Insight, case study, addressed to first name. |
+| `Email_Draft_Value1__c` | 2000 chars | Touch 3 — Value-add email from Ian. Insight, case study, addressed to first name. |
 | `LinkedIn_Message_Draft_1__c` | 1000 chars | Touch 4 — LinkedIn message if connected. |
 | `Email_Draft_Sub4__c` | 2000 chars | Touch 4 fallback — Sub email from Dylan if NOT LinkedIn connected. |
 
@@ -267,7 +267,7 @@ Use AI/LLM with the **fresh** research to generate:
 | Field | Max Length | Description |
 |---|---|---|
 | `Email_Draft_FollowUp__c` | 2000 chars | Touch 6 — Follow-up email from Dylan |
-| `Email_Draft_Value2__c` | 2000 chars | Touch 7 — Value-add #2 from Nikki, different angle than Value #1 |
+| `Email_Draft_Value2__c` | 2000 chars | Touch 7 — Value-add #2 from Ian, different angle than Value #1 |
 | `LinkedIn_Message_Draft_2__c` | 1000 chars | Touch 8 — LinkedIn message if connected |
 | `Email_Draft_Sub8__c` | 2000 chars | Touch 8 fallback — Sub email from Dylan if NOT connected |
 
@@ -275,7 +275,7 @@ Use AI/LLM with the **fresh** research to generate:
 - Reference the earlier outreach subtly (don't repeat the intro)
 - Use fresh research (not stale Wave 1 data)
 - Escalate slightly — more specific value props
-- Nikki's Touch 7 email should have a different angle than Touch 3
+- Ian's Touch 7 email should have a different angle than Touch 3
 
 #### 3d. Update Salesforce
 
