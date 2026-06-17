@@ -202,6 +202,12 @@ echo "Step 4d: Deploying Reports..."
 # setting survives; they remain in the repo for reference only.
 rm -f "$TEMP_DIR/force-app/main/default/reports/HTS_Outreach_Reports/Dylan_Task_Completion.report-meta.xml"
 rm -f "$TEMP_DIR/force-app/main/default/reports/HTS_Outreach_Reports/Tasks_Completed_This_Week.report-meta.xml"
+
+# Dashboards are hand-tuned in-org (Lightning grid layout + widget placement).
+# Redeploying from the repo would clear the cached results and overwrite any
+# in-app widget/layout changes, so we no longer deploy them. The repo keeps a
+# snapshot for reference only; manage dashboards in Salesforce directly.
+rm -rf "$TEMP_DIR/force-app/main/default/dashboards"
 if [ -d "$TEMP_DIR/force-app/main/default/reports" ]; then
   if ! sf project deploy start \
     --source-dir "$TEMP_DIR/force-app/main/default/reports" \
