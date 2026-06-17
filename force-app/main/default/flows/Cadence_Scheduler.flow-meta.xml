@@ -2225,7 +2225,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2267,7 +2267,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2303,7 +2303,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2345,7 +2345,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2381,7 +2381,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2417,7 +2417,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2453,7 +2453,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2489,7 +2489,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2531,7 +2531,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2567,7 +2567,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2603,7 +2603,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2639,7 +2639,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             </value>
         </inputAssignments>
         <connector>
-            <targetReference>Loop_Contacts</targetReference>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
         </connector>
     </recordUpdates>
     <recordUpdates>
@@ -2684,6 +2684,44 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
             <field>Last_Touch_Date__c</field>
             <value>
                 <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <connector>
+            <targetReference>Close_Open_Missing_Copy_Tasks</targetReference>
+        </connector>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Close_Open_Missing_Copy_Tasks</name>
+        <label>Close Open Missing Copy Tasks</label>
+        <locationX>500</locationX>
+        <locationY>900</locationY>
+        <object>Task</object>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WhoId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Loop_Contacts.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Subject</field>
+            <operator>Contains</operator>
+            <value>
+                <stringValue>COPY MISSING</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Completed</stringValue>
             </value>
         </inputAssignments>
         <connector>
