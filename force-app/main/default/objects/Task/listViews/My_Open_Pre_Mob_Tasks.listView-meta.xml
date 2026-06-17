@@ -20,4 +20,7 @@
         <value>Completed</value>
     </filters>
     <label>My Open Pre-Mob Tasks</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>
