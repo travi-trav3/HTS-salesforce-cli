@@ -677,7 +677,7 @@
             <label>Copy Missing</label>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Loop_Contacts.Email_Draft_DirectAsk__c</leftValueReference>
+                <leftValueReference>Loop_Contacts.Direct_Ask_Email__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -1077,7 +1077,7 @@ IF(ISBLANK({!Loop_Contacts.Intent_Signals__c}), "(None)", {!Loop_Contacts.Intent
     <formulas>
         <name>Desc_T10</name>
         <dataType>String</dataType>
-        <expression>"Review and send this direct ask email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Email_Draft_DirectAsk__c}), "(Draft not available)", {!Loop_Contacts.Email_Draft_DirectAsk__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T9 outreach (Stage 3 — Direct Ask)" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
+        <expression>"Review and send this direct ask email FROM DYLAN's email address." &amp; BR() &amp; BR() &amp; "To: " &amp; {!Loop_Contacts.Email} &amp; BR() &amp; "From: Dylan Ragsdale" &amp; BR() &amp; BR() &amp; IF(ISBLANK({!Loop_Contacts.Direct_Ask_Email__c}), "(Draft not available)", {!Loop_Contacts.Direct_Ask_Email__c}) &amp; BR() &amp; BR() &amp; {!Contact_Info} &amp; BR() &amp; BR() &amp; "Previous: T1-T9 outreach (Stage 3 — Direct Ask)" &amp; BR() &amp; BR() &amp; "⚠️ After sending: Mark this task Complete"</expression>
     </formulas>
     <formulas>
         <name>Subject_T11</name>
