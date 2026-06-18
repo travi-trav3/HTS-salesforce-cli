@@ -136,6 +136,13 @@ sf project deploy start \
   --wait 15
 echo ""
 
+echo "Step 3a2: Deploying Contact custom fields (labels live here)..."
+sf project deploy start \
+  --source-dir "force-app/main/default/objects/Contact" \
+  --target-org "$ORG_ALIAS" \
+  --wait 15
+echo ""
+
 echo "Step 3b: Deploying new Task custom fields..."
 echo "  (If these were created manually in the UI to work around the"
 echo "   metadata-API picklist quirk, this step will no-op or warn — safe to ignore.)"
