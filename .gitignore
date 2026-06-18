@@ -1,0 +1,7 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Salesforce CLI / sfdx local state
+.sfdx/
+.sf/
