@@ -136,9 +136,24 @@ def reorder_page_layout(layout_path: Path) -> bool:
 
 
 # ---------- FlexiPage (Lightning Record Page) ----------
+#
+# Lightning App Builder stores a field section as a chain of facet regions,
+# not as a flat list of fields:
+#
+#   <componentInstance> flexipage:fieldSection, label "Draft Copy"
+#       property columns -> Facet-AAA
+#   <flexiPageRegions> name=Facet-AAA            (the section's column wrapper)
+#       <componentInstance> flexipage:column, property body -> Facet-BBB
+#       <componentInstance> flexipage:column, property body -> Facet-CCC
+#   <flexiPageRegions> name=Facet-BBB            (left column: holds the fields)
+#       <itemInstances><fieldInstance>...<fieldItem>Record.X__c</fieldItem>
+#   <flexiPageRegions> name=Facet-CCC            (right column: may be empty)
+#
+# So to reorder we resolve fieldSection -> columns facet -> each column's
+# body facet -> reorder the itemInstances inside those body regions.
 
-def find_property_value(component, prop_name):
-    """Look up a componentInstanceProperties value by name."""
+def get_prop(component, prop_name):
+    """Look up a componentInstanceProperties value by name. None if absent."""
     for prop in component.findall("sf:componentInstanceProperties", NSMAP):
         name_el = prop.find("sf:name", NSMAP)
         if name_el is not None and (name_el.text or "").strip() == prop_name:
@@ -147,67 +162,111 @@ def find_property_value(component, prop_name):
     return None
 
 
-def field_api_name_from_instance(field_instance):
-    """Pull the API name out of a fieldInstance, regardless of which schema variant."""
-    # Variant A: <fieldInstance><fieldItem>Record.Email_Draft_Intro__c</fieldItem></fieldInstance>
-    fi = field_instance.find("sf:fieldItem", NSMAP)
-    if fi is not None and fi.text:
-        v = fi.text.strip()
-        return v.split(".", 1)[1] if v.startswith("Record.") else v
-    # Variant B: properties bag with name=uiBehavior etc. and name=fieldItem
-    for prop in field_instance.findall("sf:fieldInstanceProperties", NSMAP):
-        name_el = prop.find("sf:name", NSMAP)
-        if name_el is not None and (name_el.text or "").strip() == "fieldItem":
-            v = prop.find("sf:value", NSMAP)
-            if v is not None and v.text:
-                t = v.text.strip()
-                return t.split(".", 1)[1] if t.startswith("Record.") else t
+def api_name_from_field_instance(fi):
+    """Record.Email_Draft_Intro__c -> Email_Draft_Intro__c."""
+    fitem = fi.find("sf:fieldItem", NSMAP)
+    if fitem is not None and fitem.text:
+        t = fitem.text.strip()
+        return t[len("Record."):] if t.startswith("Record.") else t
     return ""
 
 
-def reorder_flexipage(fp_path: Path) -> bool:
+def index_regions(root):
+    """Map flexiPageRegions name -> element."""
+    regions = {}
+    for region in root.findall("sf:flexiPageRegions", NSMAP):
+        nm = region.find("sf:name", NSMAP)
+        if nm is not None and nm.text:
+            regions[nm.text.strip()] = region
+    return regions
+
+
+def reorder_region_items(region):
+    """Reorder the <itemInstances> that wrap fieldInstances inside one region.
+    Returns (changed, [api names in final order])."""
+    item_tag = f"{{{NS}}}itemInstances"
+    children = list(region)
+    items = [c for c in children if c.tag == item_tag]
+    if not items:
+        return False, []
+
+    # Position where itemInstances begin (they precede <name>/<type>).
+    first_idx = min(i for i, c in enumerate(children) if c.tag == item_tag)
+
+    def key(item):
+        fi = item.find("sf:fieldInstance", NSMAP)
+        if fi is None:
+            # Not a field (could be a nested component); keep below all fields.
+            return (2, 999, "")
+        return sort_key_for_name(api_name_from_field_instance(fi))
+
+    ordered = sorted(items, key=key)
+    final_names = []
+    for it in ordered:
+        fi = it.find("sf:fieldInstance", NSMAP)
+        final_names.append(api_name_from_field_instance(fi) if fi is not None else "?")
+
+    if [id(x) for x in items] == [id(x) for x in ordered]:
+        return False, final_names
+
+    for it in items:
+        region.remove(it)
+    for offset, it in enumerate(ordered):
+        region.insert(first_idx + offset, it)
+    return True, final_names
+
+
+def reorder_flexipage(fp_path: Path):
+    """Returns (changed: bool, final_order: list[str] or None)."""
     tree = ET.parse(fp_path)
     root = tree.getroot()
 
-    # Only touch FlexiPages that target the Contact sObject.
     sobj = root.find("sf:sobjectType", NSMAP)
     if sobj is None or (sobj.text or "").strip() != "Contact":
-        return False
+        return False, None
+
+    regions = index_regions(root)
+
+    # Find the "Draft Copy" fieldSection and the facet holding its columns.
+    columns_facet = None
+    for comp in root.iter(f"{{{NS}}}componentInstance"):
+        cn = comp.find("sf:componentName", NSMAP)
+        if cn is None or (cn.text or "").strip() != "flexipage:fieldSection":
+            continue
+        if get_prop(comp, "label") != SECTION_LABEL:
+            continue
+        columns_facet = get_prop(comp, "columns")
+        break
+
+    if not columns_facet:
+        return False, None
+
+    col_region = regions.get(columns_facet)
+    if col_region is None:
+        return False, None
+
+    # Each flexipage:column's body points at the facet that holds the fields.
+    body_facets = []
+    for comp in col_region.iter(f"{{{NS}}}componentInstance"):
+        cn = comp.find("sf:componentName", NSMAP)
+        if cn is not None and (cn.text or "").strip() == "flexipage:column":
+            body = get_prop(comp, "body")
+            if body:
+                body_facets.append(body)
 
     changed = False
-
-    # Find every fieldSection regardless of how deep it sits.
-    for component in root.iter(f"{{{NS}}}componentInstance"):
-        name_el = component.find("sf:componentName", NSMAP)
-        if name_el is None or (name_el.text or "").strip() != "flexipage:fieldSection":
+    final_order = []
+    for bf in body_facets:
+        region = regions.get(bf)
+        if region is None:
             continue
-        if find_property_value(component, "label") != SECTION_LABEL:
-            continue
-
-        # Field instances are direct children of the component, named fieldInstance.
-        field_instances = component.findall("sf:fieldInstance", NSMAP)
-        if not field_instances:
-            continue
-
-        def key(fi):
-            return sort_key_for_name(field_api_name_from_instance(fi))
-
-        original = list(field_instances)
-        ordered = sorted(field_instances, key=key)
-        if [id(x) for x in original] == [id(x) for x in ordered]:
-            continue
-
-        # Need to remove + re-append in the new order while preserving sibling
-        # elements (like componentInstanceProperties) that come before/after.
-        for fi in original:
-            component.remove(fi)
-        for fi in ordered:
-            component.append(fi)
-        changed = True
+        did, names = reorder_region_items(region)
+        final_order.extend(names)
+        changed = changed or did
 
     if changed:
         tree.write(fp_path, xml_declaration=True, encoding="UTF-8")
-    return changed
+    return changed, final_order
 
 
 # ---------- Main ----------
@@ -259,8 +318,12 @@ def main():
         if flexi_dir.exists():
             for f in sorted(flexi_dir.glob("*.flexipage-meta.xml")):
                 print(f"-- flexipage: {f.name}")
-                if reorder_flexipage(f):
-                    print("   reordered Draft Copy section")
+                did, final_order = reorder_flexipage(f)
+                if did:
+                    print("   reordered Draft Copy section. New top-to-bottom order:")
+                    for i, name in enumerate(final_order, 1):
+                        flag = "" if name in DESIRED_ORDER else "  <-- not in T1-T13 list (legacy field)"
+                        print(f"     {i:>2}. {name}{flag}")
                     changed_paths.append(f)
                 else:
                     print("   not a Contact FlexiPage or no Draft Copy section (skipped)")
