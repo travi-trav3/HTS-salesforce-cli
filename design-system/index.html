@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Club Pilot — Design System</title>
+<link rel="stylesheet" href="./styles.css">
+<style>
+  html, body { margin: 0; background: var(--cp-canvas); color: #fff; font-family: var(--font-body); }
+  body { padding-bottom: 96px; }
+  a { color: inherit; }
+
+  .ds-shell { max-width: 1180px; margin: 0 auto; padding: 64px 32px 0; }
+
+  .ds-hero { display: grid; gap: 28px; padding-bottom: 56px; border-bottom: 1px solid var(--cp-line); }
+  .ds-hero .eyebrow {
+    text-transform: uppercase; letter-spacing: var(--ls-eyebrow);
+    color: var(--cp-green-confirm); font-weight: var(--fw-medium); font-size: 14px;
+  }
+  .ds-hero h1 {
+    font-family: var(--font-display); margin: 0;
+    font-weight: var(--fw-semibold); font-size: 64px; letter-spacing: var(--ls-display);
+    line-height: var(--lh-tight);
+  }
+  .ds-hero h1 .green { color: var(--cp-green-brand); }
+  .ds-hero .lede { color: var(--text-secondary); font-size: 18px; line-height: var(--lh-body); max-width: 760px; }
+
+  .ds-toc {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    padding: 28px 0 0;
+  }
+  .ds-toc a {
+    text-decoration: none; padding: 10px 18px; border-radius: 999px;
+    background: var(--cp-surface); color: rgba(255,255,255,.82);
+    font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    border: 1px solid var(--cp-line);
+  }
+  .ds-toc a:hover { color: #fff; border-color: var(--cp-line-strong); }
+
+  .ds-section { padding: 80px 0 32px; }
+  .ds-section h2 {
+    margin: 0 0 8px; font-family: var(--font-display);
+    font-size: 36px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-tight);
+  }
+  .ds-section .sub { color: var(--text-secondary); margin-bottom: 28px; font-size: 16px; }
+
+  .ds-grid { display: grid; gap: 28px; }
+  .ds-grid.cards { grid-template-columns: 1fr; }
+  .ds-grid.templates { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+  .ds-card {
+    background: var(--cp-surface); border-radius: var(--r-lg);
+    overflow: hidden; box-shadow: var(--shadow-card);
+    display: grid; grid-template-rows: auto 1fr;
+  }
+  .ds-card .meta {
+    padding: 20px 24px; display: grid; gap: 4px;
+    border-bottom: 1px solid var(--cp-line);
+  }
+  .ds-card .meta .name { font-weight: var(--fw-semibold); font-size: 18px; }
+  .ds-card .meta .sub  { color: var(--text-secondary); font-size: 14px; line-height: var(--lh-body); margin: 0; }
+  .ds-card .meta .path { color: var(--cp-slate-muted); font-size: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  .ds-card .frame-wrap {
+    background: var(--cp-canvas); display: flex; align-items: stretch;
+    overflow: hidden;
+  }
+  .ds-card iframe { border: 0; display: block; background: transparent; }
+
+  .ds-template-card { cursor: pointer; }
+  .ds-template-card .preview-wrap {
+    aspect-ratio: var(--ar, 4 / 5); background: #06090f;
+    position: relative; overflow: hidden;
+  }
+  .ds-template-card .preview-wrap iframe {
+    position: absolute; top: 0; left: 0;
+    transform-origin: top left; pointer-events: none;
+  }
+  .ds-template-card .footer {
+    padding: 16px 18px; display: grid; gap: 6px;
+    background: var(--cp-surface);
+  }
+  .ds-template-card .footer .name { font-size: 15px; font-weight: var(--fw-semibold); }
+  .ds-template-card .footer .dim {
+    color: var(--cp-slate-muted); font-size: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .ds-template-card .footer .desc { color: var(--text-secondary); font-size: 13px; line-height: var(--lh-body); }
+
+  .ds-platform iframe { width: 100%; height: 820px; }
+
+  .ds-status { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    background: rgba(255,255,255,.08); color: var(--cp-slate-muted); }
+
+  footer.ds-foot {
+    margin-top: 96px; padding: 32px 0 0;
+    color: var(--cp-slate-muted); font-size: 13px;
+    border-top: 1px solid var(--cp-line);
+  }
+</style>
+</head>
+<body>
+<div class="ds-shell">
+
+  <section class="ds-hero">
+    <span class="eyebrow">Club Pilot · Design System</span>
+    <h1>Intelligent Communication —<br><span class="green">Codified.</span></h1>
+    <p class="lede">
+      The brand and content system powering Club Pilot's organic content engine — LinkedIn, Instagram, ads,
+      and one-off marketing assets. Dark canvas, oversized Montserrat headlines, the Triad of Power, and the
+      antithesis voice — every token, component, and template the team builds against.
+    </p>
+    <nav class="ds-toc" aria-label="Sections">
+      <a href="#brand">Brand</a>
+      <a href="#colors">Colors</a>
+      <a href="#type">Type</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#components">Components</a>
+      <a href="#templates">Templates</a>
+      <a href="#platform">SMS Platform</a>
+    </nav>
+  </section>
+
+  <section class="ds-section" id="brand">
+    <h2>Brand</h2>
+    <p class="sub">Wordmark, club logos, imagery on the dark canvas.</p>
+    <div class="ds-grid cards" data-group="Brand"></div>
+  </section>
+
+  <section class="ds-section" id="colors">
+    <h2>Colors</h2>
+    <p class="sub">Three greens, two blues, one orange CTA — kept in distinct roles.</p>
+    <div class="ds-grid cards" data-group="Colors"></div>
+  </section>
+
+  <section class="ds-section" id="type">
+    <h2>Type</h2>
+    <p class="sub">Montserrat. Oversized display, confident eyebrow, hero numerals, two-color headlines.</p>
+    <div class="ds-grid cards" data-group="Type"></div>
+  </section>
+
+  <section class="ds-section" id="spacing">
+    <h2>Spacing &amp; surfaces</h2>
+    <p class="sub">8pt base, generous rounding, deep card shadow, colored CTA glow.</p>
+    <div class="ds-grid cards" data-group="Spacing"></div>
+  </section>
+
+  <section class="ds-section" id="components">
+    <h2>Components</h2>
+    <p class="sub">The primitives every template is built from. React-first, drop in via <code>_ds_bundle.js</code>.</p>
+    <div class="ds-grid cards" data-group="Components"></div>
+  </section>
+
+  <section class="ds-section" id="templates">
+    <h2>Templates</h2>
+    <p class="sub">Editable social design components — Instagram, LinkedIn, ads, founder, announcement.</p>
+    <div class="ds-grid templates" data-group="Templates"></div>
+  </section>
+
+  <section class="ds-section ds-platform" id="platform">
+    <h2>SMS Platform</h2>
+    <p class="sub">Interactive recreation of the dashboard and Communication Center — reference only, not the production app.</p>
+    <div class="ds-grid cards" data-group="SMS Platform"></div>
+  </section>
+
+  <footer class="ds-foot">
+    <p>
+      Reconstructed from the Claude Design handoff bundle (Club Pilot Design System).
+      Source: <code>HANDOFF.md</code> · <code>readme.md</code> · <code>CLAUDE.md</code> · <code>SKILL.md</code>.
+      Tokens live in <code>tokens/</code>; bundled React components in <code>_ds_bundle.js</code>.
+    </p>
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  const manifest = await fetch('./_ds_manifest.json').then(r => r.json());
+
+  const parseViewport = (v) => {
+    const m = /^(\d+)x(\d+)$/.exec(v || '');
+    return m ? { w: +m[1], h: +m[2] } : { w: 700, h: 200 };
+  };
+
+  // Cards grouped by manifest.cards[].group
+  const cardsByGroup = manifest.cards.reduce((acc, c) => {
+    (acc[c.group] = acc[c.group] || []).push(c);
+    return acc;
+  }, {});
+
+  document.querySelectorAll('.ds-grid.cards').forEach(grid => {
+    const group = grid.dataset.group;
+    const items = cardsByGroup[group] || [];
+    grid.innerHTML = items.map(c => {
+      const { w, h } = parseViewport(c.viewport);
+      const isPlatform = group === 'SMS Platform';
+      const frameH = isPlatform ? 820 : h;
+      return `
+        <article class="ds-card">
+          <header class="meta">
+            <div class="name">${c.name}</div>
+            <p class="sub">${c.subtitle || ''}</p>
+            <div class="path">${c.path} · ${c.viewport}</div>
+          </header>
+          <div class="frame-wrap">
+            <iframe src="./${c.path}" width="${isPlatform ? '100%' : w}" height="${frameH}" loading="lazy"
+              title="${c.name}" scrolling="no"></iframe>
+          </div>
+        </article>
+      `;
+    }).join('');
+  });
+
+  // Templates — scaled-down previews at 280px wide
+  const templatesGrid = document.querySelector('.ds-grid.templates');
+  const CARD_W = 280;
+  templatesGrid.innerHTML = manifest.templates.map(t => {
+    // pull intrinsic size from folder name conventions in the manifest
+    const name = t.name || '';
+    const dimsMatch = /(\d+)×(\d+)/.exec(name);
+    const intW = dimsMatch ? +dimsMatch[1] : 1080;
+    const intH = dimsMatch ? +dimsMatch[2] : 1350;
+    const scale = CARD_W / intW;
+    const previewH = intH * scale;
+    const ar = `${intW} / ${intH}`;
+    const empty = (t.folder === 'templates/li-square'); // known empty in handoff
+    return `
+      <article class="ds-template-card">
+        <div class="preview-wrap" style="--ar:${ar};">
+          ${empty
+            ? `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--cp-slate-muted);font-size:12px;text-align:center;padding:16px;">No template body provided<br>in the handoff bundle.</div>`
+            : `<iframe src="./${t.entryPath}" width="${intW}" height="${intH}"
+                style="transform: scale(${scale}); width:${intW}px; height:${intH}px;" loading="lazy"
+                title="${t.name}" scrolling="no"></iframe>`
+          }
+        </div>
+        <div class="footer">
+          <div class="name">${t.name}${empty ? '<span class="ds-status">empty</span>' : ''}</div>
+          <div class="dim">${t.folder}</div>
+          <div class="desc">${t.description || ''}</div>
+        </div>
+      </article>
+    `;
+  }).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+/* Club Pilot Design System — color tokens.
+   Reconstructed from _ds_manifest.json. */
+:root {
+  /* base */
+  --cp-canvas: #030712;
+  --cp-surface: #101828;
+  --cp-surface-2: #0d1117;
+  --cp-surface-raised: #19222f;
+
+  --cp-green-brand: #04ae4d;
+  --cp-green-brand-d: #004b31;
+  --cp-green-confirm: #0acb40;
+  --cp-green-confirm-d: #09b73a;
+  --cp-acid: #45ff16;
+  --cp-lime: #d9ef15;
+
+  --cp-orange-top: #ed5901;
+  --cp-orange-bottom: #b83c00;
+  --cp-orange-flat: #ef6a24;
+  --cp-orange-icon: #ff7125;
+
+  --cp-azure-top: #009ee8;
+  --cp-azure-bottom: #006fa7;
+
+  --cp-slate: #435267;
+  --cp-slate-light: #4f6078;
+  --cp-slate-muted: #95a0b3;
+
+  --cp-white: #ffffff;
+  --cp-gray: #989898;
+  --cp-line: rgba(255, 255, 255, 0.12);
+  --cp-line-strong: rgba(255, 255, 255, 0.24);
+  --cp-overlay: rgba(3, 7, 18, 0.72);
+
+  /* gradients */
+  --cp-grad-orange: linear-gradient(180deg, var(--cp-orange-top) 0%, var(--cp-orange-bottom) 100%);
+  --cp-grad-azure: linear-gradient(180deg, var(--cp-azure-top) 0%, var(--cp-azure-bottom) 100%);
+  --cp-grad-green: linear-gradient(180deg, var(--cp-green-confirm) 0%, var(--cp-green-brand-d) 140%);
+
+  /* semantic aliases */
+  --surface-canvas: var(--cp-canvas);
+  --surface-card: var(--cp-surface);
+  --surface-raised: var(--cp-surface-raised);
+  --surface-footer: var(--cp-surface-2);
+
+  --brand: var(--cp-green-brand);
+  --action-primary: var(--cp-grad-orange);
+  --action-secondary: var(--cp-grad-azure);
+  --success: var(--cp-green-confirm);
+
+  --text-primary: var(--cp-white);
+  --text-secondary: rgba(255, 255, 255, 0.74);
+  --text-muted: var(--cp-slate-muted);
+  --text-accent: var(--cp-green-brand);
+  --text-on-action: var(--cp-white);
+
+  --divider: var(--cp-line);
+  --chat-incoming: var(--cp-slate);
+  --chat-outgoing: var(--cp-azure-top);
+}

@@ -1,0 +1,33 @@
+/* Club Pilot Design System — typography tokens.
+   Reconstructed from _ds_manifest.json. */
+:root {
+  --font-display: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --fw-light: 300;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --fs-eyebrow: 26px;
+  --fs-body: 24px;
+  --fs-body-sm: 20px;
+  --fs-h3: 30px;
+  --fs-h2: 40px;
+  --fs-h1: 45px;
+  --fs-display: 90px;
+  --fs-stat: 120px;
+
+  --lh-tight: 1.04;
+  --lh-head: 1.16;
+  --lh-body: 1.33;
+  --lh-loose: 1.5;
+
+  --ls-eyebrow: 0.06em;
+  --ls-tight: -0.01em;
+  --ls-display: -0.02em;
+
+  --text-eyebrow-size: var(--fs-eyebrow);
+  --text-headline-size: var(--fs-h2);
+  --text-body-size: var(--fs-body);
+}

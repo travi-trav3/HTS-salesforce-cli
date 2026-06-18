@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Instagram — Quote / Testimonial" description="1080×1350 member or director quote with club attribution and a tweakable supporting UI/imagery region." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+</style>
+</helmet>
+<div style="width:1080px;height:1350px;background:#030712;position:relative;overflow:hidden;font-family:'Montserrat',sans-serif;box-sizing:border-box;">
+
+  <div style="position:absolute;top:72px;left:80px;right:80px;display:flex;align-items:center;justify-content:space-between;">
+    <img src="../../assets/img/wordmark-clubpilot.png" alt="clubpilot" style="height:88px;width:auto;display:block;" />
+  </div>
+
+  <!-- giant quote mark (tweakable) -->
+  <sc-if value="{{ showMark }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:74px;top:226px;font-size:200px;line-height:0.6;height:90px;font-weight:700;color:#0acb40;font-family:Georgia,serif;">&ldquo;</div>
+  </sc-if>
+
+  <!-- quote — italic editorial pull-quote, open leading for readability -->
+  <div style="position:absolute;left:80px;top:368px;right:80px;">
+    <blockquote style="margin:0;font-size:54px;font-weight:500;line-height:1.4;letter-spacing:-0.005em;color:#ffffff;max-width:900px;">
+      Rather than adding <span style="font-style:italic;font-weight:400;color:rgba(255,255,255,0.6);">another tool</span> to the mix, Club Pilot brings forward a <span style="color:#0acb40;font-weight:700;font-size:66px;">mobile-first way to communicate</span> with members.
+    </blockquote>
+  </div>
+
+  <!-- supporting UI / imagery (tweakable) -->
+  <sc-if value="{{ showChat }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:80px;right:80px;top:792px;display:flex;flex-direction:column;gap:16px;">
+      <div style="align-self:flex-start;max-width:620px;padding:22px 30px;border-radius:28px 28px 28px 8px;background:#435267;color:#ffffff;font-size:28px;font-weight:500;line-height:1.3;box-shadow:0 8px 24px rgba(3,7,18,0.4);">Can I get a tee time for Saturday?</div>
+      <div style="align-self:flex-end;text-align:left;max-width:620px;padding:22px 30px;border-radius:28px 28px 8px 28px;background:linear-gradient(180deg,#0acb40 0%,#09b73a 100%);color:#03210f;font-size:28px;font-weight:600;line-height:1.3;box-shadow:0 8px 24px rgba(3,7,18,0.4);">You're booked for 9:10 AM — see you Saturday!</div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ showDashboard }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:80px;right:80px;top:792px;height:300px;border-radius:24px;overflow:hidden;background:#0b1018;border:1px solid rgba(255,255,255,0.10);box-shadow:0 25px 50px -12px rgba(3,7,18,0.65);">
+      <img src="../../assets/img/dashboard-laptop.png" alt="Club Pilot dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;padding:26px;box-sizing:border-box;" />
+    </div>
+  </sc-if>
+
+  <!-- attribution -->
+  <div style="position:absolute;left:80px;bottom:120px;display:flex;align-items:center;gap:22px;" data-comment-anchor="6a39b95a49-img">
+    <span style="width:48px;height:4px;border-radius:999px;background:#0acb40;flex:none;"></span>
+    <div>
+      <div style="font-size:32px;font-weight:600;color:#ffffff;">Golf Bizz Review</div>
+      <div style="font-size:26px;font-weight:500;color:#95a0b3;margin-top:4px;">PGA Show 2026 Coverage</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:1350},&quot;media&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Chat motif&quot;,&quot;Product dashboard&quot;,&quot;None&quot;],&quot;default&quot;:&quot;Chat motif&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showMark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const media = this.props.media ?? "Chat motif";
+    return {
+      showMark:      this.props.showMark ?? true,
+      showChat:      media === "Chat motif",
+      showDashboard: media === "Product dashboard",
+    };
+  }
+}
+</script>
+</body>
+</html>

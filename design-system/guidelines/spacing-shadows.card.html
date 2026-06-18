@@ -1,0 +1,24 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Shadows & glow" subtitle="Deep card shadow · colored CTA glow" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; font-family:var(--font-body); background:var(--cp-canvas); color:#fff; padding:30px;
+         display:flex; gap:26px; align-items:center; }
+  .card { width:150px; height:96px; background:var(--cp-surface); border-radius:16px;
+          box-shadow:var(--shadow-card); display:flex; align-items:center; justify-content:center;
+          font-size:11px; font-family:monospace; color:var(--cp-slate-muted); text-align:center; }
+  .cta { width:160px; height:60px; border-radius:999px; background:var(--cp-grad-orange);
+         box-shadow:var(--shadow-cta); display:flex; align-items:center; justify-content:center;
+         font-size:11px; color:#fff; }
+  .cta.az { background:var(--cp-grad-azure); box-shadow:var(--shadow-azure); }
+</style>
+</head>
+<body>
+  <div class="card">card<br>0 25px 50px<br>rgba(3,7,18,.65)</div>
+  <div class="cta">orange glow</div>
+  <div class="cta az">azure glow</div>
+</body>
+</html>

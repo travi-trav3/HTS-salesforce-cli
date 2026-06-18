@@ -1,0 +1,71 @@
+<!-- @dsCard group="Components" viewport="700x460" name="Brand — Wordmark, Triad, ChatBubble, LogoRow" subtitle="Signature mark, wordmark, conversation motif, social proof" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; font-family:var(--font-body); background:var(--cp-canvas); color:#fff; padding:32px; }
+  .grid { display:flex; flex-direction:column; gap:26px; }
+  .row { display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
+  .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--cp-slate-muted); margin-bottom:12px; }
+  .sep { height:1px; background:var(--cp-line); }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Wordmark, TriadMark, ChatBubble, LogoRow } = window.ClubPilotDesignSystem_316eba;
+  function Demo() {
+    return (
+      <div className="grid">
+        <div className="row" style={{gap:48}}>
+          <div>
+            <div className="lbl">Wordmark</div>
+            <Wordmark src="../../assets/img/wordmark-clubpilot.png" height={44} />
+          </div>
+          <div>
+            <div className="lbl">Triad mark</div>
+            <div className="row" style={{gap:36}}>
+              <TriadMark size={250} />
+              <TriadMark size={190} tone="mono" color="#ffffff" />
+            </div>
+          </div>
+        </div>
+        <div className="sep"></div>
+        <div>
+          <div className="lbl">Conversation — one color per texter</div>
+          <div style={{display:'flex',flexDirection:'column',gap:12,maxWidth:440}}>
+            <div style={{display:'flex',justifyContent:'flex-start'}}>
+              <ChatBubble role="incoming" tail="none">What time does the range close?</ChatBubble>
+            </div>
+            <div style={{display:'flex',justifyContent:'flex-end'}}>
+              <ChatBubble role="outgoing" tail="none">Range closes at 8pm tonight — see you out there.</ChatBubble>
+            </div>
+            <div style={{display:'flex',justifyContent:'flex-start'}}>
+              <ChatBubble role="incoming" tail="none">Perfect, thanks!</ChatBubble>
+            </div>
+          </div>
+          <div className="lbl" style={{marginTop:20}}>Role swatches (reference only)</div>
+          <div className="row" style={{alignItems:'flex-end'}}>
+            <ChatBubble role="incoming" tail="none">Slate · incoming</ChatBubble>
+            <ChatBubble role="outgoing" tail="none">Azure · outgoing</ChatBubble>
+            <ChatBubble role="green" tail="none">Green · confirm</ChatBubble>
+          </div>
+        </div>
+        <div className="sep"></div>
+        <div>
+          <div className="lbl">Member club logos</div>
+          <LogoRow src="../../assets/img/club-logos.png" />
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

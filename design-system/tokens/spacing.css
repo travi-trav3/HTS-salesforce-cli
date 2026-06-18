@@ -1,0 +1,43 @@
+/* Club Pilot Design System — spacing, radii, shadows, format tokens.
+   Reconstructed from _ds_manifest.json. */
+:root {
+  /* 8pt spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+  --sp-10: 128px;
+
+  /* radii */
+  --r-sm: 8px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-bubble: 28px;
+  --r-pill: 999px;
+
+  /* shadows */
+  --shadow-card: 0 25px 50px -12px rgba(3, 7, 18, 0.65);
+  --shadow-soft: 0 4px 4px rgba(0, 0, 0, 0.25);
+  --shadow-cta: 0 12px 28px -8px rgba(237, 89, 1, 0.45);
+  --shadow-azure: 0 12px 28px -8px rgba(0, 158, 232, 0.4);
+  --shadow-bubble: 0 8px 24px rgba(3, 7, 18, 0.4);
+
+  /* social-format dimensions */
+  --ig-portrait-w: 1080px;
+  --ig-portrait-h: 1350px;
+  --li-portrait-w: 1200px;
+  --li-portrait-h: 1500px;
+  --li-square: 1080px;
+
+  /* safe zones / logo */
+  --safe-pad: 80px;
+  --safe-bottom: 200px;
+  --logo-clearspace: 40px;
+  --logo-min-width: 120px;
+}

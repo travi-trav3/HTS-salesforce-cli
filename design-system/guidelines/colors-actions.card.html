@@ -1,0 +1,24 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Action gradients — orange & azure" subtitle="Primary orange CTA · secondary azure CTA (vertical gradients)" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; font-family:var(--font-body); background:var(--cp-canvas); }
+  .row { display:flex; gap:14px; padding:20px; }
+  .sw { flex:1; height:108px; border-radius:12px;
+        display:flex; flex-direction:column; justify-content:flex-end; padding:12px; box-sizing:border-box; }
+  .sw b { color:#fff; font-size:13px; font-weight:700; }
+  .sw span { color:rgba(255,255,255,.75); font-size:11px; font-family:monospace; }
+  .sw small { color:rgba(255,255,255,.7); font-size:10px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw" style="background:var(--cp-grad-orange)"><b>Primary · Orange</b><span>#ed5901 → #b83c00</span><small>main action</small></div>
+    <div class="sw" style="background:var(--cp-grad-azure)"><b>Secondary · Azure</b><span>#009ee8 → #006fa7</span><small>second action</small></div>
+    <div class="sw" style="background:var(--cp-orange-flat)"><b>Flat orange</b><span>#ef6a24</span><small>icons / illustration</small></div>
+  </div>
+</body>
+</html>

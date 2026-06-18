@@ -1,0 +1,24 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Dark surfaces" subtitle="Canvas, card, footer, raised — dark is core" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; font-family:var(--font-body); background:#fff; }
+  .row { display:flex; gap:14px; padding:20px; }
+  .sw { flex:1; height:108px; border-radius:12px; border:1px solid rgba(0,0,0,.08);
+        display:flex; flex-direction:column; justify-content:flex-end; padding:12px; box-sizing:border-box; }
+  .sw b { color:#fff; font-size:13px; font-weight:600; }
+  .sw span { color:rgba(255,255,255,.6); font-size:11px; font-family:monospace; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw" style="background:var(--cp-canvas)"><b>Canvas</b><span>#030712</span></div>
+    <div class="sw" style="background:var(--cp-surface)"><b>Card surface</b><span>#101828</span></div>
+    <div class="sw" style="background:var(--cp-surface-2)"><b>Footer</b><span>#0d1117</span></div>
+    <div class="sw" style="background:var(--cp-surface-raised)"><b>Raised</b><span>#19222f</span></div>
+  </div>
+</body>
+</html>

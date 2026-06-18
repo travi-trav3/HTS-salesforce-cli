@@ -1,0 +1,70 @@
+<!-- @dsCard group="Components" viewport="700x440" name="Core — Buttons, Eyebrow, Badge, Stat" subtitle="Pill CTAs, eyebrow label, press badges, stat numeral" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin:0; font-family:var(--font-body); background:var(--cp-canvas); color:#fff; padding:32px; }
+  .grid { display:flex; flex-direction:column; gap:26px; }
+  .row { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--cp-slate-muted); margin-bottom:10px; }
+  .sep { height:1px; background:var(--cp-line); }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Button, Eyebrow, Badge, Stat } = window.ClubPilotDesignSystem_316eba;
+  function Demo() {
+    return (
+      <div className="grid">
+        <div>
+          <div className="lbl">Buttons</div>
+          <div className="row">
+            <Button variant="primary">Book a Demo</Button>
+            <Button variant="secondary">Log In</Button>
+            <Button variant="brand">Send</Button>
+            <Button variant="outline">Learn More</Button>
+            <Button variant="primary" disabled>Disabled</Button>
+          </div>
+          <div className="row" style={{marginTop:14}}>
+            <Button variant="primary" size="sm">Small</Button>
+            <Button variant="primary" size="md">Medium</Button>
+            <Button variant="primary" size="lg">Large</Button>
+          </div>
+        </div>
+        <div className="sep"></div>
+        <div className="row" style={{gap:40}}>
+          <div>
+            <div className="lbl">Eyebrow</div>
+            <Eyebrow>Text Messaging</Eyebrow>
+          </div>
+          <div>
+            <div className="lbl">Badges</div>
+            <div className="row">
+              <Badge tone="green">PGA Show · #2 Booth</Badge>
+              <Badge>As seen in Golf Digest</Badge>
+              <Badge tone="orange">New</Badge>
+            </div>
+          </div>
+        </div>
+        <div className="sep"></div>
+        <div>
+          <div className="lbl">Stat</div>
+          <div className="row" style={{gap:64}}>
+            <Stat value="98" unit="%" label="text open rate within 3 minutes" />
+            <Stat value="3" unit="min" label="average time to open" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>
