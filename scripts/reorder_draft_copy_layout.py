@@ -156,6 +156,8 @@ def main():
             '"namespace":"","sfdcLoginUrl":"https://login.salesforce.com",'
             '"sourceApiVersion":"60.0"}\n'
         )
+        # sf CLI validates that the package directory exists before retrieve.
+        (workdir / "force-app" / "main" / "default").mkdir(parents=True)
 
         retrieve_layouts(workdir, layouts)
 
