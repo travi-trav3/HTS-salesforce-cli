@@ -1,60 +1,36 @@
-# Manual Setup — Reorder Draft Copy Fields on Contact Page Layout
+# Reorder Draft Copy Section on Contact Layout
 
-The 13 draft-copy field **labels** are updated in this repo and will be
-applied to `hts-prod` on the next deploy (label-only change on
-`force-app/main/default/objects/Contact/fields/*.field-meta.xml`).
-API names are untouched, so the Gumloop agents (Dylan Copy, Ian Copy,
-Lookahead Writer) are unaffected.
+The 13 draft-copy field **labels** are updated in this repo and will ship
+to `hts-prod` on the next `./deploy.sh` run. API names are untouched, so
+the Gumloop agents (Dylan Copy, Ian Copy, Lookahead Writer) keep working.
 
-The **page layout reorder** is not in this repo (Contact page layouts
-were configured directly in the org and never retrieved into source).
-Do it once in Setup by hand, in the layout(s) actually assigned to the
-B2B users (Dylan, Ian, Amanda, Travis).
+The **page layout reorder** can't be deployed from the field-metadata
+files alone (page layouts were configured directly in the org and were
+never retrieved into source). Instead of dragging fields in Setup, run
+the one-shot script — it retrieves whichever Contact layouts exist,
+reorders **only** the Draft Copy section in each, and redeploys. Every
+other section, button, related list, and field is left untouched.
 
-## Steps
+## Run it
 
-1. In Setup → Object Manager → **Contact** → **Page Layouts**, open the
-   layout assigned to the B2B profiles. If multiple are assigned, repeat
-   for each. (Confirm assignment under Page Layouts → Page Layout
-   Assignment.)
-2. Locate the **Draft Copy** section.
-3. Drag the fields so they appear top to bottom in this order. API
-   names are shown only for matching — display the **Label** column.
+```bash
+sf org login web --alias hts-prod   # only if not already authed
+python3 scripts/reorder_draft_copy_layout.py
+```
 
-   | # | API Name | Label after deploy |
-   |---|---|---|
-   | 1 | `LinkedIn_Connection_Note__c` | T1 - LinkedIn Connection Request |
-   | 2 | `Email_Draft_Intro__c`        | T2 - Intro Email |
-   | 3 | `Email_Draft_Value1__c`       | T3 - Value-Add Email (Ian) |
-   | 4 | `LinkedIn_Message_Draft_1__c` | T4 - LinkedIn Message (Primary) |
-   | 5 | `Email_Draft_Sub4__c`         | T4 - Email (Secondary) |
-   | 6 | `Email_Draft_FollowUp__c`     | T6 - Follow-Up Email |
-   | 7 | `Email_Draft_Value2__c`       | T7 - Value-Add Email (Ian) |
-   | 8 | `LinkedIn_Message_Draft_2__c` | T8 - LinkedIn Message (Primary) |
-   | 9 | `Email_Draft_Sub8__c`         | T8 - Email (Secondary) |
-   | 10 | `Email_Draft_DirectAsk__c`   | T10 - Direct Ask Email |
-   | 11 | `LinkedIn_Message_Draft_3__c`| T12 - LinkedIn Message (Primary) |
-   | 12 | `Email_Draft_Sub12__c`       | T12 - Email (Secondary) |
-   | 13 | `Email_Draft_Pause__c`       | T13 - Pause Email |
+That's it. The script prints which layouts it touched. Open a Contact
+(e.g. Marco Pineda) to confirm the Draft Copy section reads top to
+bottom: T1, T2, T3, T4 Primary, T4 Secondary, T6, T7, T8 Primary, T8
+Secondary, T10, T12 Primary, T12 Secondary, T13. Gaps at T5, T9, T11
+are intentional — those touches are phone calls.
 
-4. **Save** the layout.
+## If something looks off
 
-## Numbering gaps are intentional
-
-Touches 5, 9, 11 are phone calls — no draft fields. Touches 4, 8, 12
-each branch into Primary (LinkedIn, if connected) and Secondary (Email
-fallback, if not connected), so they each have two rows.
-
-## Verification
-
-Open a Contact (e.g. Marco Pineda). The Draft Copy section should read
-top-to-bottom: T1, T2, T3, T4 Primary, T4 Secondary, T6, T7, T8 Primary,
-T8 Secondary, T10, T12 Primary, T12 Secondary, T13.
-
-## Rollback baseline
-
-If something goes wrong with the layout edit, the prior Draft Copy
-section ordering can be restored from the org's setup audit trail
-(Setup → Setup Audit Trail), or by re-dragging fields back to their
-prior positions. The field labels can be reverted by `git revert`-ing
-the commit that updated them, then redeploying.
+- Wrong order on a Contact — that Contact's profile is probably assigned
+  a layout the script didn't see in `sf org list metadata`. Re-run with
+  `ORG_ALIAS=...` if needed, or check Setup → Object Manager → Contact
+  → Page Layouts → Page Layout Assignment for which layout that profile
+  uses.
+- Roll back — the script makes no destructive deletes, only field
+  reorders within one section. To revert, drag fields back in Setup, or
+  re-run the script with a different `DESIRED_ORDER` constant.
