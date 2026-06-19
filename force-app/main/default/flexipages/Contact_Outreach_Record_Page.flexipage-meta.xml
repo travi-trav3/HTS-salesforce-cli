@@ -213,7 +213,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>fieldItem_5_2</name>
-                    <value>Contact.Direct_Ask_Email__c</value>
+                    <value>Contact.Email_Draft_DirectAsk__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>fieldItem_6_1</name>
