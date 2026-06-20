@@ -86,6 +86,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_00.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_00.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -155,6 +169,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>A. Financial + Scope</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_01.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_01.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -230,6 +258,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_02.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_02.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -299,6 +341,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>B. Staffing</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_03.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_03.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -374,6 +430,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_04.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_04.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -443,6 +513,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>B. Staffing</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_05.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_05.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -518,6 +602,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_06.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_06.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -587,6 +685,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>B. Staffing</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_07.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_07.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -662,6 +774,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_08.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_08.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -731,6 +857,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>C. Safety</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_09.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_09.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -806,6 +946,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_10.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_10.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -875,6 +1029,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>C. Safety</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_11.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_11.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -950,6 +1118,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_12.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_12.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -1019,6 +1201,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>C. Safety</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_13.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_13.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1094,6 +1290,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_14.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_14.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -1163,6 +1373,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>D. Training</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_15.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_15.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1238,6 +1462,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_16.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_16.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -1307,6 +1545,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>E. Tools + Fleet</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_17.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_17.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1382,6 +1634,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_18.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_18.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -1451,6 +1717,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>E. Tools + Fleet</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_19.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_19.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1526,6 +1806,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_20.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_20.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -1595,6 +1889,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>F. Procurement</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_21.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_21.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1670,6 +1978,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_22.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_22.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -1739,6 +2061,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>G. Schedule</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_23.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_23.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1814,6 +2150,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_24.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_24.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -1883,6 +2233,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>G. Schedule</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_25.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_25.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1958,6 +2322,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_26.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_26.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -2027,6 +2405,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>H. Client Alignment</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_27.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_27.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -2102,6 +2494,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>TaskVar_28.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_28.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>TasksToCreate</assignToReference>
             <operator>Add</operator>
             <value>
@@ -2171,6 +2577,20 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>Sign-off</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_29.Customer_Site__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Customer_Site__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TaskVar_29.Job_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Job_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -2280,7 +2700,7 @@
             </connector>
         </rules>
     </decisions>
-    <description>Record-triggered flow on Project__c (Work Order) create. Generates the canonical Pre-Mob task checklist as Task records related to the Work Order, with owners, due dates offset from Mobilization_Date__c, and gate flags. Conditional tasks gate on Requires_New_Hires__c and Method_of_Mobilization__c. Generated by scripts/generate_premob_flow.py.</description>
+    <description>Record-triggered flow on Project__c (Work Order) create. Generates the canonical Pre-Mob task checklist as Task records related to the Work Order, with owners, gate flags, and the parent Customer Site and Job Code stamped onto each task. Due dates are offset back from Mobilization_Date__c; when the job is awarded inside the premob window the offsets are compressed proportionally and clamped so no task is ever created already past due. Conditional tasks gate on Requires_New_Hires__c and Method_of_Mobilization__c. Generated by scripts/generate_premob_flow.py.</description>
     <formulas>
         <name>fEffectiveBaseDate</name>
         <dataType>Date</dataType>
@@ -2309,152 +2729,152 @@
     <formulas>
         <name>fDueDate_00</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 14</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(14 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_01</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 14</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(14 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_02</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 12</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(12 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_03</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 10</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_04</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 10</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_05</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 10</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_06</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_07</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_08</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 10</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_09</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_10</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_11</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_12</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_13</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_14</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_15</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_16</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_17</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_18</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 10</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_19</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_20</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_21</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 10</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_22</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_23</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_24</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 3</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(3 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_25</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 3</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(3 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_26</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 7</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_27</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 5</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_28</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 3</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(3 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_29</name>
         <dataType>Date</dataType>
-        <expression>{!BaseDate} - 1</expression>
+        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(1 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
     </formulas>
     <label>Generate Pre-Mob Tasks</label>
     <processType>AutoLaunchedFlow</processType>

@@ -9,6 +9,35 @@
         </template>
 
         <template if:true={hasData}>
+            <!-- Alert: Missing PO Data — pinned to the top for visibility -->
+            <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                <article class="slds-card slds-theme_warning">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title slds-text-heading_small">
+                            ⚠ Missing PO Data ({missingPoCount})
+                        </h2>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                        <template if:true={missingPoData.length}>
+                            <ul class="slds-list_dotted">
+                                <template for:each={missingPoData} for:item="row">
+                                    <li key={row.workOrderId}>
+                                        <a href={row.recordUrl} data-id={row.workOrderId} onclick={handleNavigate}>{row.workOrderName}</a>
+                                        —
+                                        <template if:true={row.missingPoNumber}>PO# </template>
+                                        <template if:true={row.missingPoAmount}>PO$ </template>
+                                        <template if:true={row.missingMobDate}>MobDate</template>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={missingPoData.length}>
+                            <p class="slds-text-color_weak">All active Work Orders have complete PO data.</p>
+                        </template>
+                    </div>
+                </article>
+            </div>
+
             <!-- Tile 1: Work Orders by Stage -->
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_x-small">
                 <article class="slds-card">
@@ -50,7 +79,9 @@
                             <tbody>
                                 <template for:each={poBalances} for:item="row">
                                     <tr key={row.workOrderId}>
-                                        <td>{row.workOrderName}</td>
+                                        <td>
+                                            <a href={row.recordUrl} data-id={row.workOrderId} onclick={handleNavigate}>{row.workOrderName}</a>
+                                        </td>
                                         <td>{row.accountName}</td>
                                         <td>
                                             <lightning-formatted-number
@@ -90,7 +121,7 @@
                             <template for:each={overdueGates} for:item="group">
                                 <div key={group.workOrderId} class="slds-m-bottom_small">
                                     <h3 class="slds-text-title_caps slds-m-bottom_xx-small">
-                                        {group.workOrderName}
+                                        <a href={group.recordUrl} data-id={group.workOrderId} onclick={handleNavigate}>{group.workOrderName}</a>
                                     </h3>
                                     <ul class="slds-list_dotted">
                                         <template for:each={group.tasks} for:item="t">
@@ -129,7 +160,9 @@
                             <tbody>
                                 <template for:each={invoiceAging} for:item="row">
                                     <tr key={row.workOrderId}>
-                                        <td>{row.workOrderName}</td>
+                                        <td>
+                                            <a href={row.recordUrl} data-id={row.workOrderId} onclick={handleNavigate}>{row.workOrderName}</a>
+                                        </td>
                                         <td>{row.lastInvoiceDate}</td>
                                         <td>
                                             <template if:true={row.isStale}>
@@ -167,7 +200,9 @@
                             <tbody>
                                 <template for:each={mobilizationCountdown} for:item="row">
                                     <tr key={row.workOrderId}>
-                                        <td>{row.workOrderName}</td>
+                                        <td>
+                                            <a href={row.recordUrl} data-id={row.workOrderId} onclick={handleNavigate}>{row.workOrderName}</a>
+                                        </td>
                                         <td>{row.mobilizationDate}</td>
                                         <td>
                                             <template if:true={row.isImminent}>
@@ -185,29 +220,49 @@
                 </article>
             </div>
 
-            <!-- Tile 6: Missing PO Data -->
+            <!-- Tile 6: Recent Activity -->
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-around_x-small">
                 <article class="slds-card">
                     <div class="slds-card__header slds-grid">
                         <h2 class="slds-card__header-title slds-text-heading_small">
-                            Missing PO Data ({missingPoCount})
+                            Recent Activity
                         </h2>
                     </div>
-                    <div class="slds-card__body slds-card__body_inner">
-                        <template if:true={missingPoData.length}>
-                            <ul class="slds-list_dotted">
-                                <template for:each={missingPoData} for:item="row">
-                                    <li key={row.workOrderId}>
-                                        {row.workOrderName} —
-                                        <template if:true={row.missingPoNumber}>PO# </template>
-                                        <template if:true={row.missingPoAmount}>PO$ </template>
-                                        <template if:true={row.missingMobDate}>MobDate</template>
-                                    </li>
-                                </template>
-                            </ul>
+                    <div class="slds-card__body">
+                        <template if:true={recentActivity.length}>
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th>Task</th>
+                                        <th>Work Order</th>
+                                        <th>Status</th>
+                                        <th>By</th>
+                                        <th>Updated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={recentActivity} for:item="row">
+                                        <tr key={row.taskId}>
+                                            <td>{row.subject}</td>
+                                            <td>
+                                                <a href={row.recordUrl} data-id={row.workOrderId} onclick={handleNavigate}>{row.workOrderName}</a>
+                                            </td>
+                                            <td>{row.status}</td>
+                                            <td>{row.completerName}</td>
+                                            <td>
+                                                <lightning-formatted-date-time
+                                                    value={row.activityTime}
+                                                    year="numeric" month="short" day="2-digit"
+                                                    hour="2-digit" minute="2-digit">
+                                                </lightning-formatted-date-time>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
                         </template>
-                        <template if:false={missingPoData.length}>
-                            <p class="slds-text-color_weak">All active Work Orders have complete PO data.</p>
+                        <template if:false={recentActivity.length}>
+                            <p class="slds-text-color_weak">No recent activity on active Work Orders.</p>
                         </template>
                     </div>
                 </article>

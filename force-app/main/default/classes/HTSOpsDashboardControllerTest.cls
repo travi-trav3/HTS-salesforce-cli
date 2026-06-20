@@ -76,5 +76,13 @@ private class HTSOpsDashboardControllerTest {
         System.assert(data.overdueGates.size() >= 1, 'Should surface at least one overdue gate group');
         System.assertEquals(1, data.mobilizationCountdown.size(),
             'Only Pre-Mob projects with a mob date should appear in countdown');
+
+        System.assertNotEquals(null, data.recentActivity,
+            'Recent activity list should be initialised');
+        System.assert(data.recentActivity.size() >= 1,
+            'The seeded task on an active Work Order should appear in recent activity');
+        HTSOpsDashboardController.ActivityRow ar = data.recentActivity[0];
+        System.assertNotEquals(null, ar.workOrderName,
+            'Recent activity row should resolve its parent Work Order name');
     }
 }

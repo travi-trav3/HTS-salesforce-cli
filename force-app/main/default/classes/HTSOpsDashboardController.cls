@@ -11,6 +11,7 @@ public with sharing class HTSOpsDashboardController {
         @AuraEnabled public List<InvoiceRow> invoiceAging;
         @AuraEnabled public List<MobilizationRow> mobilizationCountdown;
         @AuraEnabled public List<MissingDataRow> missingPoData;
+        @AuraEnabled public List<ActivityRow> recentActivity;
     }
 
     public class StageCount {
@@ -67,6 +68,16 @@ public with sharing class HTSOpsDashboardController {
         @AuraEnabled public Boolean missingMobDate;
     }
 
+    public class ActivityRow {
+        @AuraEnabled public Id taskId;
+        @AuraEnabled public Id workOrderId;
+        @AuraEnabled public String workOrderName;
+        @AuraEnabled public String subject;
+        @AuraEnabled public String status;
+        @AuraEnabled public String completerName;
+        @AuraEnabled public Datetime activityTime;
+    }
+
     @AuraEnabled(cacheable=true)
     public static DashboardData getDashboardData() {
         DashboardData data = new DashboardData();
@@ -93,9 +104,11 @@ public with sharing class HTSOpsDashboardController {
         List<MobilizationRow> mobRows = new List<MobilizationRow>();
         List<MissingDataRow> missingRows = new List<MissingDataRow>();
         Set<Id> activeIds = new Set<Id>();
+        Map<Id, String> nameById = new Map<Id, String>();
 
         for (Project__c p : activeProjects) {
             activeIds.add(p.Id);
+            nameById.put(p.Id, p.Name);
             if (stageMap.containsKey(p.Stage__c)) {
                 stageMap.put(p.Stage__c, stageMap.get(p.Stage__c) + 1);
             }
@@ -181,12 +194,37 @@ public with sharing class HTSOpsDashboardController {
             }
         }
 
+        List<ActivityRow> recentRows = new List<ActivityRow>();
+        if (!activeIds.isEmpty()) {
+            for (Task t : [
+                SELECT Id, Subject, Status, WhatId, LastModifiedDate,
+                       Completed_By__r.Name, Owner.Name
+                FROM Task
+                WHERE WhatId IN :activeIds
+                ORDER BY LastModifiedDate DESC
+                LIMIT 15
+            ]) {
+                ActivityRow ar = new ActivityRow();
+                ar.taskId = t.Id;
+                ar.workOrderId = t.WhatId;
+                ar.workOrderName = nameById.get(t.WhatId);
+                ar.subject = t.Subject;
+                ar.status = t.Status;
+                ar.completerName = t.Completed_By__r != null
+                    ? t.Completed_By__r.Name
+                    : (t.Owner != null ? (String) t.Owner.get('Name') : null);
+                ar.activityTime = t.LastModifiedDate;
+                recentRows.add(ar);
+            }
+        }
+
         data.stageCounts = stageCounts;
         data.poBalances = poRows;
         data.overdueGates = overdueByProject.values();
         data.invoiceAging = invoiceRows;
         data.mobilizationCountdown = mobRows;
         data.missingPoData = missingRows;
+        data.recentActivity = recentRows;
         return data;
     }
 
