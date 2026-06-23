@@ -8,7 +8,6 @@
     <columns>PRIORITY</columns>
     <columns>Is_Gate__c</columns>
     <columns>STATUS</columns>
-    <columns>ASSIGNED_TO</columns>
     <columns>Completed_By__c</columns>
     <columns>Completed_Date__c</columns>
     <filterScope>Everything</filterScope>
