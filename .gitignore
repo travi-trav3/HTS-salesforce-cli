@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Salesforce / SFDX
+.sf/
+.sfdx/
+.localdevserver/
+*.log
+
+# OS
+.DS_Store
