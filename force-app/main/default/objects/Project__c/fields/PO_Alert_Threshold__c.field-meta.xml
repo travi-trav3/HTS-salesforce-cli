@@ -2,8 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>PO_Alert_Threshold__c</fullName>
     <label>PO Alert Threshold</label>
-    <inlineHelpText>Alert fires when Percent Remaining falls below this value. Expressed as percent remaining (e.g. 25 = alert at 25% of PO+CO budget left).</inlineHelpText>
-    <defaultValue>25</defaultValue>
+    <inlineHelpText>Alert fires when Percent Remaining falls below this value. Percent remaining, e.g. enter 25 for 25%. NOTE: the field default is a decimal fraction per Salesforce Percent-field rules (0.25 renders as 25%).</inlineHelpText>
+    <defaultValue>0.25</defaultValue>
     <precision>3</precision>
     <scale>0</scale>
     <required>false</required>
