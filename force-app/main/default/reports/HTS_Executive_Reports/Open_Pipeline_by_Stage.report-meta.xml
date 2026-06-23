@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <name>Open Pipeline by Stage</name>
+    <description>Org-wide open opportunities grouped by stage, biggest deals first. Weekly CEO pipeline-health view for Nikki. Scan for high-Amount rows with old Last Activity to spot stalling deals.</description>
+    <reportType>Opportunity</reportType>
+    <format>Summary</format>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <columns>
+        <field>OPPORTUNITY_NAME</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT_NAME</field>
+    </columns>
+    <columns>
+        <field>AMOUNT</field>
+        <aggregateTypes>Sum</aggregateTypes>
+    </columns>
+    <columns>
+        <field>EXP_AMOUNT</field>
+        <aggregateTypes>Sum</aggregateTypes>
+    </columns>
+    <columns>
+        <field>CLOSE_DATE</field>
+    </columns>
+    <columns>
+        <field>PROBABILITY</field>
+    </columns>
+    <columns>
+        <field>FULL_NAME</field>
+    </columns>
+    <columns>
+        <field>LAST_ACTIVITY</field>
+    </columns>
+    <columns>
+        <field>AGE</field>
+    </columns>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>STAGE_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <sortColumn>AMOUNT</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <filter>
+        <criteriaItems>
+            <column>OPPORTUNITY.CLOSED</column>
+            <operator>equals</operator>
+            <value>false</value>
+        </criteriaItems>
+    </filter>
+</Report>

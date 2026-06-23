@@ -1,5 +1,28 @@
 # Changelog
 
+## Exec reports — weekly pipeline snapshot for Nikki (CEO)
+
+Native Salesforce reports for the Monday-morning CEO pipeline view. Delivered to
+Nikki's inbox via a manual one-time report subscription (subscriptions aren't in
+the Metadata API). See [`docs/exec-reports.md`](docs/exec-reports.md) for the
+retrieve/validate/deploy/verify runbook and the subscription setup.
+
+### Added
+- Report folder `HTS Executive Reports` (`ReportFolder`, shared read-only).
+- Report `Open Pipeline by Stage` — org-wide open opportunities grouped by stage,
+  biggest deals first, with Amount + Expected Revenue subtotals and Last Activity /
+  Age columns for spotting stalls.
+- Report `Closed Last Week (Won + Lost)` — org-wide opportunities closed in the
+  last 7 days, grouped so won/lost subtotal separately.
+
+### Notes
+- Authored from the standard Metadata-API report schema, **not** retrieved from
+  `hts-prod` (build env had no `sf` CLI / org auth). Column tokens and filter
+  values are version/locale-sensitive — validate against a retrieved example
+  before the prod deploy (checklist in `docs/exec-reports.md`).
+- Intentionally **not** wired into `deploy.sh`; reports deploy separately so an
+  unvalidated report can't piggyback onto a Sprint 1 prod run.
+
 ## Sprint batch — premob dates, completion audit, PO threshold, task fields/views, dashboard
 
 Deployed to `hts-prod`. See [`docs/sprint-batch.md`](docs/sprint-batch.md) for the
