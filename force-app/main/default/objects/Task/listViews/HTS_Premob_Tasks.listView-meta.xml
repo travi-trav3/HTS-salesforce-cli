@@ -5,7 +5,7 @@
     <columns>Customer_Site__c</columns>
     <columns>Job_Code__c</columns>
     <columns>Pre_Mob_Section__c</columns>
-    <columns>ACTIVITY_DATE</columns>
+    <columns>ActivityDate</columns>
     <columns>PRIORITY</columns>
     <columns>Is_Gate__c</columns>
     <columns>STATUS</columns>

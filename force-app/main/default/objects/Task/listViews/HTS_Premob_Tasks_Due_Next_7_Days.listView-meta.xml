@@ -5,7 +5,7 @@
     <columns>Customer_Site__c</columns>
     <columns>Job_Code__c</columns>
     <columns>Pre_Mob_Section__c</columns>
-    <columns>ACTIVITY_DATE</columns>
+    <columns>ActivityDate</columns>
     <columns>PRIORITY</columns>
     <columns>Is_Gate__c</columns>
     <columns>STATUS</columns>
@@ -14,12 +14,12 @@
     <columns>Completed_Date__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>ACTIVITY_DATE</field>
+        <field>ActivityDate</field>
         <operation>greaterOrEqual</operation>
         <value>TODAY</value>
     </filters>
     <filters>
-        <field>ACTIVITY_DATE</field>
+        <field>ActivityDate</field>
         <operation>lessOrEqual</operation>
         <value>NEXT_N_DAYS:7</value>
     </filters>
