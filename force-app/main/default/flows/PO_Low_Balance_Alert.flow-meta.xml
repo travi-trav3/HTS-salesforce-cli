@@ -70,7 +70,7 @@
     <formulas>
         <name>fThresholdValue</name>
         <dataType>Number</dataType>
-        <expression>IF(ISBLANK({!$Record.PO_Alert_Threshold__c}), 15, {!$Record.PO_Alert_Threshold__c})</expression>
+        <expression>IF(ISBLANK({!$Record.PO_Alert_Threshold__c}), 25, {!$Record.PO_Alert_Threshold__c})</expression>
     </formulas>
     <formulas>
         <name>fIsBelowThreshold</name>

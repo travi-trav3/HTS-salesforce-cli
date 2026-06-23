@@ -59,6 +59,10 @@
     <fieldPermissions><field>Task.Pre_Mob_Section__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
     <fieldPermissions><field>Task.Overdue_Alert_Sent__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
     <fieldPermissions><field>Task.Escalated__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Task.Completed_By__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Task.Completed_Date__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Task.Customer_Site__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
+    <fieldPermissions><field>Task.Job_Code__c</field><editable>true</editable><readable>true</readable></fieldPermissions>
 
     <classAccesses>
         <apexClass>HTSOpsDashboardController</apexClass>
