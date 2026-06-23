@@ -238,21 +238,23 @@ def make_flow_xml() -> str:
     formula_xml = ""
     for idx, t in enumerate(TASKS):
         t_off = t[2]
-        # Proportional compression + past-due clamp, expressed entirely in
-        # day-counts (Salesforce MAX/MIN take numbers, not Dates) and added
-        # back onto TODAY():
-        #   leadDays        = MAX(BaseDate - TODAY, 0)        (never negative)
-        #   factor          = MIN(1, leadDays / MAX_OFFSET)   (1 when ample lead)
-        #   effectiveOffset = ROUND(t_off * factor, 0)
-        #   daysFromToday   = MAX(leadDays - effectiveOffset, 0)
-        #   dueDate         = TODAY() + daysFromToday
-        # Ample lead (>= MAX_OFFSET days) -> factor 1 -> dueDate = BaseDate - t_off
-        # (original behaviour). Inside the window the offset shrinks
-        # proportionally; the outer MAX guarantees the date is never before today.
+        # Proportional compression + past-due clamp. CRITICAL: multiply BEFORE
+        # dividing and divide by a decimal literal (MAX_OFFSET.0). In a Date-typed
+        # formula, computing the ratio first (leadDays / 14) truncates to 0 once the
+        # window is < MAX_OFFSET days, collapsing every task onto a single day.
+        # Multiply-first keeps the numerator whole (t_off * leadDays) and the .0
+        # divisor forces decimal division, so the scaled offset is fractional and
+        # ROUND distributes the tasks across the window.
+        #   leadDays     = {!fEffectiveLeadDays}  (shared resource, MAX(BaseDate-TODAY,0))
+        #   scaledOffset = MIN(t_off, ROUND(t_off * leadDays / 14.0, 0))   (cap at t_off)
+        #   dueDate      = TODAY() + MAX(leadDays - scaledOffset, 0)
+        # Ample lead (>= MAX_OFFSET): scaledOffset caps at t_off -> dueDate = mob - t_off
+        # (natural schedule). Inside the window it compresses proportionally; the outer
+        # MAX guarantees nothing is ever before today.
         expr = (
             f"TODAY() + MAX("
-            f"MAX(({{!BaseDate}} - TODAY()), 0) - "
-            f"ROUND({t_off} * MIN(1, MAX(({{!BaseDate}} - TODAY()), 0) / {MAX_OFFSET}), 0)"
+            f"{{!fEffectiveLeadDays}} - "
+            f"MIN({t_off}, ROUND({t_off} * {{!fEffectiveLeadDays}} / {MAX_OFFSET}.0, 0))"
             f", 0)"
         )
         formula_xml += f'''    <formulas>
@@ -337,6 +339,12 @@ TEMPLATE = '''<?xml version="1.0" encoding="UTF-8"?>
         <name>fEffectiveBaseDate</name>
         <dataType>Date</dataType>
         <expression>IF(ISBLANK({{!$Record.Mobilization_Date__c}}), TODAY(), {{!$Record.Mobilization_Date__c}})</expression>
+    </formulas>
+    <formulas>
+        <name>fEffectiveLeadDays</name>
+        <dataType>Number</dataType>
+        <scale>0</scale>
+        <expression>MAX({{!BaseDate}} - TODAY(), 0)</expression>
     </formulas>
     <formulas>
         <name>fEffectiveProjectLead</name>

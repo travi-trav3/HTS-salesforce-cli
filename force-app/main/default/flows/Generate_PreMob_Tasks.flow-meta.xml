@@ -2707,6 +2707,12 @@
         <expression>IF(ISBLANK({!$Record.Mobilization_Date__c}), TODAY(), {!$Record.Mobilization_Date__c})</expression>
     </formulas>
     <formulas>
+        <name>fEffectiveLeadDays</name>
+        <dataType>Number</dataType>
+        <scale>0</scale>
+        <expression>MAX({!BaseDate} - TODAY(), 0)</expression>
+    </formulas>
+    <formulas>
         <name>fEffectiveProjectLead</name>
         <dataType>String</dataType>
         <expression>IF(ISBLANK({!$Record.Project_Lead__c}), {!IanUserId}, {!$Record.Project_Lead__c})</expression>
@@ -2729,152 +2735,152 @@
     <formulas>
         <name>fDueDate_00</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(14 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(14, ROUND(14 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_01</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(14 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(14, ROUND(14 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_02</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(12 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(12, ROUND(12 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_03</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(10, ROUND(10 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_04</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(10, ROUND(10 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_05</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(10, ROUND(10 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_06</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_07</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_08</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(10, ROUND(10 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_09</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_10</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_11</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_12</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_13</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_14</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_15</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_16</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_17</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_18</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(10, ROUND(10 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_19</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_20</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_21</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(10 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(10, ROUND(10 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_22</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_23</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_24</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(3 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(3, ROUND(3 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_25</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(3 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(3, ROUND(3 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_26</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(7 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(7, ROUND(7 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_27</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(5 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(5, ROUND(5 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_28</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(3 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(3, ROUND(3 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <formulas>
         <name>fDueDate_29</name>
         <dataType>Date</dataType>
-        <expression>TODAY() + MAX(MAX(({!BaseDate} - TODAY()), 0) - ROUND(1 * MIN(1, MAX(({!BaseDate} - TODAY()), 0) / 14), 0), 0)</expression>
+        <expression>TODAY() + MAX({!fEffectiveLeadDays} - MIN(1, ROUND(1 * {!fEffectiveLeadDays} / 14.0, 0)), 0)</expression>
     </formulas>
     <label>Generate Pre-Mob Tasks</label>
     <processType>AutoLaunchedFlow</processType>
