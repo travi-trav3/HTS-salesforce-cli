@@ -267,7 +267,6 @@
             <dataType>Boolean</dataType>
             <fieldText>Requires New Hires</fieldText>
             <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
         </fields>
         <fields>
             <name>in_SOW_Notes</name>
