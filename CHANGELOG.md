@@ -1,5 +1,22 @@
 # Changelog
 
+## Exec reports v2 — sales-performance & rep-accountability reports
+
+Adds CEO performance framing on top of the inventory reports — who's winning,
+who's stuck, and where the risk is. All org-wide, grouped by Opportunity Owner.
+
+### Added
+- `Open Pipeline by Owner` — open pipeline + weighted value + freshness per rep.
+- `Bookings — Closed Won This Quarter by Owner` — the bookings leaderboard.
+- `Win Rate & Outcomes by Owner (Last 90 Days)` — matrix (Owner × Won/Lost),
+  count + amount per cell; conversion quality per rep.
+- `At-Risk Open Deals — No Activity 21+ Days` — high-value deals going cold, by owner.
+
+### Notes
+- New date/owner tokens (`FULL_NAME` grouping, `WON`, `THIS_FISCAL_QUARTER`,
+  `N_DAYS_AGO:n`, Matrix `groupingsAcross`) are best-effort and must clear a
+  `--dry-run` against `hts-prod` before deploy — same validation loop as v1.
+
 ## Exec reports — weekly pipeline snapshot for Nikki (CEO)
 
 Native Salesforce reports for the Monday-morning CEO pipeline view. Delivered to
