@@ -64,11 +64,14 @@ version/locale:**
 
 | Field in spec | Token used here | Confirm it matches the example |
 |---|---|---|
-| Opportunity Owner | `FULL_NAME` | ☐ |
-| Last Activity | `LAST_ACTIVITY` | ☐ |
-| Age (days open) | `AGE` | ☐ |
-| Closed filter column | `OPPORTUNITY.CLOSED` | ☐ |
+| Opportunity Owner | `FULL_NAME` | ✓ confirmed via dry-run |
+| Last Activity | `LAST_ACTIVITY` | ✓ confirmed via dry-run |
+| Age (days open) | `AGE` | ✓ confirmed via dry-run |
+| Closed filter column | `CLOSED` | ✓ confirmed (was `OPPORTUNITY.CLOSED`, rejected) |
 | Closed filter value | `false` / `true` | ☐ (some orgs render `0` / `1`) |
+
+> Note: the grouped field (`STAGE_NAME` in both reports) must NOT also appear in
+> the column list — Salesforce rejects "groupings in the selected columns list".
 
 If a token differs, edit the `.report-meta.xml` to match the retrieved example
 exactly, then re-run validation.

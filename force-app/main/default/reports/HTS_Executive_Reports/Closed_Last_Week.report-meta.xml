@@ -19,9 +19,6 @@
         <aggregateTypes>Sum</aggregateTypes>
     </columns>
     <columns>
-        <field>STAGE_NAME</field>
-    </columns>
-    <columns>
         <field>CLOSE_DATE</field>
     </columns>
     <columns>
@@ -40,7 +37,7 @@
     </timeFrameFilter>
     <filter>
         <criteriaItems>
-            <column>OPPORTUNITY.CLOSED</column>
+            <column>CLOSED</column>
             <operator>equals</operator>
             <value>true</value>
         </criteriaItems>

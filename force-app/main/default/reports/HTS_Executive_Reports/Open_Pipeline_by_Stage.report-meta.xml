@@ -46,7 +46,7 @@
     <sortOrder>Desc</sortOrder>
     <filter>
         <criteriaItems>
-            <column>OPPORTUNITY.CLOSED</column>
+            <column>CLOSED</column>
             <operator>equals</operator>
             <value>false</value>
         </criteriaItems>
