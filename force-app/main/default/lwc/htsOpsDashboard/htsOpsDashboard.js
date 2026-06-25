@@ -95,7 +95,13 @@ export default class HtsOpsDashboard extends NavigationMixin(LightningElement) {
         if (!this.data) return [];
         return this.data.overdueGates.map((group) => ({
             ...group,
-            recordUrl: this.urlMap[group.workOrderId]
+            recordUrl: this.urlMap[group.workOrderId],
+            tasks: (group.tasks || []).map((t) => ({
+                ...t,
+                rowClass: t.isUrgent
+                    ? 'slds-text-color_error slds-text-title_bold'
+                    : ''
+            }))
         }));
     }
 

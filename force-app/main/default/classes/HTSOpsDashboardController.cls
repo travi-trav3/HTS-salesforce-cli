@@ -42,6 +42,7 @@ public with sharing class HTSOpsDashboardController {
         @AuraEnabled public Date dueDate;
         @AuraEnabled public Integer daysOverdue;
         @AuraEnabled public String ownerName;
+        @AuraEnabled public Boolean isUrgent;
     }
 
     public class InvoiceRow {
@@ -184,6 +185,7 @@ public with sharing class HTSOpsDashboardController {
                 row.subject = t.Subject;
                 row.dueDate = t.ActivityDate;
                 row.daysOverdue = t.ActivityDate != null ? Date.today().daysBetween(t.ActivityDate) * -1 : null;
+                row.isUrgent = row.daysOverdue != null && row.daysOverdue >= 3;
                 row.ownerName = t.Owner != null ? (String) t.Owner.get('Name') : null;
                 g.tasks.add(row);
             }

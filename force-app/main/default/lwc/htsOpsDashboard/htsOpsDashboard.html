@@ -125,7 +125,7 @@
                                     </h3>
                                     <ul class="slds-list_dotted">
                                         <template for:each={group.tasks} for:item="t">
-                                            <li key={t.taskId}>
+                                            <li key={t.taskId} class={t.rowClass}>
                                                 {t.subject} — due {t.dueDate} ({t.daysOverdue}d overdue) — {t.ownerName}
                                             </li>
                                         </template>
