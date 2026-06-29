@@ -17,16 +17,19 @@
     <columns>
         <field>AMOUNT</field>
         <aggregateTypes>Sum</aggregateTypes>
+        <aggregateTypes>Average</aggregateTypes>
     </columns>
     <columns>
         <field>CLOSE_DATE</field>
     </columns>
-    <columns>
-        <field>FULL_NAME</field>
-    </columns>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>STAGE_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>FULL_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <sortColumn>AMOUNT</sortColumn>

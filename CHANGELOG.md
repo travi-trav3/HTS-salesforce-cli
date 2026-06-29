@@ -1,21 +1,34 @@
 # Changelog
 
-## Exec reports v2 — sales-performance & rep-accountability reports
+## Exec reports v2 — sales-performance & rep-accountability suite
 
-Adds CEO performance framing on top of the inventory reports — who's winning,
-who's stuck, and where the risk is. All org-wide, grouped by Opportunity Owner.
+Shifts Nikki's Monday view from inventory to performance — who's winning, who's
+stuck, and where the risk is. All org-wide. Performance windows are trailing-90-day.
 
 ### Added
+- `Opportunity.Is_Won_Number__c` — formula `IF(IsWon,1,0)`, helper for report
+  win-rate summary formulas.
+- `Sales Rep Scorecard (Last 90 Days)` — per-rep won total, deal count, avg deal
+  size, and a real **Win Rate %** custom summary formula.
 - `Open Pipeline by Owner` — open pipeline + weighted value + freshness per rep.
-- `Bookings — Closed Won This Quarter by Owner` — the bookings leaderboard.
-- `Win Rate & Outcomes by Owner (Last 90 Days)` — matrix (Owner × Won/Lost),
-  count + amount per cell; conversion quality per rep.
+- `Pipeline by Stage and Owner` — matrix (Stage × Owner) of open pipeline.
+- `Bookings Trend by Month and Owner` — matrix (Month × Owner) of Closed-Won,
+  last 6 months; momentum/trajectory.
 - `At-Risk Open Deals — No Activity 21+ Days` — high-value deals going cold, by owner.
 
+### Changed
+- `Open Pipeline by Stage` — added Owner sub-grouping, average deal size, and
+  Forecast Category.
+- `Closed Last Week (Won + Lost)` — added Owner sub-grouping and average deal size.
+
 ### Notes
-- New date/owner tokens (`FULL_NAME` grouping, `WON`, `THIS_FISCAL_QUARTER`,
-  `N_DAYS_AGO:n`, Matrix `groupingsAcross`) are best-effort and must clear a
-  `--dry-run` against `hts-prod` before deploy — same validation loop as v1.
+- New tokens (`FULL_NAME`/`CLOSE_DATE` groupings, `WON`, `FORECAST_CATEGORY`,
+  `N_DAYS_AGO:n`, Matrix `groupingsAcross`, the Win Rate `aggregates` CSF) are
+  best-effort and must clear a `--dry-run` against `hts-prod` before deploy — same
+  validation loop as v1.
+- The Scorecard's Win Rate CSF needs the report run-as user (Nikki) to have Read
+  FLS on `Is_Won_Number__c`. Grant it on her profile or via a permission set, else
+  the formula column won't render.
 
 ## Exec reports — weekly pipeline snapshot for Nikki (CEO)
 

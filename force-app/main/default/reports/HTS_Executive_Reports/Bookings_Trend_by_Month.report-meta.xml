@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
-    <name>Bookings — Closed Won This Quarter by Owner</name>
-    <description>The leaderboard. Org-wide opportunities won this fiscal quarter, grouped by Opportunity Owner with deal count and total won. Answers who is actually closing.</description>
+    <name>Bookings Trend by Month and Owner</name>
+    <description>Matrix of Closed-Won amount over the last 6 months: close month down the side, owner across the top. Shows momentum and trajectory per rep, not just a single-week snapshot. Org-wide.</description>
     <reportType>Opportunity</reportType>
-    <format>Summary</format>
+    <format>Matrix</format>
     <scope>organization</scope>
-    <showDetails>true</showDetails>
+    <showDetails>false</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <columns>
-        <field>OPPORTUNITY_NAME</field>
-    </columns>
-    <columns>
-        <field>ACCOUNT_NAME</field>
-    </columns>
     <columns>
         <field>AMOUNT</field>
         <aggregateTypes>Sum</aggregateTypes>
     </columns>
-    <columns>
-        <field>CLOSE_DATE</field>
-    </columns>
     <groupingsDown>
+        <dateGranularity>Month</dateGranularity>
+        <field>CLOSE_DATE</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
         <field>FULL_NAME</field>
         <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <sortColumn>AMOUNT</sortColumn>
-    <sortOrder>Desc</sortOrder>
+    </groupingsAcross>
     <filter>
         <criteriaItems>
             <column>WON</column>
@@ -36,8 +30,8 @@
         </criteriaItems>
         <criteriaItems>
             <column>CLOSE_DATE</column>
-            <operator>equals</operator>
-            <value>THIS_FISCAL_QUARTER</value>
+            <operator>greaterOrEqual</operator>
+            <value>N_DAYS_AGO:180</value>
         </criteriaItems>
     </filter>
 </Report>

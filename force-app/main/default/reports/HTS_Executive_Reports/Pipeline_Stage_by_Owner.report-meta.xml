@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
-    <name>Win Rate &amp; Outcomes by Owner (Last 90 Days)</name>
-    <description>Rep conversion grid. Org-wide opportunities closed in the last 90 days, owners down the side and Won/Lost across the top, with deal count and total amount in each cell. Shows conversion quality per rep, not just activity.</description>
+    <name>Pipeline by Stage and Owner</name>
+    <description>Matrix of open pipeline: stages down the side, owners across the top, total Amount (and deal count) in each cell. Shows whether each rep's pipeline is real late-stage value or early-stage hope. Org-wide.</description>
     <reportType>Opportunity</reportType>
     <format>Matrix</format>
     <scope>organization</scope>
@@ -14,24 +14,19 @@
     </columns>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>FULL_NAME</field>
+        <field>STAGE_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
-        <field>WON</field>
-        <sortOrder>Desc</sortOrder>
+        <field>FULL_NAME</field>
+        <sortOrder>Asc</sortOrder>
     </groupingsAcross>
     <filter>
         <criteriaItems>
             <column>CLOSED</column>
             <operator>equals</operator>
-            <value>true</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>CLOSE_DATE</column>
-            <operator>greaterOrEqual</operator>
-            <value>N_DAYS_AGO:90</value>
+            <value>false</value>
         </criteriaItems>
     </filter>
 </Report>

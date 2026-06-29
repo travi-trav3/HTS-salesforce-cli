@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Won_Number__c</fullName>
+    <label>Is Won (Number)</label>
+    <description>1 when the opportunity is Closed Won, otherwise 0. Helper for report win-rate summary formulas (Win Rate = sum of this / record count).</description>
+    <formula>IF(IsWon, 1, 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <type>Number</type>
+    <precision>1</precision>
+    <scale>0</scale>
+</CustomField>
